@@ -1,3 +1,17 @@
-<h2 id="title">Welcome to Ember</h2>
-
-{{outlet}}
+<div class="container">
+  <h2 id="title">Welcome to Ember</h2>
+  {{#lf-form rules=rules as |validateFunction|}}
+    {{lf-input
+      label="Name"
+      property=model.name
+      name="name"
+      validate=validateFunction
+    }}
+    {{lf-input
+      label="Phone"
+      property=model.phone
+      name="phone"
+      validate=validateFunction
+    }}
+  {{/lf-form}}
+</div>

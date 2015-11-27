@@ -1,0 +1,6 @@
+<div class="form-group" class="{{if hasError 'has-error' 'has-success'}}">
+  {{#if label}}
+    <div class="control-label">{{label}}</div>
+  {{/if}}
+  <input class="form-control" value={{property}} onkeyup={{action "blur" value="target.value"}} onblur={{action "blur" value="target.value"}} />
+</div>
