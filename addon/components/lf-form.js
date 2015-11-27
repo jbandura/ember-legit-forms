@@ -1,12 +1,10 @@
 import Ember from 'ember';
-import getValidators from '../utils/get-validators';
 import layout from '../templates/components/lf-form';
 
 const { Component, computed } = Ember;
 
 export default Component.extend({
   layout,
-  asd: getValidators(),
   rules: null, //passed in
   fields: computed('rules', function() {
     let rules = this.get('rules');
@@ -27,7 +25,7 @@ export default Component.extend({
       return value !== '';
     }
   },
-  
+
   actions: {
     validateChange(name, value) {
       return this.validateField(name, value);
