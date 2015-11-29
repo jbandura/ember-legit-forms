@@ -1,11 +1,11 @@
 import Ember from 'ember';
 import layout from '../templates/components/lf-form';
-import ValidationMixin from '../utils/validations';
-import ValidationParser from '../utils/validations-parser';
+import validationParser from '../utils/validations-parser';
+import ValidationLookup from '../utils/validation-lookup';
 
 const { Component, computed } = Ember;
 
-export default Component.extend(ValidationMixin, {
+export default Component.extend({
   layout,
   rules: null, //passed in
   fields: computed('rules', function() {
@@ -21,15 +21,24 @@ export default Component.extend(ValidationMixin, {
 
   validateField(fieldName, value) {
     let rule = this.get('rules')[fieldName];
-    let parser = new ValidationParser();
+    let parser = validationParser.create();
     let validations = parser.parseRule(rule);
     return this._verifyValidity(value, validations);
   },
 
+  lookupValidator(validatorName) {
+    let lookupService = ValidationLookup.create();
+    return lookupService.lookupValidator(this.get('container'), validatorName);
+  },
+
+  getRulesFor: function(name) {
+    return this.get(`rules.${name}`);
+  },
+
   _verifyValidity(value, validations) {
     let validity = validations.map((validation) => {
-      let validator = this.lookupValidator(validation);
-      return validator.validate(value);
+      let validator = this.lookupValidator(validation.name);
+      return validator.validate(value, validation.arguments);
     });
 
     return validity.reduce((acc, value) => {
