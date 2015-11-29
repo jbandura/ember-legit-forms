@@ -3,4 +3,9 @@
     <div class="control-label">{{label}}</div>
   {{/if}}
   <input class="form-control" value={{property}} onkeyup={{action "blur" value="target.value"}} onblur={{action "blur" value="target.value"}} />
+  {{#each errorMessages as |msg|}}
+  <p class="help-block">
+    {{msg}}
+  </p>
+  {{/each}}
 </div>

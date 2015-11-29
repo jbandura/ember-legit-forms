@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import layout from '../templates/components/lf-form';
 import validationParser from '../utils/validations-parser';
-import ValidationLookup from '../utils/validation-lookup';
+import validationLookup from '../utils/validation-lookup';
+import messageProvider from '../utils/message-provider';
 
 const { Component, computed } = Ember;
 
@@ -27,7 +28,7 @@ export default Component.extend({
   },
 
   lookupValidator(validatorName) {
-    let lookupService = ValidationLookup.create();
+    let lookupService = validationLookup.create();
     return lookupService.lookupValidator(this.get('container'), validatorName);
   },
 
@@ -36,14 +37,24 @@ export default Component.extend({
   },
 
   _verifyValidity(value, validations) {
+    let messages = [];
+    let msgProvider = messageProvider.create();
     let validity = validations.map((validation) => {
       let validator = this.lookupValidator(validation.name);
-      return validator.validate(value, validation.arguments);
+      let isValid = validator.validate(value, validation.arguments);
+      if(!isValid) {
+        messages.push(msgProvider.getMessage(validation.name));
+      }
+      return isValid;
     });
-
-    return validity.reduce((acc, value) => {
+    let isFieldValid = validity.reduce((acc, value) => {
       return acc && value;
     }, true);
+    
+    return {
+      messages,
+      isValid: isFieldValid
+    };
   },
 
   actions: {
