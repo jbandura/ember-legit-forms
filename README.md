@@ -1,6 +1,40 @@
 # Ember-legit-forms
 
-This README outlines the details of collaborating on this Ember addon.
+Component for creating modern forms along with validations.
+
+## Getting started
+
+In order for the validations to work properly you have to define rules in your component or controller, for example:
+
+```
+import Ember from 'ember';
+
+const { Controller } = Ember;
+
+export default Controller.extend({
+  rules: {
+    firstName: 'required|min(6)'
+  }  
+});
+```
+
+Then in the template use the `{{lf-form}}` component and pass the `rules` object like so:
+
+```
+{{lf-form rules=rules as |validate|}}
+{{/lf-form}}
+```
+
+The yielded `validate` function takes care of validating the input and returns an object containing following keys:
+
+- `isValid`: determines whether given input is valid
+- `message`: contains a validation message, eg. `can't be blank`
+
+You are free to use this function however you want, for example validate the input when the `onBlur` action is called.
+
+## TODO:
+
+[ ] Support for custom validators
 
 ## Installation
 
