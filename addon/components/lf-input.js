@@ -10,8 +10,7 @@ export default Component.extend({
   name: null, //passed in
   property: null, //passed in
   didInsertElement() {
-    console.log('legit input!');
-    console.log(this.get('property'));
+    this.attrs.validate(this.get('name'), this.get('property'));
   },
 
   actions: {
