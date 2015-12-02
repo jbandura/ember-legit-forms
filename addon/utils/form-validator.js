@@ -13,21 +13,21 @@ export default Ember.Object.extend({
   rules: null,
   container: null,
   fields: computed('rules', function() {
-    return this.calculateFields();
+    return this._calculateFields();
   }),
   isFormValid: computed('fields', function() {
-    let fields = this.get('fields');
-    let isValid = true;
-
-    Object.keys(fields).forEach((key) => {
-      console.log(key, fields[key]);
-      isValid = isValid && fields[key];
-    });
-
-    return isValid;
+    return this._calculateValidity();
   }),
 
-  calculateFields() {
+  getValidateFunction(fieldName, value) {
+    let rule = this.get('rules')[fieldName];
+    let validations = this.get('parserService').parseRule(rule);
+    let fieldValidation = this._verifyValidity(value, validations, fieldName);
+    this.set(`fields.${fieldName}`, fieldValidation.isValid);
+    return fieldValidation;
+  },
+
+  _calculateFields() {
     let rules = this.get('rules');
     let resultObj = {};
 
@@ -38,7 +38,7 @@ export default Ember.Object.extend({
     return resultObj;
   },
 
-  calculateValidity(fields) {
+  _calculateValidity(fields) {
     let isValid = true;
 
     Object.keys(fields).forEach((key) => {
@@ -49,32 +49,12 @@ export default Ember.Object.extend({
     return isValid;
   },
 
-  lookupValidator(validatorName) {
-    let lookupService = validationLookup.create();
-    return lookupService.lookupValidator(this.get('container'), validatorName);
-  },
-
-  getValidateAction(fieldName, value) {
-    let rule = this.get('rules')[fieldName];
-    let parser = validationParser.create();
-    let validations = parser.parseRule(rule);
-    let fieldValidation = this._verifyValidity(value, validations, fieldName);
-    this.set(`fields.${fieldName}`, fieldValidation.isValid);
-    return fieldValidation;
-  },
-
-  getValidateFunction(fieldName, value) {
-    let rule = this.get('rules')[fieldName];
-    let validations = this.get('parserService').parseRule(rule);
-    let fieldValidation = this._verifyValidity(value, validations, fieldName);
-    this.set(`fields.${fieldName}`, fieldValidation.isValid);
-    return fieldValidation;
-  },
-
   _verifyValidity(value, validations) {
     let messages = [];
     let validity = validations.map((validation) => {
-      let validator = this.lookupValidator(validation.name);
+      let validator = this.get('lookupService').lookupValidator(
+        this.get('container'), validation.name
+      );
       let isValid = validator.validate(value, validation.arguments);
       if(!isValid) {
         messages.push(this.get('messageProvider').getMessage(validation.name));
