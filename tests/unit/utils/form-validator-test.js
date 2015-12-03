@@ -4,22 +4,24 @@ import Ember from 'ember';
 
 module('Unit | Utility | form validator');
 
-function generateLookupStub(returnValue) {
+function generateLookupStub(returnValues) {
   return Ember.Object.create({
-    lookupValidator() {
+    lookupValidator(_, name) {
       return {
         validate() {
-          return returnValue;
+          return returnValues[name];
         }
       };
     }
   });
 }
 
-function generateParserStub(array) {
+function generateParserStub() {
   return Ember.Object.create({
-    parseRule() {
-      return array;
+    parseRule(ruleName) {
+      return [{
+        name: ruleName
+      }];
     }
   });
 }
@@ -34,27 +36,56 @@ test('it creates fields from rules', function(assert) {
 });
 
 test('it gets correct validation when all fields correct', function(assert) {
-  let lookupStub = generateLookupStub(true);
-  let parserStub = generateParserStub(
-    [
-      {
-        name: 'required'
-      }
-    ]
-  );
-
   let subject = FormValidator.create().setProperties({
-    parserService: parserStub,
-    lookupService: lookupStub,
+    parserService: generateParserStub(),
+    lookupService: generateLookupStub({
+      required: true
+    }),
     rules: {
       password: 'required'
     }
   });
 
-  let validation = subject.getValidateFunction();
-
+  let validation = subject.getValidateFunction('password');
   assert.deepEqual(validation, {
     messages: [],
     isValid: true
   });
+});
+
+test('it sets correctly fields when all fields correct', function(assert) {
+  let subject = FormValidator.create().setProperties({
+    parserService: generateParserStub(),
+    lookupService: generateLookupStub({
+      required: true
+    }),
+    rules: {
+      password: 'required'
+    }
+  });
+
+  subject.getValidateFunction('password');
+
+  assert.deepEqual(subject.get('fields'), {
+    "password": true
+  }, 'should return fields');
+});
+
+test('it marks wrong fields', function(assert) {
+  let subject = FormValidator.create().setProperties({
+    parserService: generateParserStub(),
+    lookupService: generateLookupStub({
+      numeric: false
+    }),
+    rules: {
+      phone: 'numeric'
+    }
+  });
+
+  subject.getValidateFunction('phone');
+  console.log(JSON.stringify(subject.get('fields')));
+  assert.deepEqual(subject.get('fields'), {
+    "phone": false
+  });
+
 });

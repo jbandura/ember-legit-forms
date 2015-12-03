@@ -27,28 +27,6 @@ export default Ember.Object.extend({
     return fieldValidation;
   },
 
-  _calculateFields() {
-    let rules = this.get('rules');
-    let resultObj = {};
-
-    Object.keys(rules).forEach((key) => {
-      resultObj[key] = null;
-    });
-
-    return resultObj;
-  },
-
-  _calculateValidity(fields) {
-    let isValid = true;
-
-    Object.keys(fields).forEach((key) => {
-      console.log(key, fields[key]);
-      isValid = isValid && fields[key];
-    });
-
-    return isValid;
-  },
-
   _verifyValidity(value, validations) {
     let messages = [];
     let validity = validations.map((validation) => {
@@ -71,5 +49,25 @@ export default Ember.Object.extend({
     };
   },
 
+  _calculateFields() {
+    let rules = this.get('rules');
+    let resultObj = {};
 
+    Object.keys(rules).forEach((key) => {
+      resultObj[key] = null;
+    });
+
+    return resultObj;
+  },
+
+  _calculateValidity(fields) {
+    let isValid = true;
+
+    Object.keys(fields).forEach((key) => {
+      console.log(key, fields[key]);
+      isValid = isValid && fields[key];
+    });
+
+    return isValid;
+  }
 });
