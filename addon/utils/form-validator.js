@@ -60,7 +60,8 @@ export default Ember.Object.extend({
     return resultObj;
   },
 
-  _calculateValidity(fields) {
+  _calculateValidity() {
+    let fields = this.get('fields');
     let isValid = true;
 
     Object.keys(fields).forEach((key) => {

@@ -83,9 +83,33 @@ test('it marks wrong fields', function(assert) {
   });
 
   subject.getValidateFunction('phone');
-  console.log(JSON.stringify(subject.get('fields')));
   assert.deepEqual(subject.get('fields'), {
     "phone": false
   });
 
+});
+
+test('it correctly recalculates fields', function(assert) {
+  let subject = FormValidator.create().setProperties({
+    parserService: generateParserStub(),
+    lookupService: generateLookupStub({
+      numeric: false
+    }),
+    rules: {
+      phone: 'numeric'
+    }
+  });
+
+  subject.getValidateFunction('phone');
+  assert.deepEqual(subject.get('fields'), {
+    "phone": false
+  });
+
+  subject.set('lookupService', generateLookupStub({ numeric: true }));
+
+  subject.getValidateFunction('phone');
+
+  assert.deepEqual(subject.get('fields'), {
+    "phone": true
+  });
 });
