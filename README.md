@@ -6,7 +6,7 @@ Component for creating modern forms along with validations.
 
 In order for the validations to work properly you have to define rules in your component or controller, for example:
 
-```
+```js
 import Ember from 'ember';
 
 const { Controller } = Ember;
@@ -20,7 +20,7 @@ export default Controller.extend({
 
 Then in the template use the `{{lf-form}}` component and pass the `rules` object like so:
 
-```
+```hbs
 {{lf-form rules=rules as |validate|}}
 {{/lf-form}}
 ```
@@ -36,6 +36,8 @@ You are free to use this function however you want, for example validate the inp
 
 - support for inline validators
 - allow access to all fields and their valid states in custom validators
+- ember-i18n integration
+- custom DSL for inline validators
 - implement validators:
   - alphanumeric
   - alpha
