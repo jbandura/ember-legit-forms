@@ -9,7 +9,7 @@ export default Component.extend({
   formValidator: formValidator.create(),
   rules: null, //passed in
   fields: computed.alias('formValidator.fields'),
-  isFormValid: computed.alias('formValidator.isFormValid'),
+  _formValid: computed.alias('formValidator.isFormValid'),
 
   init() {
     this._super(...arguments);
@@ -21,7 +21,9 @@ export default Component.extend({
 
   actions: {
     validateChange(name, value) {
-      return this.get('formValidator').getValidateFunction(name, value);
+      let validityData = this.get('formValidator').getValidateFunction(name, value);
+      this.sendAction('validityChanged', this.get('_formValid'));
+      return validityData;
     }
   }
 });
