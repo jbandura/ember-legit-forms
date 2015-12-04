@@ -34,7 +34,21 @@ You are free to use this function however you want, for example validate the inp
 
 ## TODO:
 
-[ ] Support for custom validators
+- support for inline validators
+- allow access to all fields and their valid states in custom validators
+- implement validators:
+  - alphanumeric
+  - alpha
+  - between
+  - date
+  - date format
+  - digits
+  - e-mail
+  - in (an array)
+  - not in
+  - same
+  - size
+  - url
 
 ## Installation
 
