@@ -15,7 +15,7 @@ export default Ember.Object.extend({
   fields: computed('rules', function() {
     return this._calculateFields();
   }),
-  isFormValid: computed('fields', function() {
+  isFormValid: computed('fields.@each.valid', function() {
     return this._calculateValidity();
   }),
 
@@ -23,7 +23,10 @@ export default Ember.Object.extend({
     let rule = this.get('rules')[fieldName];
     let validations = this.get('parserService').parseRule(rule);
     let fieldValidation = this._verifyValidity(value, validations, fieldName);
-    this.set(`fields.${fieldName}`, fieldValidation.isValid);
+    this.get('fields').findBy('name', fieldName).setProperties({
+      valid: fieldValidation.isValid,
+      value: value
+    });
     return fieldValidation;
   },
 
@@ -51,10 +54,13 @@ export default Ember.Object.extend({
 
   _calculateFields() {
     let rules = this.get('rules');
-    let resultObj = {};
+    let resultObj = Ember.A();
 
     Object.keys(rules).forEach((key) => {
-      resultObj[key] = null;
+      resultObj.pushObject(Ember.Object.create({
+        name: key,
+        valid: null
+      }));
     });
 
     return resultObj;
@@ -62,13 +68,10 @@ export default Ember.Object.extend({
 
   _calculateValidity() {
     let fields = this.get('fields');
-    let isValid = true;
 
-    Object.keys(fields).forEach((key) => {
-      console.log(key, fields[key]);
-      isValid = isValid && fields[key];
-    });
-
-    return isValid;
+    return fields.reduce((acc, field) => {
+       let fieldValue = field.get('valid');
+       return acc && Boolean(fieldValue);
+    }, true);
   }
 });

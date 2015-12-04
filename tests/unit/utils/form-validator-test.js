@@ -32,7 +32,15 @@ test('it creates fields from rules', function(assert) {
     name: 'required|min(6)'
   });
 
-  assert.deepEqual(subject.get('fields'), { password: null, name: null });
+  assert.deepEqual(subject.get('fields')[0].getProperties('name', 'valid'), {
+    name: 'password',
+    valid: null
+  });
+
+  assert.deepEqual(subject.get('fields')[1].getProperties('name', 'valid'), {
+    name: 'name',
+    valid: null
+  });
 });
 
 test('it gets correct validation when all fields correct', function(assert) {
@@ -66,8 +74,9 @@ test('it sets correctly fields when all fields correct', function(assert) {
 
   subject.getValidateFunction('password');
 
-  assert.deepEqual(subject.get('fields'), {
-    "password": true
+  assert.deepEqual(subject.get('fields')[0].getProperties('name', 'valid'), {
+    name: 'password',
+    valid: true
   }, 'should return fields');
 });
 
@@ -83,8 +92,9 @@ test('it marks wrong fields', function(assert) {
   });
 
   subject.getValidateFunction('phone');
-  assert.deepEqual(subject.get('fields'), {
-    "phone": false
+  assert.deepEqual(subject.get('fields')[0].getProperties('name', 'valid'), {
+    name: "phone",
+    valid: false
   });
 
 });
@@ -101,15 +111,47 @@ test('it correctly recalculates fields', function(assert) {
   });
 
   subject.getValidateFunction('phone');
-  assert.deepEqual(subject.get('fields'), {
-    "phone": false
+  assert.deepEqual(subject.get('fields')[0].getProperties('name', 'valid'), {
+    name: "phone",
+    valid: false
   });
 
   subject.set('lookupService', generateLookupStub({ numeric: true }));
 
   subject.getValidateFunction('phone');
 
-  assert.deepEqual(subject.get('fields'), {
-    "phone": true
+  assert.deepEqual(subject.get('fields')[0].getProperties('name', 'valid'), {
+    "name": "phone",
+    "valid": true
   });
+});
+
+test('it sets and recalculates isFormValid property correctly', function(assert) {
+  let subject = FormValidator.create().setProperties({
+    parserService: generateParserStub(),
+    lookupService: generateLookupStub({
+      numeric: true,
+      required: true
+    }),
+    rules: {
+      phone: 'numeric',
+      password: 'required'
+    }
+  });
+
+  subject.getValidateFunction('phone');
+  subject.getValidateFunction('password');
+
+  assert.ok(subject.get('isFormValid'));
+
+  subject.set('lookupService', generateLookupStub({
+    numeric: true,
+    required: false
+  }));
+
+
+  subject.getValidateFunction('phone');
+  subject.getValidateFunction('password');
+
+  assert.equal(subject.get('isFormValid'), false);
 });
