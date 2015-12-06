@@ -9,7 +9,9 @@ function generateLookupStub(returnValues) {
     lookupValidator(_, name) {
       return {
         validate() {
-          return returnValues[name];
+          return Ember.Object.create({
+            isValid: returnValues[name]
+          });
         }
       };
     }

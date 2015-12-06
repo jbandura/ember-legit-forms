@@ -33,14 +33,27 @@ export default Ember.Object.extend({
   _verifyValidity(value, validations) {
     let messages = [];
     let validity = validations.map((validation) => {
-      let validator = this.get('lookupService').lookupValidator(
-        this.get('container'), validation.name
+      let validator = (validation.isFunction) ?
+        validation :
+        this.get('lookupService').lookupValidator(
+          this.get('container'), validation.name
+        )
+      ;
+      let validatorObject = validator.validate(
+        Ember.Object.create({
+          value,
+          arguments: validation.arguments,
+          isValid: null,
+          message: null,
+          fields: this.get('fields')
+        })
       );
-      let isValid = validator.validate(value, validation.arguments);
-      if(!isValid) {
-        messages.push(this.get('messageProvider').getMessage(validation.name));
+      if(!validatorObject.isValid) {
+        messages.push(this.get('messageProvider').getMessage(
+          validatorObject.get('message')
+        ));
       }
-      return isValid;
+      return validatorObject.isValid;
     });
     let isFieldValid = validity.reduce((acc, value) => {
       return acc && value;

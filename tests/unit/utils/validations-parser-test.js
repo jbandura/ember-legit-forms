@@ -34,3 +34,15 @@ test('it parses rule with more than one argument', function(assert) {
   assert.equal(validationsArray[0].name, 'between');
   assert.deepEqual(validationsArray[0].arguments, ['6','8']);
 });
+
+test('it parses inline functions', function(assert) {
+
+  let subject = new ValidationsParser();
+  let validationsArray = subject.parseRule(function() {
+    return true;
+  });
+
+  assert.ok(validationsArray[0].isFunction);
+  assert.ok(validationsArray[0].validate());
+
+});
