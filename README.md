@@ -34,10 +34,9 @@ You are free to use this function however you want, for example validate the inp
 
 ## TODO:
 
-- support for inline validators
-- allow access to all fields and their valid states in custom validators
+- ~~support for inline validators~~
+- ~~allow access to all fields and their valid states in custom validators~~
 - ember-i18n integration
-- custom DSL for inline validators
 - implement validators:
   - alphanumeric
   - alpha
