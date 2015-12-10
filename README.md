@@ -37,12 +37,11 @@ You are free to use this function however you want, for example validate the inp
 ## TODO:
 
 - implement validators:
-  - alphanumeric
+  - ~~alphanumeric~~
   - alpha
-  - between
+  - ~~between~~
   - date
   - date format
-  - digits
   - e-mail
   - in (an array)
   - not in
