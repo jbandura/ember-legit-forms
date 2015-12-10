@@ -40,6 +40,13 @@ export default Ember.Object.extend({
 
   _parseObject(rule) {
     return Object.keys(rule).map((key) => {
+      if (key === 'custom') {
+        return {
+          isFunction: true,
+          validate: rule[key]
+        };
+      }
+      
       return {
         name: key,
         arguments: (Array.isArray(rule[key])) ? rule[key] : [rule[key]],

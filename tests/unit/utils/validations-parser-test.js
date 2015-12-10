@@ -79,3 +79,22 @@ test('it parses multiple rules in form of Object', function(assert) {
     isFunction: false
   }, 'matches required rule');
 });
+
+test('it parses inline validators in rules hash', function(assert) {
+  let subject = new ValidationsParser();
+  let validationsArray = subject.parseRule({
+    required: true,
+    custom: function() {
+      return true;
+    }
+  });
+
+  assert.deepEqual(validationsArray[0], {
+    name: 'required',
+    arguments: [true],
+    isFunction: false
+  }, 'matches required rule');
+
+  assert.ok(validationsArray[1].isFunction);
+  assert.ok(validationsArray[1].validate());
+});

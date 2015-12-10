@@ -1,13 +1,10 @@
 import Ember from 'ember';
 
 export default Ember.Object.extend({
-  validate(validator) {
-    let value = validator.get('value');
+  validate(value, validator) {
     let [regex] = validator.get('arguments');
-    validator.set('isValid', regex.test(value));
-    if(!validator.get('isValid')) {
-      validator.set('message', 'match regex');
+    if(!regex.test(value)) {
+      return 'match regex';
     }
-    return validator;
   }
 });

@@ -9,9 +9,7 @@ function generateLookupStub(returnValues) {
     lookupValidator(_, name) {
       return {
         validate() {
-          return Ember.Object.create({
-            isValid: returnValues[name]
-          });
+          return returnValues[name];
         }
       };
     }
@@ -49,7 +47,7 @@ test('it gets correct validation when all fields correct', function(assert) {
   let subject = FormValidator.create().setProperties({
     parserService: generateParserStub(),
     lookupService: generateLookupStub({
-      required: true
+      required: null
     }),
     rules: {
       password: 'required'
@@ -67,7 +65,7 @@ test('it sets correctly fields when all fields correct', function(assert) {
   let subject = FormValidator.create().setProperties({
     parserService: generateParserStub(),
     lookupService: generateLookupStub({
-      required: true
+      required: null
     }),
     rules: {
       password: 'required'
@@ -105,7 +103,7 @@ test('it correctly recalculates fields', function(assert) {
   let subject = FormValidator.create().setProperties({
     parserService: generateParserStub(),
     lookupService: generateLookupStub({
-      numeric: false
+      numeric: 'not valid'
     }),
     rules: {
       phone: 'numeric'
@@ -116,24 +114,25 @@ test('it correctly recalculates fields', function(assert) {
   assert.deepEqual(subject.get('fields')[0].getProperties('name', 'valid'), {
     name: "phone",
     valid: false
-  });
+  }, 'it sets validity correctly when not valid');
 
-  subject.set('lookupService', generateLookupStub({ numeric: true }));
+  subject.set('lookupService', generateLookupStub({ numeric: null }));
 
   subject.getValidateFunction('phone');
+
 
   assert.deepEqual(subject.get('fields')[0].getProperties('name', 'valid'), {
     "name": "phone",
     "valid": true
-  });
+  }, 'it sets validity correctly when valid');
 });
 
 test('it sets and recalculates isFormValid property correctly', function(assert) {
   let subject = FormValidator.create().setProperties({
     parserService: generateParserStub(),
     lookupService: generateLookupStub({
-      numeric: true,
-      required: true
+      numeric: null,
+      required: null
     }),
     rules: {
       phone: 'numeric',
@@ -147,8 +146,8 @@ test('it sets and recalculates isFormValid property correctly', function(assert)
   assert.ok(subject.get('isFormValid'));
 
   subject.set('lookupService', generateLookupStub({
-    numeric: true,
-    required: false
+    numeric: null,
+    required: 'error'
   }));
 
 

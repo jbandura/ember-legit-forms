@@ -1,13 +1,10 @@
 import Ember from 'ember';
 
 export default Ember.Object.extend({
-  validate(validator) {
-    let value = validator.get('value');
+  validate(value) {
     //TODO: improve checking
-    validator.set('isValid', value !== '');
-    if(!validator.get('isValid')) {
-      validator.set('message', 'required');
+    if(value === '') {
+      return 'required';
     }
-    return validator;
   }
 });

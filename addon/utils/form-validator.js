@@ -3,7 +3,7 @@ import validationParser from '../utils/validations-parser';
 import messageProvider from '../utils/message-provider';
 import Ember from 'ember';
 
-const { computed } = Ember;
+const { computed, isNone } = Ember;
 
 export default Ember.Object.extend({
   lookupService: validationLookup.create(),
@@ -56,21 +56,17 @@ export default Ember.Object.extend({
           this.get('container'), validation.name
         )
       ;
-      let validatorObject = validator.validate(
+      let msg = validator.validate(
+        value,
         Ember.Object.create({
-          value,
           arguments: validation.arguments,
-          isValid: null,
-          message: null,
           fields: this.get('fields')
         })
       );
-      if(!validatorObject.isValid) {
-        messages.push(this.get('messageProvider').getMessage(
-          validatorObject.get('message')
-        ));
+      if (msg) {
+        messages.push(this.get('messageProvider').getMessage(msg));
       }
-      return validatorObject.isValid;
+      return isNone(msg);
     });
     let isFieldValid = validity.reduce((acc, value) => {
       return acc && value;
