@@ -11,6 +11,10 @@ export default Ember.Object.extend({
       }];
     }
 
+    if(typeof rule !== 'string') {
+      return this._parseObject(rule);
+    }
+
     let rules = rule.split('|');
 
     //TODO: add caching
@@ -18,7 +22,7 @@ export default Ember.Object.extend({
       return {
         name: this._extractName(ruleName),
         arguments: this._extractArguments(ruleName),
-        isFunction: this._isFunction(ruleName)
+        isFunction: false
       };
     });
   },
@@ -32,6 +36,16 @@ export default Ember.Object.extend({
     let regExp = new RegExp(`${ruleName}\\(([a-zA-Z0-9,]+)\\)`);
     let argListString = name.replace(regExp, "$1");
     return argListString.split(',');
+  },
+
+  _parseObject(rule) {
+    return Object.keys(rule).map((key) => {
+      return {
+        name: key,
+        arguments: (Array.isArray(rule[key])) ? rule[key] : [rule[key]],
+        isFunction: false
+      };
+    });
   },
 
   _isFunction(rule) {

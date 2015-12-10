@@ -46,3 +46,36 @@ test('it parses inline functions', function(assert) {
   assert.ok(validationsArray[0].validate());
 
 });
+
+test('it parses single rule in form of Object', function(assert) {
+  let subject = new ValidationsParser();
+  let validationsArray = subject.parseRule({
+    min: 6
+  });
+
+  assert.deepEqual(validationsArray[0], {
+    name: 'min',
+    arguments: [6],
+    isFunction: false
+  });
+});
+
+test('it parses multiple rules in form of Object', function(assert) {
+  let subject = new ValidationsParser();
+  let validationsArray = subject.parseRule({
+    between: [5,6],
+    required: true
+  });
+
+  assert.deepEqual(validationsArray[0], {
+    name: 'between',
+    arguments: [5,6],
+    isFunction: false
+  });
+
+  assert.deepEqual(validationsArray[1], {
+    name: 'required',
+    arguments: [true],
+    isFunction: false
+  }, 'matches required rule');
+});
