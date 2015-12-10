@@ -10,8 +10,21 @@ export default Ember.Object.extend({
   parserService: validationParser.create(),
   messageProvider: messageProvider.create(),
 
-  rules: null,
+  /**
+   * ember's container injected from lf-form component
+   * @param {Object}
+   */
   container: null,
+  /**
+   * rules passed from lf-form component
+   * @param {Object}
+   */
+  rules: null,
+  /**
+   * custom data can be passed if they're required for inline validations
+   * @param {Object}
+   */
+  data: null,
   fields: computed('rules', function() {
     let rules = this.get('rules');
     let resultObj = Ember.A();
@@ -60,7 +73,8 @@ export default Ember.Object.extend({
         value,
         Ember.Object.create({
           arguments: validation.arguments,
-          fields: this.get('fields')
+          fields: this.get('fields'),
+          data: this.get('data')
         })
       );
       if (msg) {

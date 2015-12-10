@@ -8,6 +8,7 @@ export default Component.extend({
   layout,
   formValidator: formValidator.create(),
   rules: null, //passed in
+  data: null, //passed in
   fields: computed.alias('formValidator.fields'),
   _formValid: computed.alias('formValidator.isFormValid'),
 
@@ -15,6 +16,7 @@ export default Component.extend({
     this._super(...arguments);
     this.get('formValidator').setProperties({
       rules: this.get('rules'),
+      data: this.get('data'),
       container: this.get('container')
     });
   },
