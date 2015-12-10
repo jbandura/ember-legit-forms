@@ -1,7 +1,7 @@
 {
   "name": "ember-legit-forms",
-  "version": "0.0.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "version": "0.0.3",
+  "description": "Create modern and flexible forms with ease",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -11,11 +11,11 @@
     "start": "ember server",
     "test": "ember try:testall"
   },
-  "repository": "",
+  "repository": "jbandura/ember-legit-forms",
   "engines": {
     "node": ">= 0.10.0"
   },
-  "author": "",
+  "author": "Jacek Bandura",
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.1.2",
