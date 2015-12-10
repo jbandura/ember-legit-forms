@@ -1,5 +1,7 @@
 # Ember-legit-forms
 
+[![Build Status](https://travis-ci.org/jbandura/ember-legit-forms.svg?branch=master)](https://travis-ci.org/jbandura/ember-legit-forms)
+
 Component for creating modern forms along with validations.
 
 ## Getting started
