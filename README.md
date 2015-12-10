@@ -37,9 +37,7 @@ You are free to use this function however you want, for example validate the inp
 ## TODO:
 
 - implement validators:
-  - ~~alphanumeric~~
   - alpha
-  - ~~between~~
   - date
   - date format
   - e-mail
@@ -48,6 +46,12 @@ You are free to use this function however you want, for example validate the inp
   - same
   - size
   - url
+  - ~~alphanumeric~~
+  - ~~between~~
+  - ~~max~~
+  - ~~accepted~~
+- expose `on-update` action in every lf-input
+- use `ember-oneway-input` in lf-input
 - ~~enable using objects as validator keys (in addition to strings)~~
 - ~~ember-i18n integration~~
 - ~~support for inline validators~~
