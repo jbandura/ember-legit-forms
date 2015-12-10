@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { Mixin, computed } = Ember;
+const { Mixin, computed, run } = Ember;
 
 export default Mixin.create({
   classNames: ['form-group'],
@@ -21,12 +21,17 @@ export default Mixin.create({
   },
 
   didInsertElement() {
-    this.attrs.validate(this.get('name'), this.get('property'));
+    run.schedule("afterRender", () => {
+      this.attrs.validate(this.get('name'), this.get('property'));
+    });
   },
 
   _validate(value) {
     let { isValid, messages } = this.attrs.validate(this.get('name'), value);
     this.set('valid', isValid);
     this.set('errorMessages', messages);
+    if (this.attrs['on-update']){
+      this.attrs['on-update'](value);
+    }
   },
 });

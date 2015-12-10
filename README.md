@@ -50,8 +50,9 @@ You are free to use this function however you want, for example validate the inp
   - ~~between~~
   - ~~max~~
   - ~~accepted~~
-- expose `on-update` action in every lf-input
 - use `ember-oneway-input` in lf-input
+- ~~expose `on-update` action in every lf-input~~
+- ~~in `lf-input-mixin` run the validation in afterRender queue~~
 - ~~enable using objects as validator keys (in addition to strings)~~
 - ~~ember-i18n integration~~
 - ~~support for inline validators~~

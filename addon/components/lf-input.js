@@ -9,7 +9,7 @@ export default Component.extend(LFInputMixin, {
 
   actions: {
     blur(value) {
-      this._validate(value);
+      this._validate(value);  
     }
   }
 });
