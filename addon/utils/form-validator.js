@@ -48,6 +48,7 @@ export default Ember.Object.extend({
 
   _verifyValidity(value, validations) {
     let messages = [];
+    this.get('messageProvider').set('container', this.get('container'));
     let validity = validations.map((validation) => {
       let validator = (validation.isFunction) ?
         validation :

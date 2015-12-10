@@ -1,0 +1,8 @@
+{{#lf-input-wrapper label=label errorMessages=errorMessages}}
+  <select class="form-control" onchange={{action "optionSelected" value="target.value"}} disabled=disabled>
+    <option value="">{{prompt}}</option>
+    {{#each content as |item|}}
+      <option value={{get item valuePath}} selected={{eq property (get item valuePath)}}>{{get item labelPath}}</option>
+    {{/each}}
+  </select>
+{{/lf-input-wrapper}}
