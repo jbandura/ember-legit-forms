@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import layout from '../templates/components/lf-select';
-import LFInputMixin from '../utils/lf-input-mixin';
+import LFInputMixin from '../mixins/lf-input-mixin';
 
 const { Component } = Ember;
 

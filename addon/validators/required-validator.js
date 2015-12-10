@@ -1,9 +1,10 @@
 import Ember from 'ember';
 
+const { isPresent } = Ember;
+
 export default Ember.Object.extend({
   validate(value) {
-    //TODO: improve checking
-    if(value === '') {
+    if(!isPresent(value)) {
       return 'required';
     }
   }
