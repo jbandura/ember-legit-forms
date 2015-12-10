@@ -34,9 +34,6 @@ You are free to use this function however you want, for example validate the inp
 
 ## TODO:
 
-- ~~support for inline validators~~
-- ~~allow access to all fields and their valid states in custom validators~~
-- ember-i18n integration
 - implement validators:
   - alphanumeric
   - alpha
@@ -50,6 +47,10 @@ You are free to use this function however you want, for example validate the inp
   - same
   - size
   - url
+- ~~enable using objects as validator keys (in addition to strings)~~
+- ~~ember-i18n integration~~
+- ~~support for inline validators~~
+- ~~allow access to all fields and their valid states in custom validators~~
 
 ## Installation
 
