@@ -1,3 +1,10 @@
 {{#lf-input-wrapper errorMessages=errorMessages label=label}}
-  <input class="form-control" value={{property}} onkeyup={{action "blur" value="target.value"}} onblur={{action "blur" value="target.value"}} />
+  {{#if hasBlock}}
+    <div class="input-group">
+      {{yield}}
+      <input class="form-control" value={{property}} onkeyup={{action "blur" value="target.value"}} onblur={{action "blur" value="target.value"}} />
+    </div>
+  {{else}}
+      <input class="form-control" value={{property}} onkeyup={{action "blur" value="target.value"}} onblur={{action "blur" value="target.value"}} />
+  {{/if}}
 {{/lf-input-wrapper}}
