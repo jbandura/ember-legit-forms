@@ -5,7 +5,12 @@ export default Ember.Object.extend({
     let length = parseInt(validator.get('arguments')[0]);
     let isValid = value && value.length >= length;
     if (!isValid) {
-      return 'too short';
+      return {
+        message: 'tooShort',
+        replacements: {
+          length
+        }
+      };
     }
   }
 });
