@@ -6,6 +6,7 @@ const { Component } = Ember;
 
 export default Component.extend(LFInputMixin, {
   layout,
+  placeholder: null, //passed in
 
   actions: {
     blur(value) {
