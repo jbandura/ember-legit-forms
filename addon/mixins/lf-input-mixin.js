@@ -31,12 +31,13 @@ export default Mixin.create({
 
   _validate(value) {
     if (!this.attrs.validate) {
-      return this.set('valid', true);
+      this.set('valid', true);
+    } else {
+      let { isValid, messages } = this.attrs.validate(this.get('name'), value);
+      this.set('valid', isValid);
+      this.set('errorMessages', messages);
     }
     
-    let { isValid, messages } = this.attrs.validate(this.get('name'), value);
-    this.set('valid', isValid);
-    this.set('errorMessages', messages);
     if (this.attrs['on-update']){
       this.attrs['on-update'](value);
     }
