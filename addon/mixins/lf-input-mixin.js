@@ -21,11 +21,19 @@ export default Mixin.create({
 
   didInsertElement() {
     run.schedule("afterRender", () => {
+      if (!this.attrs.validate) {
+        return this.set('valid', true);
+      }
+
       this.attrs.validate(this.get('name'), this.get('property'));
     });
   },
 
   _validate(value) {
+    if (!this.attrs.validate) {
+      return this.set('valid', true);
+    }
+    
     let { isValid, messages } = this.attrs.validate(this.get('name'), value);
     this.set('valid', isValid);
     this.set('errorMessages', messages);
