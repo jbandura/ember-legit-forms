@@ -51,6 +51,7 @@ You are free to use this function however you want, for example validate the inp
   - ~~max~~
   - ~~accepted~~
 - use `ember-oneway-input` in lf-input
+- add warning when validator for given rule not present, rules hash is null or name property missing from input
 - ~~expose `on-update` action in every lf-input~~
 - ~~in `lf-input-mixin` run the validation in afterRender queue~~
 - ~~enable using objects as validator keys (in addition to strings)~~

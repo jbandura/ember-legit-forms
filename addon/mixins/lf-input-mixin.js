@@ -9,7 +9,6 @@ export default Mixin.create({
   _edited: false,
   name: null, //passed in
   property: null, //passed in
-  disabled: false, //passed in
   validationState: computed('valid', '_edited', function() {
     if (!this.get('_edited')) { return ''; }
     if (!this.get('valid')) { return 'has-error'; }
