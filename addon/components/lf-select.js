@@ -12,9 +12,7 @@ export default Component.extend(LFInputMixin, {
 
   actions: {
     optionSelected(value) {
-      let { isValid, messages } = this.attrs.validate(this.get('name'), value);
-      this.set('valid', isValid);
-      this.set('errorMessages', messages);
+      this._validate(value);
     }
   }
 });
