@@ -1,10 +1,10 @@
 import Ember from 'ember';
 
-const { isEmpty } = Ember;
+const { isBlank } = Ember;
 
 export default Ember.Object.extend({
   validate(value) {
-    if(!(/^[+\-]?\d+$/.test(value) || isEmpty(value))) {
+    if(!(/^[+\-]?\d+$/.test(value) || isBlank(value))) {
       return 'not a number';
     }
   }

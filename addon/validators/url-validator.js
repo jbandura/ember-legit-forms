@@ -4,7 +4,7 @@ const { isBlank } = Ember;
 
 export default Ember.Object.extend({
   validate(value) {
-    let valid = /^[a-z0-9]+$/i.test(value) || isBlank(value);
+    let valid = /^(ftp|http|https):\/\/[^ "]+$/.test(value) || isBlank(value);
     if (!valid) {
       return 'must be alphanumeric';
     }
