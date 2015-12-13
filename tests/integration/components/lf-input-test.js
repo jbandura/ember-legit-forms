@@ -15,7 +15,7 @@ test('it renders the input with all markup',function(assert) {
 });
 
 test('it has no validation state when rendered', function(assert) {
-  this.set('name', 'Test');
+  this.set('name', '');
   this.set('validateAction', function() { return {isValid: true}; });
   this.render(hbs`{{lf-input label="Name" property=name name="name" validate=(action validateAction)}}`);
   let $form = this.$('.form-group');

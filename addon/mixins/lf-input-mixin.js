@@ -5,7 +5,7 @@ const { Mixin, computed, run } = Ember;
 export default Mixin.create({
   classNames: ['form-group'],
   classNameBindings: ['validationState'],
-  valid: false,
+  valid: null,
   _edited: false,
   name: null, //passed in
   property: null, //passed in
@@ -17,19 +17,21 @@ export default Mixin.create({
 
   focusOut() {
     this.set('_edited', true);
+    this.checkField();
   },
 
+  /**
+   * trigger validation on didInsertElement so that the fields property gets
+   * populated and the isValid property gets set properly
+   */
   didInsertElement() {
     run.schedule("afterRender", () => {
-      if (!this.attrs.validate) {
-        return this.set('valid', true);
-      }
-
-      this.attrs.validate(this.get('name'), this.get('property'));
+      this.checkField();
     });
   },
 
   validateField(value) {
+    this.set('_edited', true);
     if (!this.attrs.validate) {
       this.set('valid', true);
     } else {
@@ -42,4 +44,15 @@ export default Mixin.create({
       this.attrs['on-update'](value);
     }
   },
+
+  checkField() {
+    if (!this.attrs.validate) {
+      return this.set('valid', true);
+    }
+
+    let validationObj = this.attrs.validate(this.get('name'), this.get('property'));
+    if(validationObj.noRules) {
+      this.set('valid', true);
+    }
+  }
 });

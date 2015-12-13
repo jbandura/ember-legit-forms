@@ -50,13 +50,18 @@ export default Ember.Object.extend({
 
   getValidateFunction(fieldName, value) {
     let rule = this.get('rules')[fieldName];
-    let validations = this.get('parserService').parseRule(rule);
-    let fieldValidation = this._verifyValidity(value, validations, fieldName);
-    this.get('fields').findBy('name', fieldName).setProperties({
-      valid: fieldValidation.isValid,
-      value: value
-    });
-    return fieldValidation;
+    if (rule) {
+      let validations = this.get('parserService').parseRule(rule);
+      let fieldValidation = this._verifyValidity(value, validations, fieldName);
+      this.get('fields').findBy('name', fieldName).setProperties({
+        valid: fieldValidation.isValid,
+        value: value
+      });
+
+      return fieldValidation;
+    }
+    //when no rules provided
+    return { isValid: true, messages: [], noRules: true};
   },
 
   _verifyValidity(value, validations) {

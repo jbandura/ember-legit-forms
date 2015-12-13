@@ -1,3 +1,10 @@
 {{#lf-input-wrapper errorMessages=errorMessages label=label}}
-  <textarea class="form-control" value={{property}} onkeyup={{action "valueChanged" value="target.value"}} onblur={{action "valueChanged" value="target.value"}} rows={{rows}} />
+  <textarea
+    class="form-control"
+    value={{property}}
+    onkeyup={{action "valueChanged" value="target.value"}}
+    onblur={{action "valueChanged" value="target.value"}}
+    rows={{rows}}
+    placeholder={{placeholder}}
+  />
 {{/lf-input-wrapper}}

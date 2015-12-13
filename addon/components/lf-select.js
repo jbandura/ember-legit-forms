@@ -11,7 +11,6 @@ export default Component.extend(LFInputMixin, {
   labelPath: null,
 
   focusOut() {
-    this.set('_edited', true);
     this.validateField(this.get('property'));
   },
 
