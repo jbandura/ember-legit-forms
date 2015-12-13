@@ -45,19 +45,20 @@ You are free to use this function however you want, for example validate the inp
   - not in
   - same
   - size
-  - url
+  - ~~url~~
   - ~~alphanumeric~~
   - ~~between~~
   - ~~max~~
   - ~~accepted~~
-- use `ember-oneway-input` in lf-input
 - add warning when validator for given rule not present, rules hash is null or name property missing from input
+- ~~use `ember-oneway-input` in lf-input~~
 - ~~expose `on-update` action in every lf-input~~
 - ~~in `lf-input-mixin` run the validation in afterRender queue~~
 - ~~enable using objects as validator keys (in addition to strings)~~
 - ~~ember-i18n integration~~
 - ~~support for inline validators~~
 - ~~allow access to all fields and their valid states in custom validators~~
+- README: add section about password confirmations
 
 ## Installation
 

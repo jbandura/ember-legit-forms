@@ -12,12 +12,12 @@ export default Component.extend(LFInputMixin, {
 
   focusOut() {
     this.set('_edited', true);
-    this._validate(this.get('property'));  
+    this.validateField(this.get('property'));
   },
 
   actions: {
     optionSelected(value) {
-      this._validate(value);
+      this.validateField(value);
     }
   }
 });

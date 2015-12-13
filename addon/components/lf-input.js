@@ -9,8 +9,8 @@ export default Component.extend(LFInputMixin, {
   placeholder: null, //passed in
 
   actions: {
-    blur(value) {
-      this._validate(value);  
+    valueChanged(value) {
+      this.validateField(value);
     }
   }
 });

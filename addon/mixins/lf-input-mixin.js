@@ -29,7 +29,7 @@ export default Mixin.create({
     });
   },
 
-  _validate(value) {
+  validateField(value) {
     if (!this.attrs.validate) {
       this.set('valid', true);
     } else {
@@ -37,7 +37,7 @@ export default Mixin.create({
       this.set('valid', isValid);
       this.set('errorMessages', messages);
     }
-    
+
     if (this.attrs['on-update']){
       this.attrs['on-update'](value);
     }
