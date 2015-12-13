@@ -53,7 +53,8 @@ export default Ember.Object.extend({
     if (rule) {
       let validations = this.get('parserService').parseRule(rule);
       let fieldValidation = this._verifyValidity(value, validations, fieldName);
-      this.get('fields').findBy('name', fieldName).setProperties({
+      let field = this.get('fields').findBy('name', fieldName);
+      field.setProperties({
         valid: fieldValidation.isValid,
         value: value
       });

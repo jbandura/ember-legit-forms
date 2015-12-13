@@ -6,9 +6,10 @@ export default Mixin.create({
   classNames: ['form-group'],
   classNameBindings: ['validationState'],
   valid: null,
-  _edited: false,
   name: null, //passed in
   property: null, //passed in
+  _value: null,
+  _edited: false,
   validationState: computed('valid', '_edited', function() {
     if (!this.get('_edited')) { return ''; }
     if (!this.get('valid')) { return 'has-error'; }
@@ -17,7 +18,7 @@ export default Mixin.create({
 
   focusOut() {
     this.set('_edited', true);
-    this.checkField();
+    this.validateField(this.get('property'));
   },
 
   /**
@@ -26,33 +27,48 @@ export default Mixin.create({
    */
   didInsertElement() {
     run.schedule("afterRender", () => {
-      this.checkField();
+      if (!this.attrs.validate) {
+        return this.set('valid', true);
+      }
+
+      this.attrs.validate(this.get('name'), this.get('property'));
     });
   },
 
-  validateField(value) {
-    this.set('_edited', true);
-    if (!this.attrs.validate) {
-      this.set('valid', true);
-    } else {
-      let { isValid, messages } = this.attrs.validate(this.get('name'), value);
-      this.set('valid', isValid);
-      this.set('errorMessages', messages);
-    }
+  test: Ember.observer('name', function() {
+    console.log('modified name!', this.get('name'));
+  }),
 
+  validateField(value) {
     if (this.attrs['on-update']){
       this.attrs['on-update'](value);
     }
+    this.set('_value', value);
+
+    if (!this.attrs.validate) {
+      this.set('valid', true);
+      return;
+    }
+
+    let { isValid, messages, noRules } = this.attrs.validate(this.get('name'), value);
+    if (noRules) {
+      this.set('valid', true);
+      return;
+    }
+
+    this.set('valid', isValid);
+    this.set('errorMessages', messages);
   },
 
-  checkField() {
-    if (!this.attrs.validate) {
-      return this.set('valid', true);
-    }
-
-    let validationObj = this.attrs.validate(this.get('name'), this.get('property'));
-    if(validationObj.noRules) {
-      this.set('valid', true);
-    }
-  }
+  // checkField() {
+  //   let property = this.get('_edited') ? this.get('_value') : this.get('property');
+  //   if (!this.attrs.validate) {
+  //     return this.set('valid', true);
+  //   }
+  //
+  //   let validationObj = this.attrs.validate(this.get('name'), property);
+  //   if(validationObj.noRules) {
+  //     this.set('valid', true);
+  //   }
+  // }
 });

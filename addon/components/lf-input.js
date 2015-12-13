@@ -7,10 +7,23 @@ const { Component } = Ember;
 export default Component.extend(LFInputMixin, {
   layout,
   placeholder: null, //passed in
+  _value: null,
+
+  focusOut() {
+    this.set('_edited', true);
+    let value = this.get('_value') || this.get('property');
+    this.validateField(value);
+  },
 
   actions: {
     valueChanged(value) {
-      this.validateField(value);
+      this.set('_value', value);
+      if (this.get('property') !== value) {
+        this.set('_edited', true);
+      }
+      if (this.get('_edited')) {
+        this.validateField(value);
+      }
     }
   }
 });
