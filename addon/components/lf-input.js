@@ -2,7 +2,7 @@ import Ember from 'ember';
 import layout from '../templates/components/lf-input';
 import LFInputMixin from '../mixins/lf-input-mixin';
 
-const { Component } = Ember;
+const { Component, isNone } = Ember;
 
 export default Component.extend(LFInputMixin, {
   layout,
@@ -18,6 +18,12 @@ export default Component.extend(LFInputMixin, {
   actions: {
     valueChanged(value) {
       this.set('_value', value);
+      console.log('isNone', isNone(value));
+      if(isNone(value)) {
+        this.set('_edited', false);
+        this.set('errorMessages', []);
+        return;
+      }
       if (this.get('property') !== value) {
         this.set('_edited', true);
       }
