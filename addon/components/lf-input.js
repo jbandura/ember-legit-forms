@@ -18,10 +18,9 @@ export default Component.extend(LFInputMixin, {
   actions: {
     valueChanged(value) {
       this.set('_value', value);
-      console.log('isNone', isNone(value));
       if(isNone(value)) {
-        this.set('_edited', false);
-        this.set('errorMessages', []);
+        // we have to reset fields
+        this.clearValidations();
         return;
       }
       if (this.get('property') !== value) {

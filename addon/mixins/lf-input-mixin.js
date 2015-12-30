@@ -35,10 +35,6 @@ export default Mixin.create({
     });
   },
 
-  test: Ember.observer('name', function() {
-    console.log('modified name!', this.get('name'));
-  }),
-
   validateField(value) {
     if (this.attrs['on-update']){
       this.attrs['on-update'](value);
@@ -60,15 +56,9 @@ export default Mixin.create({
     this.set('errorMessages', messages);
   },
 
-  // checkField() {
-  //   let property = this.get('_edited') ? this.get('_value') : this.get('property');
-  //   if (!this.attrs.validate) {
-  //     return this.set('valid', true);
-  //   }
-  //
-  //   let validationObj = this.attrs.validate(this.get('name'), property);
-  //   if(validationObj.noRules) {
-  //     this.set('valid', true);
-  //   }
-  // }
+  clearValidations() {
+    this.validateField(null);
+    this.set('_edited', false);
+    this.set('errorMessages', []);
+  }
 });
