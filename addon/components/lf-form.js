@@ -2,23 +2,32 @@ import Ember from 'ember';
 import layout from '../templates/components/lf-form';
 import formValidator from '../utils/form-validator';
 
-const { Component, computed } = Ember;
+const { Component, computed, observer } = Ember;
 
 export default Component.extend({
   layout,
-  formValidator: formValidator.create(),
+  formValidator: null,
   rules: null, //passed in
-  data: computed.alias('formValidator.data'),
-  fields: computed.alias('formValidator.fields'),
-  _formValid: computed.alias('formValidator.isFormValid'),
+  data: null, //passed in
+  _formValid: computed('formValidator.isFormValid', function() {
+    if (this.get('formValidator')) {
+      return this.get('formValidator.isFormValid');
+    }
+
+    return false;
+  }),
 
   init() {
     this._super(...arguments);
-    this.get('formValidator').setProperties({
-      rules: this.get('rules'),
-      container: this.get('container')
-    });
+    this.set('formValidator', formValidator.create({
+      container: this.get('container'),
+      rules: this.get('rules')
+    }));
   },
+
+  dataChanged: observer('data', function() {
+    this.get('formValidator').set('data', this.get('data'));
+  }),
 
   actions: {
     validateChange(name, value) {
