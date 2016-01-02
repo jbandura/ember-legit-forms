@@ -4,9 +4,9 @@ const { isBlank } = Ember;
 
 export default Ember.Object.extend({
   validate(value) {
-    let valid = /^(ftp|http|https):\/\/[^ "]+$/.test(value) || isBlank(value);
+    let valid = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i.test(value) || isBlank(value);
     if (!valid) {
-      return 'validUrl';
+      return 'mustBeValidURL';
     }
   }
 });
