@@ -6,7 +6,8 @@ module('Unit | Utility | form validator');
 
 let subject = messageProvider.create({
   defaultMessages: {
-    'testKey': 'test message'
+    'testKey': 'test message',
+    'testKeyWithReplacements': 'test message {{replacement1}} and {{replacement2}}'
   }
 });
 
@@ -37,4 +38,13 @@ test('it checks first i18n before getting local keys (globals)', function(assert
   });
 
   assert.equal(subject.getMessage('testKey'), 'test message from i18n service');
+});
+
+test('it can interpolate messages with and w/o replacements', function(assert) {
+  let message = subject._interpolateMessage('testKeyWithReplacements', {
+    replacement1: 'foo',
+    replacement2: 'bar'
+  });
+
+  assert.equal(message, 'test message foo and bar');
 });

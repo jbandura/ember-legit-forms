@@ -3,8 +3,15 @@ import Ember from 'ember';
 export default Ember.Object.extend({
   container: null,
   defaultMessages: {
+    'mustBeAccepted': 'must be accepted',
+    'mustBeAlphanumeric': 'must be alphanumeric',
+    'mustBeBetween': 'must be between {{minLength}} and {{maxLength}}',
+    'tooLong': 'too long',
+    'tooShort': 'too short',
+    'mustBeNumeric': 'must be a number',
+    'mustMatchRegex': 'must have a proper format',
+    'mustBeValidURL': 'must be a valid URL',
     "required": "can't be blank",
-    "not a number": "must be a number",
     "too short": "too short"
   },
 
@@ -41,7 +48,7 @@ export default Ember.Object.extend({
       return msg;
     }
     Object.keys(replacements).forEach((key) => {
-      message = message.replace(key, replacements[key]);
+      message = message.replace(`{{${key}}}`, replacements[key]);
     });
 
     return message;
