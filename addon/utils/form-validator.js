@@ -1,6 +1,7 @@
 import validationLookup from '../utils/validation-lookup';
 import validationParser from '../utils/validations-parser';
 import messageProvider from '../utils/message-provider';
+import validatorObject from '../utils/validator-object';
 import Ember from 'ember';
 
 const { computed, isNone } = Ember;
@@ -77,7 +78,7 @@ export default Ember.Object.extend({
       ;
       let msg = validator.validate(
         value,
-        Ember.Object.create({
+        validatorObject.create({
           arguments: validation.arguments,
           fields: this.get('fields'),
           data: this.get('data')
