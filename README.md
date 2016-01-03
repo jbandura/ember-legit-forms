@@ -37,19 +37,19 @@ You are free to use this function however you want, for example validate the inp
 ## TODO:
 
 - implement validators:
-  - alpha
   - date
   - date format
-  - e-mail
-  - in (an array)
-  - not in
-  - same
-  - size
+  - ~~notIn~~
+  - ~~in (an array)~~
+  - ~~size~~
+  - ~~alpha~~
   - ~~url~~
   - ~~alphanumeric~~
   - ~~between~~
   - ~~max~~
   - ~~accepted~~
+  - ~~same~~
+  - ~~e-mail~~
 - add warning when validator for given rule not present, rules hash is null or name property missing from input
 - ~~use `ember-oneway-input` in lf-input~~
 - ~~expose `on-update` action in every lf-input~~
@@ -59,6 +59,7 @@ You are free to use this function however you want, for example validate the inp
 - ~~support for inline validators~~
 - ~~allow access to all fields and their valid states in custom validators~~
 - README: add section about password confirmations
+- add tests for more than one lf-form instances (they shouldn't share rules attribute)
 
 ## Installation
 
