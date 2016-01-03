@@ -12,7 +12,12 @@ export default Ember.Object.extend({
     'mustMatchRegex': 'must have a proper format',
     'mustBeValidURL': 'must be a valid URL',
     "required": "can't be blank",
-    "too short": "too short"
+    "mustBeInArray": 'value not allowed',
+    "mustNotBeInArray": 'value not allowed',
+    "mustBeValidEmail": 'must be a valid email address',
+    "mustBeAlpha": 'must consist only of alphabetic characters',
+    "mustBeOfSize": 'must be exactly {{size}} characters long',
+    "mustBeSame": 'must match {{fieldName}}'
   },
 
   /**
