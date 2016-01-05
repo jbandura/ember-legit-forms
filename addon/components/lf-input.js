@@ -23,9 +23,6 @@ export default Component.extend(LFInputMixin, {
         this.clearValidations();
         return;
       }
-      if (this.get('property') !== value) {
-        this.set('_edited', true);
-      }
       if (this.get('_edited')) {
         this.validateField(value);
       }
