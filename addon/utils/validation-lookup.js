@@ -1,7 +1,18 @@
 import Ember from 'ember';
 
 export default Ember.Object.extend({
+  /**
+   * Cached validators
+   * @param validatorsCache
+   * @type {Object}
+   */
   validatorsCache: {},
+
+  /**
+   * Lookup given validator on the owner. Local validators take precedence.
+   * @param {Object} owner
+   * @param {string} validator: validator name
+   */
   lookupValidator(owner, validator) {
 
     if(this.get(`validatorsCache.${validator}`)) {

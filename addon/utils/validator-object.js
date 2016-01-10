@@ -5,6 +5,12 @@ export default Ember.Object.extend({
   fields: null,
   data: null,
 
+  /**
+   * This ember hook is used to fetch data or fields by name using `obj.get('data:insertName')` or
+   * `obj.get('field:insertName')` syntax.
+   * @param name
+   * @return {string|undefined}
+   */
   unknownProperty(name) {
     if (/field:{1}\w+/.test(name)) {
       let field = this.get('fields').findBy('name', name.replace('field:', ''));

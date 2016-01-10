@@ -2,6 +2,11 @@ import Ember from 'ember';
 
 export default Ember.Object.extend({
   container: null,
+  /**
+   * A dictionary of default messages - can be overriden by i18n
+   * @param defaultMessages
+   * @type {Object}
+   */
   defaultMessages: {
     'mustBeAccepted': 'must be accepted',
     'mustBeAlphanumeric': 'must be alphanumeric',
@@ -21,12 +26,13 @@ export default Ember.Object.extend({
   },
 
   /**
-   * gets a validation message based on string returned
+   * Gets a validation message based on string returned uses _fetchMessage under the hood.
    *
    * @param {string|Object} if message is a string it is looked up in
    *  defaultMessages/i18n. If it's an object it should contain keys message
    *  and replacements. All occurences of replacements in message will be then
    *  replaced according to the replacements hash.
+   * @returns {string}
    */
   getMessage(validation) {
     if (typeof validation === 'string' || validation instanceof String) {
@@ -36,6 +42,15 @@ export default Ember.Object.extend({
     return this._fetchMessage(validation.message, validation.replacements);
   },
 
+  /**
+   * This is a convenience function that fetches the message based on a key.
+   *
+   * It checks ember-i18n first and if it doesn't exist it returns a deafult message.
+   * @param {string} msg: a key
+   * @param {Object} replacements: replacements for interpolation
+   * @returns {string}
+   * @private
+   */
   _fetchMessage(msg, replacements) {
     if(Ember.i18n) {
       return Ember.i18n.t(`validation.${msg}`, replacements);
@@ -47,6 +62,13 @@ export default Ember.Object.extend({
     return this._interpolateMessage(msg, replacements);
   },
 
+  /**
+   * Interpolates message using given replacements
+   * @param {string} msg
+   * @param {Object} replacements
+   * @returns {String}
+   * @private
+   */
   _interpolateMessage(msg, replacements) {
     let message = this.get(`defaultMessages.${msg}`);
     if (!message) {
