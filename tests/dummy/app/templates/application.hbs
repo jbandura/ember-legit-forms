@@ -13,5 +13,32 @@
       name="phone"
       validate=validateFunction
     }}
+    {{lf-input
+      label="E-mail"
+      property=model.email
+      name="email"
+      validate=validateFunction
+    }}
+    {{lf-textarea
+      label="Description"
+      property=model.description
+      name="description"
+      validate=validateFunction
+    }}
+    {{lf-select
+      label="Groups"
+      name="groups"
+      content=groups
+      labelPath="name"
+      valuePath="id"
+      property=model.group
+      validate=validateFunction
+    }}
+    {{lf-input
+      label="Your interests"
+      property=model.interests
+      name="interests"
+      validate=validateFunction
+    }}
   {{/lf-form}}
 </div>
