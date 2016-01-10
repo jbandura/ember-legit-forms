@@ -13,19 +13,35 @@ export default Ember.Object.extend({
 
   /**
    * ember's container injected from lf-form component
-   * @param {Object}
+   * @param container
+   * @type {Object}
    */
   container: null,
+
   /**
    * rules passed from lf-form component
    * @param {Object}
    */
   rules: null,
+
   /**
-   * custom data can be passed if they're required for inline validations
-   * @param {Object}
+   * Custom data can be passed in form of a POJO if they're required for inline validations.
+   *
+   * @property data
+   * @type Object
    */
   data: null,
+
+  /**
+   * Represents all of the registered fields
+   *
+   * Fields are registered when the rules hash is passed
+   * to the lf-form component. They can be then looked up by the
+   * rule name, eg. if you define a following rules hash: `{ name: 'required'}`
+   * the field value and valid state can be looked up by using the `name` string.
+   * @property fields
+   * @type Array
+   */
   fields: computed('rules', function() {
     let rules = this.get('rules');
     let resultObj = Ember.A();
@@ -40,6 +56,15 @@ export default Ember.Object.extend({
 
     return resultObj;
   }),
+
+  /**
+   * Valid state of the whole form
+   *
+   * This property is calculated checking valid states of each field defined
+   * in the rules hash
+   * @property isFormValid
+   * @type boolean
+   */
   isFormValid: computed('fields.@each.valid', function() {
     let fields = this.get('fields');
 
@@ -49,6 +74,13 @@ export default Ember.Object.extend({
     }, true);
   }),
 
+  /**
+   * Calculates whether field is valid and returns error messages in case it is not.
+   *
+   * @param {String} fieldName: name by which the field should be looked up in fields array
+   * @param {String} value: value of the field that need to be validated
+   * @returns {Object}
+   */
   getValidateFunction(fieldName, value) {
     let rule = this.get('rules')[fieldName];
     if (rule) {
@@ -66,10 +98,20 @@ export default Ember.Object.extend({
     return { isValid: true, messages: [], noRules: true};
   },
 
+  /**
+   * This function does the heavy lifting of calculating whether field is valid
+   *
+   * @param {String} value
+   * @param {Object[]} validations
+   * @returns {Object} a message and valid state
+   * @private
+   */
   _verifyValidity(value, validations) {
     let messages = [];
     this.get('messageProvider').set('container', this.get('container'));
     let validity = validations.map((validation) => {
+      // detect whether we have a custom validator
+      // if not then we have to look it up
       let validator = (validation.isFunction) ?
         validation :
         this.get('lookupService').lookupValidator(
@@ -85,17 +127,16 @@ export default Ember.Object.extend({
         })
       );
       if (msg) {
-        messages.push(this.get('messageProvider').getMessage(msg));
+        messages.push(
+          validation.customMessage || this.get('messageProvider').getMessage(msg)
+        );
       }
       return isNone(msg);
     });
-    let isFieldValid = validity.reduce((acc, value) => {
+    let isValid = validity.reduce((acc, value) => {
       return acc && value;
     }, true);
 
-    return {
-      messages,
-      isValid: isFieldValid
-    };
+    return { messages, isValid };
   },
 });

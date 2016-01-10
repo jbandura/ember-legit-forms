@@ -1,10 +1,10 @@
-import ValidationsParser from 'ember-legit-forms/utils/validations-parser';
+import validationsParser from 'ember-legit-forms/utils/validations-parser';
 import { module, test } from 'qunit';
 
 module('Unit | Utility | validation parser');
 
 test('it parses multiple rules without arguments', function(assert) {
-  var subject = new ValidationsParser();
+  var subject = validationsParser.create();
 
   let validationsArray = subject.parseRule('required|numeric');
   assert.equal(validationsArray.length, 2);
@@ -16,7 +16,7 @@ test('it parses multiple rules without arguments', function(assert) {
 });
 
 test('it parses rule with one argument', function(assert) {
-  let subject = new ValidationsParser();
+  let subject = validationsParser.create();
 
   let validationsArray = subject.parseRule('min(6)');
   assert.equal(validationsArray.length, 1);
@@ -28,7 +28,7 @@ test('it parses rule with one argument', function(assert) {
 });
 
 test('it parses rule with more than one argument', function(assert) {
-  let subject = new ValidationsParser();
+  let subject = validationsParser.create();
   let validationsArray = subject.parseRule('between(6,8)');
 
   assert.equal(validationsArray[0].name, 'between');
@@ -37,7 +37,7 @@ test('it parses rule with more than one argument', function(assert) {
 
 test('it parses inline functions', function(assert) {
 
-  let subject = new ValidationsParser();
+  let subject = validationsParser.create();
   let validationsArray = subject.parseRule(function() {
     return true;
   });
@@ -48,7 +48,7 @@ test('it parses inline functions', function(assert) {
 });
 
 test('it parses single rule in form of Object', function(assert) {
-  let subject = new ValidationsParser();
+  let subject = validationsParser.create();
   let validationsArray = subject.parseRule({
     min: 6
   });
@@ -61,7 +61,7 @@ test('it parses single rule in form of Object', function(assert) {
 });
 
 test('it parses multiple rules in form of Object', function(assert) {
-  let subject = new ValidationsParser();
+  let subject = validationsParser.create();
   let validationsArray = subject.parseRule({
     between: [5,6],
     required: true
@@ -81,7 +81,7 @@ test('it parses multiple rules in form of Object', function(assert) {
 });
 
 test('it parses inline validators in rules hash', function(assert) {
-  let subject = new ValidationsParser();
+  let subject = validationsParser.create();
   let validationsArray = subject.parseRule({
     required: true,
     custom: function() {
@@ -97,4 +97,19 @@ test('it parses inline validators in rules hash', function(assert) {
 
   assert.ok(validationsArray[1].isFunction);
   assert.ok(validationsArray[1].validate());
+});
+
+test('it parses custom messages', function(assert) {
+  let subject = validationsParser.create();
+  let customMessage = 'must be exactly 3 characters long';
+  let validationsArray = subject.parseRule({
+    length: { check: 3, message: customMessage }
+  });
+
+  assert.deepEqual(validationsArray[0], {
+    name: 'length',
+    arguments: [3],
+    isFunction: false,
+    customMessage: customMessage
+  });
 });
