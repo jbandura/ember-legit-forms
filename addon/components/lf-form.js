@@ -21,7 +21,8 @@ export default Component.extend({
     this._super(...arguments);
     this.set('formValidator', formValidator.create({
       container: this.get('container'),
-      rules: this.get('rules')
+      rules: this.get('rules'),
+      data: this.get('data')
     }));
   },
 
