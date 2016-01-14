@@ -12,6 +12,7 @@
       property=model.phone
       name="phone"
       validate=validateFunction
+      on-update=(action (mut model.phone))
     }}
     {{lf-input
       label="E-mail"

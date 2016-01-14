@@ -9,10 +9,7 @@ export default LFInput.extend({
 
   propertyDidChange: observer('property', function() {
     if (isNone(this.get('property'))) {
-      this.setProperties({
-        '_edited': false,
-        errorMessages: []
-      });
+      this.clearValidations();
     }
   })
 });

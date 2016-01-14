@@ -21,6 +21,7 @@ export default Component.extend(LFInputMixin, {
 
   actions: {
     optionSelected(value) {
+      this.callUpdateHook(value);
       this.validateField(value);
     }
   }
