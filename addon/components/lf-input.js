@@ -7,11 +7,19 @@ const { Component, isNone } = Ember;
 export default Component.extend(LFInputMixin, {
   layout,
   placeholder: null, //passed in
+  /**
+   * Tracks the value of the input field
+   *
+   * We have to keep the input value to validate it after each change - we can't
+   * observe property since we're not using two-way data binding
+   * @param _value
+   * @type {String}
+   */
   _value: null,
 
   focusOut() {
     this.set('_edited', true);
-    let value = this.get('_value') || this.get('property');
+    let value = isNone(this.get('_value')) ? this.get('property') : this.get('_value');
     this.validateField(value);
   },
 
