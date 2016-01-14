@@ -11,14 +11,28 @@ function argumentsObj(max) {
   });
 }
 
+function generateString(length) {
+  return new Array(length + 1).join('a');
+}
+
 test('it validates properly', function(assert) {
   assert.equal(
-    subject.validate(new Array(3).join('a'), argumentsObj(3)),
+    subject.validate(generateString(3), argumentsObj(3)),
     undefined
   );
 
   assert.equal(
-    subject.validate(new Array(5).join('a'), argumentsObj(3)).message,
+    subject.validate(generateString(2), argumentsObj(3)),
+    undefined
+  );
+
+  assert.equal(
+    subject.validate(generateString(4), argumentsObj(3)).message,
+    'tooLong'
+  );
+
+  assert.equal(
+    subject.validate(generateString(5), argumentsObj(3)).message,
     'tooLong'
   );
 });
