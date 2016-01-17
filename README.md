@@ -45,6 +45,9 @@ Component for creating modern forms along with validations.
 
 
 ## Installing
+```shell
+ember install ember-legit-forms
+```
 ## Getting Started
 
 You can start using `ember-legit-forms` in three easy steps:
