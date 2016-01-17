@@ -8,11 +8,11 @@ Component for creating modern forms along with validations.
 - [Installing](#installing)
 - [Getting started](#getting-started)
 - [Components Reference](#components-reference)
-  - [`lf-form` Component](#L-code-lf-form--code--component)
+  - [`lf-form` Component](#lf-form-component)
   - [Input Helpers](#input-helpers)
-    - [`lf-input`](#L-code-lf-input--code-)
-    - [`lf-textarea`](#L-code-lf-textarea--code-)
-    - [`lf-select`](#L-code-lf-select--code-)
+    - [`lf-input`](#lf-input)
+    - [`lf-textarea`](#lf-textarea)
+    - [`lf-select`](#lf-select)
 - [Customizing Wrapper Markup](#customizing-wrapper-markup)
 - [Validators](#validators)
   - [Representing Validators](#representing-validators)
@@ -26,24 +26,21 @@ Component for creating modern forms along with validations.
   - [Defining Inline Validators](#defining-inline-validators)
   - [Validator Object](#validator-object)
   - [Validators Reference](#validators-reference)
-    - [`required`](#L-code-required--code-)
-    - [`accepted`](#L-code-accepted--code-)
-    - [`alpha`](#L-code-alpha--code-)
-    - [`alphanumeric`](#L-code-alphanumeric--code-)
-    - [`numeric`](#L-code-numeric--code-)
-    - [`in`](#L-code-in--code-)
-    - [`notIn`](#L-code-notIn--code-)
-    - [`between`](#L-code-between--code-)
-    - [`max`](#L-code-max--code-)
-    - [`min`](#L-code-min--code-)
-    - [`size`](#L-code-size--code-)
-    - [`regex`](#L-code-regex--code-)
-    - [`same`](#L-code-same--code-)
-    - [`url`](#L-code-url--code-)
-    - [`email`](#L-code-email--code-)
-- [Development Helpers](#development-helpers)
-  - [`LF-Input` Mixin](#L-code-lf-input--code--mixin)
-  - [`lf-input-wrapper`](#L-code-lf-input-wrapper--code-)
+    - [`required`](#required)
+    - [`accepted`](#accepted)
+    - [`alpha`](#alpha)
+    - [`alphanumeric`](#alphanumeric)
+    - [`numeric`](#numeric)
+    - [`in`](#in)
+    - [`notIn`](#notIn)
+    - [`between`](#between)
+    - [`max`](#max)
+    - [`min`](#min)
+    - [`size`](#size)
+    - [`regex`](#regex)
+    - [`same`](#same)
+    - [`url`](#url)
+    - [`email`](#email)
 - [Credits](#credits)
 
 
@@ -85,7 +82,7 @@ validate function that you have to pass to input components:
 ```
 
 ### Step 3
-Now you can declare your inputs, for example let's define a simple text input using the [`lf-input`](#L-code-lf-input--code-) component that comes by default:
+Now you can declare your inputs, for example let's define a simple text input using the [`lf-input`](#lf-input) component that comes by default:
 
 ```hbs
   {{!-- example/template.hbs --}}
@@ -105,7 +102,6 @@ Note:
  - the string passed to `name` attribute must correspond to the key name in `rules` hash
  - we have to pass the yielded `validateFunc` to the `validate` attribute of our input component. If we do not pass it our field will always be valid.
  - by default ember-legit-forms uses Twitter Bootstrap's markup for forms. If you would like to change it, please see [Customizing Markup section](#customizing-wrapper-markup).
- <!-- TODO: add link to lf-input-wrapper -->
 
 ### That's It
 You've successfully started using `ember-legit-forms`!
@@ -127,7 +123,7 @@ This component does the heavy-lifting of managing field values and valid states.
 ```
 It accepts following attributes:
 - `rules`: a POJO binding field names to the corresponding validators
-- `data`: a POJO of custom data that you want to use in inline/custom validators (see [Validator Object:get(data:key)](#L-code-get-data:key---code-) section)
+- `data`: a POJO of custom data that you want to use in inline/custom validators (see [Validator Object:get(data:key)](#getdatakey) section)
 - `validityChanged`: an action which is triggered every time the validity of form. You can use it for example to block submit button when form is not valid. It has the following signature:
 ```js
 function validityChanged(validState) {
