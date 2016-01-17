@@ -1,7 +1,7 @@
 {
   "name": "ember-legit-forms",
-  "version": "1.0.9",
-  "description": "Create modern and flexible forms with ease",
+  "version": "1.0.10",
+  "description": "Create flexible forms with ease",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -11,11 +11,16 @@
     "start": "ember server",
     "test": "ember try:testall"
   },
-  "repository": "jbandura/ember-legit-forms",
+  "repository": {
+    "type": "git",
+    "url": "jbandura/ember-legit-forms"
+  },
   "engines": {
     "node": ">= 0.10.0"
   },
-  "author": "Jacek Bandura",
+  "author": {
+    "name": "Jacek Bandura"
+  },
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.2.0",
@@ -38,7 +43,9 @@
     "ember-try": "~0.0.8"
   },
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "forms",
+    "validation"
   ],
   "dependencies": {
     "ember-cli-htmlbars": "^1.0.1",
