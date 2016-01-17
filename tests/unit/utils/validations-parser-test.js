@@ -84,7 +84,7 @@ test('it parses inline validators in rules hash', function(assert) {
   let subject = validationsParser.create();
   let validationsArray = subject.parseRule({
     required: true,
-    custom: function() {
+    inline: function() {
       return true;
     }
   });

@@ -74,7 +74,7 @@ export default Ember.Object.extend({
   _parseObject(rule) {
     return Object.keys(rule).map((key) => {
       // we have a custom validator inside of hash
-      if (key === 'custom') {
+      if (key === 'inline') {
         return {
           isFunction: true,
           validate: rule[key]
