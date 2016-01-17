@@ -1,15 +1,10 @@
 import validator from 'ember-legit-forms/validators/size-validator';
 import { module, test } from 'qunit';
-import Ember from 'ember';
+import argumentsObj from '../../helpers/arguments-obj';
 
 module('Unit | Validators | size');
 
 let subject = validator.create();
-function argumentsObj(size) {
-  return Ember.Object.create({
-    arguments: [size]
-  });
-}
 
 test('it validates properly', function(assert) {
   assert.equal(

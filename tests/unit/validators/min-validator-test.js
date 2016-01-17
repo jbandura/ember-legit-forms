@@ -1,24 +1,25 @@
 import validator from 'ember-legit-forms/validators/min-validator';
 import { module, test } from 'qunit';
-import Ember from 'ember';
+import generateString from '../../helpers/generate-string';
+import argumentsObj from '../../helpers/arguments-obj';
 
 module('Unit | Validators | min');
 
 let subject = validator.create();
-function argumentsObj(min) {
-  return Ember.Object.create({
-    arguments: [min]
-  });
-}
 
 test('it validates properly', function(assert) {
   assert.equal(
-    subject.validate(new Array(5).join('a'), argumentsObj(2)),
+    subject.validate(generateString(2), argumentsObj(2)),
     undefined
   );
 
   assert.equal(
-    subject.validate(new Array(3).join('a'), argumentsObj(3)).message,
+    subject.validate(generateString(3), argumentsObj(2)),
+    undefined
+  );
+
+  assert.equal(
+    subject.validate(generateString(2), argumentsObj(3)).message,
     'tooShort'
   );
 });

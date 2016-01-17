@@ -1,19 +1,11 @@
 import validator from 'ember-legit-forms/validators/max-validator';
 import { module, test } from 'qunit';
-import Ember from 'ember';
+import generateString from '../../helpers/generate-string';
+import argumentsObj from '../../helpers/arguments-obj';
 
 module('Unit | Validators | max');
 
 let subject = validator.create();
-function argumentsObj(max) {
-  return Ember.Object.create({
-    arguments: [max]
-  });
-}
-
-function generateString(length) {
-  return new Array(length + 1).join('a');
-}
 
 test('it validates properly', function(assert) {
   assert.equal(
