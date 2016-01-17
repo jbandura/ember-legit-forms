@@ -9,7 +9,7 @@ export default Ember.Object.extend({
    */
   defaultMessages: {
     'mustBeAccepted': 'must be accepted',
-    'mustBeAlphanumeric': 'must be alphanumeric',
+    'mustBeAlphanumeric': 'must consist only of alphabetic characters',
     'mustBeBetween': 'must be between {{minLength}} and {{maxLength}}',
     'tooLong': 'too long',
     'tooShort': 'too short',

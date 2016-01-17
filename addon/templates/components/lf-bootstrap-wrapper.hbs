@@ -1,0 +1,11 @@
+{{#if label}}
+  <label class="control-label">{{label}}</label>
+{{/if}}
+
+{{yield}}
+
+{{#each errorMessages as |msg|}}
+<p class="help-block">
+  {{msg}}
+</p>
+{{/each}}
