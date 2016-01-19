@@ -1,3 +1,5 @@
-{{#lf-bootstrap-wrapper label=label errorMessages=errorMessages}}
-  {{yield}}
-{{/lf-bootstrap-wrapper}}
+{{component labelComponent label=label}}
+
+{{yield}}
+
+{{component errorMessagesComponent errors=errorMessages}}
