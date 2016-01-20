@@ -39,6 +39,7 @@ Component for creating modern forms along with validations.
     - [`size`](#size)
     - [`regex`](#regex)
     - [`same`](#same)
+    - [`different`](#different)
     - [`url`](#url)
     - [`email`](#email)
 - [Credits](#credits)
@@ -516,6 +517,16 @@ Checks if field value is equal to value of `fieldName`.
 ```js
 password: 'required|min(8)',
 passwordConfirmation: 'same(password)'
+```
+#### `different`
+**locales key**: `mustBeDifferent`
+**default message**: `must be different than {{fieldName}}`
+
+Checks if field value is different than value of `fieldName`.
+##### Example:
+```js
+registeredAddress: 'required',
+corespondanceAddress: 'different(registeredAddress)'
 ```
 #### `url`
 **locales key**: `mustBeValidURL`
