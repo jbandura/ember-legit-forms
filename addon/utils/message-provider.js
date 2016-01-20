@@ -22,6 +22,7 @@ export default Ember.Object.extend({
     "mustBeValidEmail": 'must be a valid email address',
     "mustBeAlpha": 'must consist only of alphabetic characters',
     "mustBeOfSize": 'must be exactly {{size}} characters long',
+    "mustBeDifferent": 'must be different than {{fieldName}}',
     "mustBeSame": 'must match {{fieldName}}'
   },
 
