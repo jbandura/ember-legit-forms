@@ -14,6 +14,9 @@ Component for creating modern forms along with validations.
     - [`lf-textarea`](#lf-textarea)
     - [`lf-select`](#lf-select)
 - [Customizing Wrapper Markup](#customizing-wrapper-markup)
+  - [Customizing Label Component](#customizing-label-component)
+  - [Customizing Error Messages Component](#customizing-error-messages-component)
+  - [Overwrite Error and Label Components Globally](#overwrite-error-and-label-components-globally)
 - [Validators](#validators)
   - [Representing Validators](#representing-validators)
     - [String Representation](#string-representation)
@@ -65,7 +68,7 @@ It can be declared in controller or component, e.g.:
 
   export default Component.extend({
     model: Ember.Object.create({
-      firstName: ''  
+      firstName: ''
     }),
     // rules hash for validation
     rules: {
@@ -215,7 +218,65 @@ Attributes:
 - `valuePath`: represents the key where the value can be found
 - `labelPath`: represents the key where the label can be found
 ## Customizing Wrapper Markup
-<!-- TODO: add a section about customizing markup -->
+If you want to provide a different markup for the label or for displaying error messages
+you can do so passing your own component to any of the inputs.
+You can provide attributes `labelComponent` and `errorMessagesComponent` to any of the input components thus overwriting the default (bootstrap) components.
+
+### Customizing Label Component
+In order to overwrite the label component pass the `labelComponent` attribute providing the name of your component, e.g like so:
+
+```hbs
+{{!-- example-component/template.hbs --}}
+
+{{#lf-form rules=rules as |validateFunction|}}
+  {{lf-input
+    name="foo"
+    property=model.foo
+    labelComponent="my-label-component"
+    validate=validateFunction
+  }}
+```
+
+Your custom component should accept a `label` attribute.
+### Customizing Error Messages Component
+When we want to display error messages in a different way we can do it in the same way we did it with the label component.
+Example:
+```hbs
+{{!-- example-component/template.hbs --}}
+
+{{#lf-form rules=rules as |validateFunction|}}
+  {{lf-input
+    name="foo"
+    property=model.foo
+    errorMessagesComponent="my-errors-component"
+    validate=validateFunction
+  }}
+```
+
+Our `my-errors-component` should accept an `errors` attribute.
+
+### Overwrite Error and Label Components Globally
+
+If you decide that you want to use custom components to do the job of displaying labels and error messages
+you have to extend the `lf-input-wrapper` component in a following way:
+
+```js
+// components/lf-input-wrapper.js
+import LFInputWrapper from 'ember-legit-forms/components/lf-input-wrapper';
+
+function fallBack(fallback) {
+  return computed({
+    get() { return fallback; },
+    set(_, v) { return v === undefined ? fallback : v; }
+  });
+}
+
+export default LFInputWrapper.extend({
+  labelComponent: fallBack('my-own-label-component'),
+  errorMessagesComponent: fallBack('my-own-errors-component'),
+});
+```
+
 ## Validators
 ### Representing Validators
 Validation rules can be defined in component or controller. They can be defined in following ways:
@@ -249,7 +310,7 @@ password: {
     if (value !== 'foobar') {
       return 'invalid value';
     }
-  }  
+  }
 }
 ```
 **Note**: inline validators have to be passed in the `inline` key.
