@@ -470,6 +470,48 @@ Checks whether given field is filled in (uses `Ember.isNone`).
 ```js
 firstName: 'required'
 ```
+
+#### `requiredUnlessData`
+**locales key**: `required`
+**default message**: `can't be blank`
+
+Checks whether given field is filled in (uses `Ember.isNone`) **but**
+it's only checked if the key `dataKey` is not truthy in the `data` hash.
+It basically allows to turn of the `required` validation in certain
+circumstances.
+
+##### Example:
+```js
+// would throw error only if foo key in the
+//data hash would not have a truthy value
+firstName: 'requiredUnlessData(foo)'
+```
+
+It would however mark the field as valid if we passed a following `data` object
+to our `lf-form` component:
+
+```js
+// components/some-components/component.js
+
+import Ember from 'ember';
+const { Component } = Ember;
+export default Component.extend({
+  data: {
+    foo: true
+  },
+
+  rules: {
+    firstName: 'requiredUnlessData(foo)'
+  }
+})
+```
+```hbs
+{{!-- components/some-component/template.hbs --}}
+
+{{#lf-form data=data rules=rule as |validateFunc}}
+  {{!-- inputs go here --}}
+{{/lf-form}}
+```
 #### `accepted`
 **locales key**: `mustBeAccepted`
 **default message**: `must be accepted`
