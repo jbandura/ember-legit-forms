@@ -12,6 +12,7 @@ export default Component.extend(LFInputMixin, {
     this.set('_edited', true);
     let value = isNone(this.get('_value')) ? this.get('property') : this.get('_value');
     this.validateField(value);
+    this.showValidationState();
   },
 
   actions: {
@@ -24,8 +25,9 @@ export default Component.extend(LFInputMixin, {
           this.clearValidations();
           return;
         }
+        this.validateField(value);
         if (this.get('_edited')) {
-          this.validateField(value);
+          this.showValidationState();
         }
       });
     }

@@ -9,6 +9,14 @@ export default Mixin.create({
   property: null, //passed in
 
   /**
+   * This property determines whether errors should be displayed
+   *
+   * @param validationStateVisible
+   * @type {boolean}
+   */
+  validationStateVisible: false,
+
+  /**
    * This property determines whether input is valid. It's used in computing validationState
    *
    * @param valid
@@ -43,8 +51,8 @@ export default Mixin.create({
    * @param validationState
    * @type {String}
    */
-  validationState: computed('valid', '_edited', function() {
-    if (!this.get('_edited')) { return ''; }
+  validationState: computed('valid', 'validationStateVisible', function() {
+    if (!this.get('validationStateVisible')) { return ''; }
     if (!this.get('valid')) { return 'has-error'; }
     return 'has-success';
   }),
@@ -109,5 +117,12 @@ export default Mixin.create({
       '_edited': false,
       'errorMessages': []
     });
+  },
+
+  /**
+   * Setter for validationStateVisible
+   */
+  showValidationState() {
+    this.set('validationStateVisible', true);
   }
 });
