@@ -2,4 +2,6 @@
 
 {{yield}}
 
-{{component errorMessagesComponent errors=errorMessages}}
+{{#if showErrorMessages}}
+  {{component errorMessagesComponent errors=errorMessages}}
+{{/if}}

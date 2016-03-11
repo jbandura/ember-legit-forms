@@ -1,4 +1,10 @@
-{{#lf-input-wrapper errorMessages=errorMessages label=label labelComponent=labelComponent errorMessagesComponent=errorMessagesComponent}}
+{{#lf-input-wrapper
+  errorMessages=errorMessages
+  label=label
+  labelComponent=labelComponent
+  errorMessagesComponent=errorMessagesComponent
+  showErrorMessages=showErrorMessages
+}}
   {{#if hasBlock}}
     <div class="input-group">
       {{yield}}

@@ -1,4 +1,10 @@
-{{#lf-input-wrapper label=label errorMessages=errorMessages labelComponent=labelComponent errorMessagesComponent=errorMessagesComponent}}
+{{#lf-input-wrapper
+  label=label
+  errorMessages=errorMessages
+  labelComponent=labelComponent
+  errorMessagesComponent=errorMessagesComponent
+  showErrorMessages=showErrorMessages
+}}
   <select class="form-control" onchange={{action "optionSelected" value="target.value"}}>
     <option value="">{{prompt}}</option>
     {{#each content as |item|}}
