@@ -61,6 +61,7 @@ export default Mixin.create({
     this._super(...arguments);
     this.set('_edited', true);
     this.validateField(this.get('property'));
+    this.showValidationState();
   },
 
   /**
@@ -124,5 +125,9 @@ export default Mixin.create({
    */
   showValidationState() {
     this.set('validationStateVisible', true);
+  },
+
+  hideValidationState() {
+    this.set('validationStateVisible', false);
   }
 });

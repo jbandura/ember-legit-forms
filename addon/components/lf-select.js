@@ -15,6 +15,7 @@ export default Component.extend(LFInputMixin, {
     if(isNone(this.get('property'))) {
       // we have to reset fields
       this.clearValidations();
+      this.hideValidationState();
       return;
     }
   }),
