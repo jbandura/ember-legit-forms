@@ -84,7 +84,7 @@ validate function that you have to pass to input components:
 ```hbs
   {{!-- example/template.hbs --}}
 
-  {{lf-form rules=rules as |validateFunc|}}
+  {{#lf-form rules=rules as |validateFunc|}}
     {{!-- inputs will go here --}}
   {{/lf-form}}
 ```
@@ -95,7 +95,7 @@ Now you can declare your inputs, for example let's define a simple text input us
 ```hbs
   {{!-- example/template.hbs --}}
 
-  {{lf-form rules=rules as |validateFunc|}}
+  {{#lf-form rules=rules as |validateFunc|}}
     {{lf-input
       name="firstName"
       property=model.firstname
@@ -120,7 +120,7 @@ You've successfully started using `ember-legit-forms`!
 This component does the heavy-lifting of managing field values and valid states. It can be invoked like so:
 
 ```hbs
-{{lf-form
+{{#lf-form
   rules=rules
   data=data
   validityChanged=(action (mut isValid))
@@ -169,7 +169,7 @@ In the description of the components those attributes are going to be omitted to
 This is a simple input field (can also be used as a checkbox). It only accepts the shared attributes:
 
 ```hbs
-{{lf-form rules=rules as |validateFunction|}}
+{{#lf-form rules=rules as |validateFunction|}}
   {{lf-input
     label="Foo property"
     property=foo
