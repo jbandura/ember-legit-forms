@@ -1,45 +1,31 @@
 <div class="container">
   <h2 id="title">Welcome to Ember</h2>
-  {{#lf-form rules=rules as |validateFunction|}}
+  {{#lf-form rules=rules validityChanged=(action (mut isFormValid)) as |validateFunction|}}
     {{lf-input
       label="Name"
       property=model.name
       name="name"
       validate=validateFunction
     }}
-    {{lf-input
-      label="Phone"
-      property=model.phone
-      name="phone"
-      validate=validateFunction
-      on-update=(action (mut model.phone))
-    }}
-    {{lf-input
-      label="E-mail"
-      property=model.email
-      name="email"
-      validate=validateFunction
-    }}
+
     {{lf-textarea
-      label="Description"
-      property=model.description
-      name="description"
+      label="Textarea"
+      property=model.address
+      name="address"
       validate=validateFunction
+      showErrorMessages=false
     }}
+
     {{lf-select
-      label="Groups"
-      name="groups"
+      label="Select"
+      property=model.group
+      name="group"
       content=groups
       labelPath="name"
       valuePath="id"
-      property=model.group
       validate=validateFunction
     }}
-    {{lf-input
-      label="Your interests"
-      property=model.interests
-      name="interests"
-      validate=validateFunction
-    }}
+
+    <button class="btn btn-primary" disabled={{isBtnDisabled}}>Submit</button>
   {{/lf-form}}
 </div>
