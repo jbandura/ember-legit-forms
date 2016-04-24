@@ -16,7 +16,7 @@ export default Controller.extend({
     {id: 2, name: 'Group 2'}
   ],
   model: Ember.Object.create({
-    name: null,
+    name: 'TestName',
     phone: '603572334',
     password: '',
     address: '',
@@ -29,7 +29,25 @@ export default Controller.extend({
 
   rules: {
     name: 'required',
-    address: 'required',
-    group: 'required'
-  },
+    phone: 'required|min(6)|numeric',
+    password: {
+      min: 6,
+      required: true
+    },
+    interests: {
+      required: { check: true, message: 'You must provide your interests' },
+      max: { check: 5, message: 'Too many interests, sorry :('}
+    },
+    email: 'required|email',
+    surname: {
+      regex: /^Ja(.*)/
+    },
+    address: function(value, validator) {
+      if (validator.get('data.someData') !== 'asd') {
+        return 'someData not valid';
+      }
+    },
+    group: 'required',
+    description: 'required|max(30)'
+  }
 });
