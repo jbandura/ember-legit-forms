@@ -4,7 +4,11 @@ import messageProvider from '../utils/message-provider';
 import validatorObject from '../utils/validator-object';
 import Ember from 'ember';
 
-const { computed, isNone } = Ember;
+const {
+  computed,
+  warn,
+  isNone
+} = Ember;
 
 export default Ember.Object.extend({
   lookupService: validationLookup.create(),
@@ -32,6 +36,9 @@ export default Ember.Object.extend({
    */
   data: null,
 
+  alwaysValid: { isValid: true, messages: [], noRules: true},
+
+
   /**
    * Represents all of the registered fields
    *
@@ -43,6 +50,11 @@ export default Ember.Object.extend({
    * @type Array
    */
   fields: computed('rules', function() {
+    if (!this.get('rules')) {
+      warn('[Ember Legit Forms] No rules hash provided. All fields will be valid no matter the input.');
+      return [];
+    }
+
     let rules = this.get('rules');
     let resultObj = Ember.A();
 
@@ -82,20 +94,20 @@ export default Ember.Object.extend({
    * @returns {Object}
    */
   getValidateFunction(fieldName, value) {
-    let rule = this.get('rules')[fieldName];
-    if (rule) {
-      let validations = this.get('parserService').parseRule(rule);
-      let fieldValidation = this._verifyValidity(value, validations, fieldName);
-      let field = this.get('fields').findBy('name', fieldName);
-      field.setProperties({
-        valid: fieldValidation.isValid,
-        value: value
-      });
-
-      return fieldValidation;
+    if (!this.get('rules') || !this.get('rules')[fieldName]) {
+      return this.get('alwaysValid');
     }
-    //when no rules provided
-    return { isValid: true, messages: [], noRules: true};
+
+    const rule = this.get('rules')[fieldName];
+    let validations = this.get('parserService').parseRule(rule);
+    let fieldValidation = this._verifyValidity(value, validations, fieldName);
+    let field = this.get('fields').findBy('name', fieldName);
+    field.setProperties({
+      valid: fieldValidation.isValid,
+      value: value
+    });
+
+    return fieldValidation;
   },
 
   /**
