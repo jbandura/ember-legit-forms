@@ -1,5 +1,10 @@
 # Master
 
+# 1.0.13
+- [FEATURE] added readonly property to `lf-input`
+- [BUGFIX] messages are only shown after focusOut (lf-input)
+- [INTERNAL] move from deprecated one-way-input to one-way-controls addon
+
 # 1.0.12
 - [FEATURE] New `requiredUnlessData` validator (link here)
 - [FEATURE] new `showErrorMessages` option for inputs
