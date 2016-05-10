@@ -1,5 +1,7 @@
 # Master
 
+- [BUGFIX] lack of `rules` hash no longer breaks the form - displays an error message instead
+
 # 1.0.13
 - [FEATURE] added readonly property to `lf-input`
 - [BUGFIX] messages are only shown after focusOut (lf-input)

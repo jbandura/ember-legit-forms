@@ -33,6 +33,15 @@ export default Ember.Object.extend({
   data: null,
 
   /**
+   * Object that is returned in case when no rule is present for current input
+   * or rules hash is not present at all. It marks the form as always valid.
+   *
+   * @property alwaysValid
+   * @type Object
+   */
+  alwaysValid: { isValid: true, messages: [], noRules: true},
+
+  /**
    * Represents all of the registered fields
    *
    * Fields are registered when the rules hash is passed
@@ -73,6 +82,11 @@ export default Ember.Object.extend({
        return acc && Boolean(fieldValue);
     }, true);
   }),
+
+  init() {
+    this._super(...arguments);
+    this.set('rules', this.get('parserService').parseShared());
+  },
 
   /**
    * Calculates whether field is valid and returns error messages in case it is not.

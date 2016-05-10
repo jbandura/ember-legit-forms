@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import _ from 'lodash';
 
 export default Ember.Object.extend({
   /**
@@ -32,6 +33,31 @@ export default Ember.Object.extend({
       );
     });
   },
+
+  parseShared(hash) {
+    const keys = Object.keys(hash);
+    const uniqueValidators = _.omit(hash, ['sharedValidations']);
+    if (keys.indexOf('sharedValidations') === -1) { return hash; }
+    let shared = {};
+    Object.keys(hash.sharedValidations).forEach((key) => {
+      // ['firstName', 'lastName']
+      hash.sharedValidations[key].forEach((input) => {
+        if (uniqueValidators[input]) {
+          const uniq = uniqueValidators[input];
+          delete uniqueValidators[input];
+          return shared[input] = `${key}|${uniq}`;
+        }
+        if(shared[input]) {
+          return shared[input] = `${shared[input]}|${key}`;
+        }
+
+        return shared[input] = key;
+      });
+    });
+
+    return _.merge(uniqueValidators, shared);
+  },
+
   /**
    * Extracts name from rule
    *
