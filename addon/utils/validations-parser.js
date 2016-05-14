@@ -34,24 +34,39 @@ export default Ember.Object.extend({
     });
   },
 
+  /**
+   * Parses rules hash containing shared validations
+   *
+   * Checks if rules hash contains a `sharedValidations` key.
+   * In case it doesn't it simply acts as noop and returns it unchanged.
+   * In cas it does contain the key it parses the shared validations
+   * and produces new hash with the shared validations merged into the
+   * remaining ones
+   *
+   * @param {Object} rules rules hash
+   * @returns {Object} a parsed rules hash with `sharedValidations` key removed
+   */
   parseShared(hash) {
-    const keys = Object.keys(hash);
+    if (!_.includes(Object.keys(hash), 'sharedValidations')) { return hash; }
     const uniqueValidators = _.omit(hash, ['sharedValidations']);
-    if (keys.indexOf('sharedValidations') === -1) { return hash; }
+    const nonSharedValidatorTypes = _.values(uniqueValidators);
+    const nonSharedFieldNames = Object.keys(uniqueValidators);
     let shared = {};
-    Object.keys(hash.sharedValidations).forEach((key) => {
-      // ['firstName', 'lastName']
-      hash.sharedValidations[key].forEach((input) => {
-        if (uniqueValidators[input]) {
-          const uniq = uniqueValidators[input];
-          delete uniqueValidators[input];
-          return shared[input] = `${key}|${uniq}`;
+    Object.keys(hash.sharedValidations).forEach((validatorName) => {
+      hash.sharedValidations[validatorName].forEach((fieldName) => {
+        if (_.includes(nonSharedValidatorTypes, validatorName) && _.includes(nonSharedFieldNames, fieldName)) {
+          // duplicate both in shared and in unique
+          delete uniqueValidators[fieldName];
         }
-        if(shared[input]) {
-          return shared[input] = `${shared[input]}|${key}`;
+        if (uniqueValidators[fieldName]) {
+          const uniq = uniqueValidators[fieldName];
+          delete uniqueValidators[fieldName];
+          return shared[fieldName] = `${validatorName}|${uniq}`;
         }
-
-        return shared[input] = key;
+        if(shared[fieldName]) {
+          return shared[fieldName] = `${shared[fieldName]}|${validatorName}`;
+        }
+        return shared[fieldName] = validatorName;
       });
     });
 

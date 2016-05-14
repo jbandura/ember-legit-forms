@@ -232,3 +232,23 @@ test('it respects sharing between sharedValidators and mixin with unique', funct
     'it should compose validators from different rules in sharedValidators'
   );
 });
+
+test('it ignores duplicated validations', function(assert) {
+  let subject = validationsParser.create();
+  const rules = subject.parseShared({
+    firstName: 'required',
+    sharedValidations: {
+      required: ['firstName', 'lastName'],
+      'min(5)': ['firstName', 'lastName']
+    }
+  });
+  const expectedRules = {
+    firstName: 'required|min(5)',
+    lastName: 'required|min(5)',
+  };
+  assert.deepEqual(
+    rules,
+    expectedRules,
+    'it should not mark firstName as required twice - it should ignore it instead'
+  );
+});

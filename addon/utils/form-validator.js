@@ -22,7 +22,14 @@ export default Ember.Object.extend({
    * rules passed from lf-form component
    * @param {Object}
    */
-  rules: null,
+  rules: computed({
+    get() {
+      return this.get('_rules');
+    },
+    set(key, value) {
+      return this.get('parserService').parseShared(value);
+    }
+  }),
 
   /**
    * Custom data can be passed in form of a POJO if they're required for inline validations.
@@ -82,11 +89,6 @@ export default Ember.Object.extend({
        return acc && Boolean(fieldValue);
     }, true);
   }),
-
-  init() {
-    this._super(...arguments);
-    this.set('rules', this.get('parserService').parseShared());
-  },
 
   /**
    * Calculates whether field is valid and returns error messages in case it is not.
