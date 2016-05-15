@@ -1,6 +1,7 @@
 # Master
 
 - [BUGFIX] lack of `rules` hash no longer breaks the form - displays an error message instead
+- [FEATURE] added possibility to group repeated validations under `sharedValidations` key
 
 # 1.0.13
 - [FEATURE] added readonly property to `lf-input`
