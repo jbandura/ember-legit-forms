@@ -52,7 +52,8 @@
     "ember-cli-babel": "^5.1.5",
     "ember-get-helper": "1.0.4",
     "ember-truth-helpers": "1.2.0",
-    "ember-one-way-controls": "0.8.0"
+    "ember-one-way-controls": "0.8.0",
+    "ember-lodash": "0.0.7"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"

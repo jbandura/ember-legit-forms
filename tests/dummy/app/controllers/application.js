@@ -28,17 +28,18 @@ export default Controller.extend({
   }),
 
   rules: {
-    name: 'required',
-    phone: 'required|min(6)|numeric',
+    sharedValidations: {
+      required: ['name', 'phone', 'password', 'email', 'group', 'description']
+    },
+    phone: 'min(6)|numeric',
     password: {
       min: 6,
-      required: true
     },
     interests: {
       required: { check: true, message: 'You must provide your interests' },
       max: { check: 5, message: 'Too many interests, sorry :('}
     },
-    email: 'required|email',
+    email: 'email',
     surname: {
       regex: /^Ja(.*)/
     },
@@ -47,7 +48,6 @@ export default Controller.extend({
         return 'someData not valid';
       }
     },
-    group: 'required',
-    description: 'required|max(30)'
+    description: 'max(30)'
   }
 });

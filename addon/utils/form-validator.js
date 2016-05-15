@@ -26,7 +26,14 @@ export default Ember.Object.extend({
    * rules passed from lf-form component
    * @param {Object}
    */
-  rules: null,
+  rules: computed({
+    get() {
+      return this.get('_rules');
+    },
+    set(key, value) {
+      return this.get('parserService').parseShared(value);
+    }
+  }),
 
   /**
    * Custom data can be passed in form of a POJO if they're required for inline validations.
@@ -38,6 +45,15 @@ export default Ember.Object.extend({
 
   alwaysValid: { isValid: true, messages: [], noRules: true},
 
+
+  /**
+   * Object that is returned in case when no rule is present for current input
+   * or rules hash is not present at all. It marks the form as always valid.
+   *
+   * @property alwaysValid
+   * @type Object
+   */
+  alwaysValid: { isValid: true, messages: [], noRules: true},
 
   /**
    * Represents all of the registered fields

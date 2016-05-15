@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import _ from 'lodash';
 
 export default Ember.Object.extend({
   /**
@@ -32,6 +33,46 @@ export default Ember.Object.extend({
       );
     });
   },
+
+  /**
+   * Parses rules hash containing shared validations
+   *
+   * Checks if rules hash contains a `sharedValidations` key.
+   * In case it doesn't it simply acts as noop and returns it unchanged.
+   * In cas it does contain the key it parses the shared validations
+   * and produces new hash with the shared validations merged into the
+   * remaining ones
+   *
+   * @param {Object} rules rules hash
+   * @returns {Object} a parsed rules hash with `sharedValidations` key removed
+   */
+  parseShared(hash) {
+    if (!_.includes(Object.keys(hash), 'sharedValidations')) { return hash; }
+    const uniqueValidators = _.omit(hash, ['sharedValidations']);
+    const nonSharedValidatorTypes = _.values(uniqueValidators);
+    const nonSharedFieldNames = Object.keys(uniqueValidators);
+    let shared = {};
+    Object.keys(hash.sharedValidations).forEach((validatorName) => {
+      hash.sharedValidations[validatorName].forEach((fieldName) => {
+        if (_.includes(nonSharedValidatorTypes, validatorName) && _.includes(nonSharedFieldNames, fieldName)) {
+          // duplicate both in shared and in unique
+          delete uniqueValidators[fieldName];
+        }
+        if (uniqueValidators[fieldName]) {
+          const uniq = uniqueValidators[fieldName];
+          delete uniqueValidators[fieldName];
+          return shared[fieldName] = `${validatorName}|${uniq}`;
+        }
+        if(shared[fieldName]) {
+          return shared[fieldName] = `${shared[fieldName]}|${validatorName}`;
+        }
+        return shared[fieldName] = validatorName;
+      });
+    });
+
+    return _.merge(uniqueValidators, shared);
+  },
+
   /**
    * Extracts name from rule
    *

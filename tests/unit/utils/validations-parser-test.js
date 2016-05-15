@@ -113,3 +113,142 @@ test('it parses custom messages', function(assert) {
     customMessage: customMessage
   });
 });
+
+test('it parsers shared validations', function(assert) {
+  let subject = validationsParser.create();
+  const rules = subject.parseShared({
+    sharedValidations: {
+      required: ['firstName', 'lastName']
+    }
+  });
+  const expectedRules = {
+    firstName: 'required',
+    lastName: 'required'
+  };
+
+  assert.deepEqual(rules, expectedRules, 'it should parse shared examples');
+});
+
+test('it parses shared validations and does not touch other keys', function(assert) {
+  let subject = validationsParser.create();
+  const rules = subject.parseShared({
+    address: 'min(5)',
+    sharedValidations: {
+      required: ['firstName', 'lastName']
+    }
+  });
+  const expectedRules = {
+    address: 'min(5)',
+    firstName: 'required',
+    lastName: 'required'
+  };
+  assert.deepEqual(
+    rules,
+    expectedRules,
+    'it should parse shared examples while preserving unique ones'
+  );
+});
+
+test('it parses multiple shared validations along with unique ones', function(assert) {
+  let subject = validationsParser.create();
+  const rules = subject.parseShared({
+    email: 'email',
+    sharedValidations: {
+      required: ['firstName', 'lastName'],
+      'min(5)': ['address', 'phone']
+    }
+  });
+  const expectedRules = {
+    email: 'email',
+    firstName: 'required',
+    lastName: 'required',
+    address: 'min(5)',
+    phone: 'min(5)'
+  };
+  assert.deepEqual(
+    rules,
+    expectedRules,
+    'it should parse shared examples while preserving unique ones'
+  );
+});
+
+test('it respects sharing between sharedValidators and unique validators', function(assert){
+  let subject = validationsParser.create();
+  const rules = subject.parseShared({
+    firstName: 'min(5)',
+    sharedValidations: {
+      required: ['firstName', 'lastName'],
+    }
+  });
+  const expectedRules = {
+    firstName: 'required|min(5)',
+    lastName: 'required',
+  };
+  assert.deepEqual(
+    rules,
+    expectedRules,
+    'it should add shared validations to the existing rules'
+  );
+
+});
+
+test('it respects sharing between sharedValidators', function(assert) {
+  let subject = validationsParser.create();
+  const rules = subject.parseShared({
+    sharedValidations: {
+      required: ['firstName', 'lastName'],
+      'min(5)': ['firstName', 'lastName']
+    }
+  });
+  const expectedRules = {
+    firstName: 'required|min(5)',
+    lastName: 'required|min(5)',
+  };
+  assert.deepEqual(
+    rules,
+    expectedRules,
+    'it should compose validators from different rules in sharedValidators'
+  );
+});
+
+test('it respects sharing between sharedValidators and mixin with unique', function(assert) {
+  let subject = validationsParser.create();
+  const rules = subject.parseShared({
+    email: 'email',
+    firstName: 'max(10)',
+    sharedValidations: {
+      required: ['firstName', 'lastName'],
+      'min(5)': ['firstName', 'lastName']
+    }
+  });
+  const expectedRules = {
+    email: 'email',
+    firstName: 'required|max(10)|min(5)',
+    lastName: 'required|min(5)',
+  };
+  assert.deepEqual(
+    rules,
+    expectedRules,
+    'it should compose validators from different rules in sharedValidators'
+  );
+});
+
+test('it ignores duplicated validations', function(assert) {
+  let subject = validationsParser.create();
+  const rules = subject.parseShared({
+    firstName: 'required',
+    sharedValidations: {
+      required: ['firstName', 'lastName'],
+      'min(5)': ['firstName', 'lastName']
+    }
+  });
+  const expectedRules = {
+    firstName: 'required|min(5)',
+    lastName: 'required|min(5)',
+  };
+  assert.deepEqual(
+    rules,
+    expectedRules,
+    'it should not mark firstName as required twice - it should ignore it instead'
+  );
+});

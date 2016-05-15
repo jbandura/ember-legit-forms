@@ -22,7 +22,8 @@ function generateParserStub() {
       return [{
         name: ruleName
       }];
-    }
+    },
+    parseShared(hash) { return hash; }
   });
 }
 
