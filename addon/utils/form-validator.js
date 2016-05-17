@@ -43,9 +43,6 @@ export default Ember.Object.extend({
    */
   data: null,
 
-  alwaysValid: { isValid: true, messages: [], noRules: true},
-
-
   /**
    * Object that is returned in case when no rule is present for current input
    * or rules hash is not present at all. It marks the form as always valid.
