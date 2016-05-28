@@ -28,9 +28,11 @@ function generateParserStub() {
 }
 
 test('it creates fields from rules', function(assert) {
-  let subject = FormValidator.create().set('rules', {
-    password: 'required',
-    name: 'required|min(6)'
+  let subject = FormValidator.create({
+    rules: {
+      password: 'required',
+      name: 'required|min(6)'
+    }
   });
 
   assert.deepEqual(subject.get('fields')[0].getProperties('name', 'valid'), {
@@ -45,7 +47,7 @@ test('it creates fields from rules', function(assert) {
 });
 
 test('it gets correct validation when all fields correct', function(assert) {
-  let subject = FormValidator.create().setProperties({
+  let subject = FormValidator.create({
     parserService: generateParserStub(),
     lookupService: generateLookupStub({
       required: null
@@ -63,7 +65,7 @@ test('it gets correct validation when all fields correct', function(assert) {
 });
 
 test('it sets correctly fields when all fields correct', function(assert) {
-  let subject = FormValidator.create().setProperties({
+  let subject = FormValidator.create({
     parserService: generateParserStub(),
     lookupService: generateLookupStub({
       required: null
@@ -82,7 +84,7 @@ test('it sets correctly fields when all fields correct', function(assert) {
 });
 
 test('it marks wrong fields', function(assert) {
-  let subject = FormValidator.create().setProperties({
+  let subject = FormValidator.create({
     parserService: generateParserStub(),
     lookupService: generateLookupStub({
       numeric: false
@@ -101,7 +103,7 @@ test('it marks wrong fields', function(assert) {
 });
 
 test('it correctly recalculates fields', function(assert) {
-  let subject = FormValidator.create().setProperties({
+  let subject = FormValidator.create({
     parserService: generateParserStub(),
     lookupService: generateLookupStub({
       numeric: 'not valid'
@@ -129,7 +131,7 @@ test('it correctly recalculates fields', function(assert) {
 });
 
 test('it sets and recalculates isFormValid property correctly', function(assert) {
-  let subject = FormValidator.create().setProperties({
+  let subject = FormValidator.create({
     parserService: generateParserStub(),
     lookupService: generateLookupStub({
       numeric: null,
