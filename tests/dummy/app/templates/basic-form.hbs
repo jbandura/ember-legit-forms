@@ -1,0 +1,35 @@
+<div class="container">
+  <h2 id="title">Welcome to Ember</h2>
+  {{#lf-form rules=rules as |validateFunction formValid|}}
+    {{lf-input
+      label="Name"
+      property=model.name
+      name="name"
+      validate=validateFunction
+      class="js-name"
+    }}
+    {{lf-input
+      label="E-mail"
+      property=model.email
+      name="email"
+      class="js-email"
+      validate=validateFunction
+    }}
+    {{lf-input
+      label="Your interests"
+      property=model.interests
+      name="interests"
+      class="js-interests"
+      validate=validateFunction
+    }}
+    {{lf-input
+      label="Number"
+      property=model.number
+      name="number"
+      class="js-number"
+      validate=validateFunction
+    }}
+
+    <button class="js-submit btn btn-primary" disabled={{not formValid}}>Submit</button>
+  {{/lf-form}}
+</div>
