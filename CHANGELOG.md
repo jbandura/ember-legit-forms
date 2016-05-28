@@ -1,5 +1,8 @@
 # Master
 
+- [FEATURE] `lf-form` component now also yields `formValid` attribute which can
+  be used for example for blocking/enabling of submit buttons
+- [FIX] remove use of container in favor of using getOwner
 - [BUGFIX] lack of `rules` hash no longer breaks the form - displays an error message instead
 - [FEATURE] added possibility to group repeated validations under `sharedValidations` key
 
