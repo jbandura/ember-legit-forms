@@ -17,37 +17,20 @@ export default Controller.extend({
   ],
   model: Ember.Object.create({
     name: 'TestName',
-    phone: '603572334',
-    password: '',
-    address: '',
-    email: '',
-    surname: null,
-    group: 1,
-    description: '',
-    interests: '',
+    email: 'asd@home.co',
+    description: 'sakjakds',
+    interests: 'askd',
   }),
 
   rules: {
     sharedValidations: {
-      required: ['name', 'phone', 'password', 'email', 'group', 'description']
-    },
-    phone: 'min(6)|numeric',
-    password: {
-      min: 6,
+      required: ['name', 'email', 'description']
     },
     interests: {
       required: { check: true, message: 'You must provide your interests' },
       max: { check: 5, message: 'Too many interests, sorry :('}
     },
     email: 'email',
-    surname: {
-      regex: /^Ja(.*)/
-    },
-    address: function(value, validator) {
-      if (validator.get('data.someData') !== 'asd') {
-        return 'someData not valid';
-      }
-    },
     description: 'max(30)'
   }
 });

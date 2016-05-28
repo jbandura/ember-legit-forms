@@ -1,19 +1,11 @@
 <div class="container">
   <h2 id="title">Welcome to Ember</h2>
-  {{#lf-form rules=rules as |validateFunction|}}
+  {{#lf-form rules=rules as |validateFunction formValid|}}
     {{lf-input
       label="Name"
       property=model.name
       name="name"
       validate=validateFunction
-    }}
-    {{lf-input
-      label="Phone"
-      property=model.phone
-      name="phone"
-      validate=validateFunction
-      readonly=true
-      on-update=(action (mut model.phone))
     }}
     {{lf-input
       label="E-mail"
@@ -27,20 +19,13 @@
       name="description"
       validate=validateFunction
     }}
-    {{lf-select
-      label="Groups"
-      name="groups"
-      content=groups
-      labelPath="name"
-      valuePath="id"
-      property=model.group
-      validate=validateFunction
-    }}
     {{lf-input
       label="Your interests"
       property=model.interests
       name="interests"
       validate=validateFunction
     }}
+
+    <button class="btn btn-primary" disabled={{not formValid}}>Submit</button>
   {{/lf-form}}
 </div>
