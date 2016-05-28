@@ -1,8 +1,13 @@
 import Ember from 'ember';
 import layout from '../templates/components/lf-form';
 import formValidator from '../utils/form-validator';
+import getOwner from 'ember-getowner-polyfill';
 
-const { Component, computed, observer } = Ember;
+const {
+  Component,
+  computed,
+  observer
+} = Ember;
 
 export default Component.extend({
   layout,
@@ -20,7 +25,7 @@ export default Component.extend({
   init() {
     this._super(...arguments);
     this.set('formValidator', formValidator.create({
-      container: this.get('container'),
+      container: getOwner(this),
       rules: this.get('rules'),
       data: this.get('data')
     }));
