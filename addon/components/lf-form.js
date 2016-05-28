@@ -9,7 +9,7 @@ export default Component.extend({
   formValidator: null,
   rules: null, //passed in
   data: null, //passed in
-  _formValid: computed('formValidator.isFormValid', function() {
+  formValid: computed('formValidator.isFormValid', function() {
     if (this.get('formValidator')) {
       return this.get('formValidator.isFormValid');
     }
@@ -33,7 +33,7 @@ export default Component.extend({
   actions: {
     validateChange(name, value) {
       let validityData = this.get('formValidator').getValidateFunction(name, value);
-      this.sendAction('validityChanged', this.get('_formValid'));
+      this.sendAction('validityChanged', this.get('formValid'));
       return validityData;
     }
   }
