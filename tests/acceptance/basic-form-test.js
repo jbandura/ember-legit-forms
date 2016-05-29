@@ -1,14 +1,10 @@
 import { test } from 'qunit';
 import moduleForAcceptance from '../../tests/helpers/module-for-acceptance';
+import { fillInAndBlurAcceptance as fillInAndBlur } from '../helpers/ember-legit-forms';
 
 moduleForAcceptance('Acceptance | basic form with inputs only', {
   beforeEach() { visit('/basic-form'); }
 });
-
-function fillInAndBlur(selector, value, inputType = 'input') {
-  fillIn(`${selector} ${inputType}`, value);
-  triggerEvent(selector, 'blur');
-}
 
 const fieldValues = {
   name: 'John',
