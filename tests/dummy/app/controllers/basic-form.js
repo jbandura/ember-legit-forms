@@ -3,9 +3,12 @@ import Ember from 'ember';
 const { Controller } = Ember;
 
 export default Controller.extend({
-  model: Ember.Object.create({
+  model: {
     email: 'asd@home.co',
-  }),
+    name: null,
+    interests: null,
+    number: null
+  },
 
   rules: {
     sharedValidations: {
@@ -13,5 +16,11 @@ export default Controller.extend({
     },
     email: 'email',
     number: 'numeric'
+  },
+
+  actions: {
+    clear() {
+      this.set('model', { email: null, name: null, interests: null, number: null});
+    }
   }
 });

@@ -2,11 +2,21 @@ import Ember from 'ember';
 import layout from '../templates/components/lf-input';
 import LFInputMixin from '../mixins/lf-input-mixin';
 
-const { Component, isNone, run } = Ember;
+const {
+  Component,
+  isNone,
+  observer,
+  run: { once },
+} = Ember;
 
 export default Component.extend(LFInputMixin, {
   layout,
   placeholder: null, //passed in
+  propChanged: observer('property', function() {
+    if (isNone(this.get('property'))) {
+      this.clearValidations();
+    }
+  }),
 
   focusOut() {
     this.set('_edited', true);
@@ -17,14 +27,9 @@ export default Component.extend(LFInputMixin, {
 
   actions: {
     valueChanged(value) {
-      run.once(() => {
+      once(() => {
         this.set('_value', value);
         this.callUpdateHook(value);
-        if (isNone(value)) {
-          // we have to reset fields
-          this.clearValidations();
-          return;
-        }
         this.validateField(value);
         if (this.get('_edited')) {
           this.showValidationState();

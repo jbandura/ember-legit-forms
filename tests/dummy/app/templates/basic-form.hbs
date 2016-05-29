@@ -7,6 +7,7 @@
       name="name"
       validate=validateFunction
       class="js-name"
+      on-update=(action (mut model.name))
     }}
     {{lf-input
       label="E-mail"
@@ -14,6 +15,7 @@
       name="email"
       class="js-email"
       validate=validateFunction
+      on-update=(action (mut model.email))
     }}
     {{lf-input
       label="Your interests"
@@ -21,15 +23,18 @@
       name="interests"
       class="js-interests"
       validate=validateFunction
+      on-update=(action (mut model.interests))
     }}
     {{lf-input
       label="Number"
       property=model.number
       name="number"
       class="js-number"
+      on-update=(action (mut model.number))
       validate=validateFunction
     }}
 
     <button class="js-submit btn btn-primary" disabled={{not formValid}}>Submit</button>
   {{/lf-form}}
+  <button class="js-clear btn btn-default" {{action "clear"}}>Clear</button>
 </div>
