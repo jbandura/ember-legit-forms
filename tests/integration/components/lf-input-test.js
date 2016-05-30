@@ -1,6 +1,6 @@
 import hbs from 'htmlbars-inline-precompile';
-// import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import { fillInBlurIntegration as fillInBlur } from '../../helpers/ember-legit-forms';
 
 moduleForComponent('lf-input', 'Integration | Component | lf-input', {
   integration: true
@@ -31,7 +31,7 @@ test('it shows error validation state', function(assert) {
 
   let $form = this.$('.form-group');
 
-  this.$('.form-control').trigger('blur').trigger('focusout');
+  fillInBlur(this, '.form-group', null);
   assert.equal($form.attr('class'), 'ember-view form-group has-error');
 });
 
@@ -40,7 +40,7 @@ test('it shows success validation state', function(assert) {
 
   let $form = this.$('.form-group');
 
-  this.$('.form-control').val('asd').trigger('focusout');
+  fillInBlur(this, '.form-group', 'asd');
   assert.equal($form.attr('class'), 'ember-view form-group has-success');
 });
 

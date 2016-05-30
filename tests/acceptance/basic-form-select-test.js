@@ -1,6 +1,6 @@
 import { test } from 'qunit';
 import moduleForAcceptance from '../../tests/helpers/module-for-acceptance';
-import { fillInAndBlurAcceptance as fillInAndBlur } from '../helpers/ember-legit-forms';
+import { fillInBlurAcceptance as fillInAndBlur, fillInSelectAcceptance as fillInSelect } from '../helpers/ember-legit-forms';
 
 moduleForAcceptance('Acceptance | inputs, selects and textareas', {
   beforeEach() { visit('/basic-form-select'); }
@@ -8,7 +8,7 @@ moduleForAcceptance('Acceptance | inputs, selects and textareas', {
 
 test('when fields filled in properly', function(assert){
   fillInAndBlur('.js-name', 'John');
-  fillInAndBlur('.js-group', 1, 'select');
+  fillInSelect('.js-group', 1);
   fillInAndBlur('.js-description', 'lorem ipsum', 'textarea');
 
   andThen(() => {

@@ -1,6 +1,6 @@
 import hbs from 'htmlbars-inline-precompile';
-// import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import { fillInSelectIntegration } from '../../helpers/ember-legit-forms';
 
 moduleForComponent('lf-select', 'Integration | Component | lf-select', {
   integration: true
@@ -59,7 +59,7 @@ test('it shows success validation state', function(assert) {
   setupSelect(this, true);
 
   let $form = this.$('.form-group');
-  this.$('.form-control').val('asd').trigger('focusout');
+  fillInSelectIntegration(this, '.form-group', 'asd', 'select');
   assert.equal($form.attr('class'), 'ember-view form-group has-success');
 });
 
@@ -67,10 +67,11 @@ test('it shows validation state only after focusOut', function(assert) {
   setupSelect(this, true);
 
   let $form = this.$('.form-group');
-  $('.form-control option[value="val2"]').attr('selected', 'selected');
+  const $select = this.$('.form-control');
+  $select.val('val2');
 
   assert.equal($form.attr('class'), 'ember-view form-group');
-  $('.form-control').trigger('blur');
+  $select.trigger('blur');
   assert.equal($form.attr('class'), 'ember-view form-group has-success');
 });
 
