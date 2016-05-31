@@ -23,7 +23,7 @@
       validate=v
       label="Description"
       class="js-description"
-      on-update=(action "textareaUpdated")
+      on-update=(action (mut model.description))
     }}
 
     <button class="js-submit btn btn-primary" disabled={{not formValid}}>Submit</button>
