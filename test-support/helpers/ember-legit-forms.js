@@ -11,11 +11,15 @@ export function fillInSelectAcceptance(selector, value) {
 
 export function fillInBlurIntegration(context, selector, value, inputType = 'input') {
   const $input = context.$(`${selector} ${inputType}`);
-  $input.val(value);
-  $input.trigger('change');
-  $input.trigger('blur');
+  $input.val(value)
+    .trigger('change')
+    .trigger('blur');
 }
 
 export function fillInSelectIntegration(context, selector, value) {
   fillInBlurIntegration(context, selector, value, 'select');
+}
+
+export function fillInTextareaIntegration(context, selector, value) {
+  fillInBlurIntegration(context, selector, value, 'textarea');
 }

@@ -5,12 +5,13 @@
   errorMessagesComponent=errorMessagesComponent
   showErrorMessages=showErrorMessages
 }}
-  <textarea
+  {{one-way-textarea
+    value=property
     class="form-control"
-    value={{property}}
-    onkeyup={{action "valueChanged" value="target.value"}}
-    onblur={{action "valueChanged" value="target.value"}}
-    rows={{rows}}
-    placeholder={{placeholder}}
-  />
+    update=(action "valueChanged")
+    rows=rows
+    placeholder=placeholder
+    disabled=disabled
+    readonly=readonly
+  }}
 {{/lf-input-wrapper}}

@@ -15,5 +15,10 @@ export default Controller.extend({
     sharedValidations: {
       required: ['group', 'name', 'description']
     }
+  },
+  actions: {
+    textareaUpdated(val) {
+      debugger;
+    }
   }
 });

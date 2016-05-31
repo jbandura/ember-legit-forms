@@ -6,13 +6,17 @@ moduleForComponent('lf-select', 'Integration | Component | lf-select', {
   integration: true
 });
 
-function setupSelect(context, isValid = true) {
-  context.set('validateAction', () => { return { isValid };});
-  context.set('value', 'val1');
-  context.set('options', [
-    { id: 'val1', name: 'Value 1'},
-    { id: 'val2', name: 'Value 2'}
-  ]);
+function setupSelect(context, isValid = true, updateAction = null) {
+  const onUpdate = updateAction || function() {};
+  context.setProperties({
+    onUpdate,
+    value: 'val1',
+    options: [
+      { id: 'val1', name: 'Value 1'},
+      { id: 'val2', name: 'Value 2'}
+    ],
+    validateAction() { return { isValid }; },
+  });
   context.render(hbs`{{lf-select
     label="Select"
     property=value
@@ -21,6 +25,7 @@ function setupSelect(context, isValid = true) {
     valuePath="id"
     labelPath="name"
     validate=(action validateAction)
+    on-update=(action onUpdate)
   }}`);
 }
 
@@ -107,4 +112,13 @@ test('it resets and hides validation state when property set to null', function(
     '-- select --',
     'it goes back to prompt when property set to null'
   );
+});
+
+test('it calls the on-update action', function(assert) {
+  assert.expect(1);
+  setupSelect(this, true, (val) => {
+    assert.equal(val, 'val1', 'it should call the action with proper value');
+  });
+
+  fillInSelectIntegration(this, '.form-group', 'val1');
 });
