@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/jbandura/ember-legit-forms.svg?branch=master)](https://travis-ci.org/jbandura/ember-legit-forms)
 [![Ember Observer Score](http://emberobserver.com/badges/ember-legit-forms.svg)](http://emberobserver.com/addons/ember-legit-forms)
+[![npm version](https://badge.fury.io/js/ember-legit-forms.svg)](https://badge.fury.io/js/ember-legit-forms)
 
 ![](https://raw.githubusercontent.com/jbandura/ember-legit-forms/master/github.png)
 
