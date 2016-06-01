@@ -3,6 +3,7 @@
 - [FEATURE] add fillIn helpers for acceptance and integration tests
 - [INTERNAL] improve test coverage by adding acceptance tests
 - [INTERNAL] upgrade ember & ember-cli versions
+- [FIX] get rid of container lookup
 - [FEATURE] `lf-form` component now also yields `formValid` attribute which can
   be used for example for blocking/enabling of submit buttons
 - [FIX] remove use of container in favor of using getOwner
