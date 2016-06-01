@@ -61,3 +61,15 @@ test('when models set to null it resets the validation state', function(assert){
   });
 });
 
+test('it calls the onsubmit action when submit clicked', function(assert){
+  Object.keys(fieldValues).forEach(key => {
+    fillInAndBlur(`.js-${key}`, fieldValues[key]);
+  });
+
+  click('.js-submit');
+
+  andThen(() => {
+    assert.ok(find('.js-form-submitted-alert').length, 'it shows the success message');
+  });
+});
+
