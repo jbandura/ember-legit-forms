@@ -1,6 +1,7 @@
 # Master
 
 - [FEATURE] add fillIn helpers for acceptance and integration tests
+- [FEATURE] add onSubmit handler to lf-form component + change tagName to form
 - [INTERNAL] improve test coverage by adding acceptance tests
 - [INTERNAL] upgrade ember & ember-cli versions
 - [FIX] get rid of container lookup
