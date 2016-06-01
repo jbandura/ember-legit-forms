@@ -1,15 +1,23 @@
 import hbs from 'htmlbars-inline-precompile';
-// import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import { fillInBlurIntegration as fillInBlur } from '../../helpers/ember-legit-forms';
 
 moduleForComponent('lf-input', 'Integration | Component | lf-input', {
   integration: true
 });
 
-function setupInput(context, isValid = true) {
+function setupInput(context, isValid = true, updateAction = null) {
+  const onUpdate = updateAction || function() {};
+  context.set('onUpdate', onUpdate);
   context.set('validateAction', function() { return { isValid }; });
   context.set('name', 'Test');
-  context.render(hbs`{{lf-input label="Name" property=name name="name" validate=(action validateAction)}}`);
+  context.render(hbs`{{lf-input
+    label="Name"
+    property=name
+    name="name"
+    validate=(action validateAction)
+    on-update=(action onUpdate)
+  }}`);
 }
 
 test('it renders the input with all markup',function(assert) {
@@ -31,7 +39,7 @@ test('it shows error validation state', function(assert) {
 
   let $form = this.$('.form-group');
 
-  this.$('.form-control').trigger('blur').trigger('focusout');
+  fillInBlur(this, '.form-group', null);
   assert.equal($form.attr('class'), 'ember-view form-group has-error');
 });
 
@@ -40,7 +48,7 @@ test('it shows success validation state', function(assert) {
 
   let $form = this.$('.form-group');
 
-  this.$('.form-control').val('asd').trigger('focusout');
+  fillInBlur(this, '.form-group', 'asd');
   assert.equal($form.attr('class'), 'ember-view form-group has-success');
 });
 
@@ -73,4 +81,13 @@ test('it validates only after first focusOut', function(assert) {
    'ember-view form-group has-success',
    'it should validate after focusOut'
  );
+});
+
+test('it triggers the on-update action', function(assert){
+  assert.expect(1);
+  setupInput(this, true, (val) => {
+    assert.equal(val, 'value', 'it triggers the action with proper argument');
+  });
+
+  fillInBlur(this, '.form-group', 'value');
 });

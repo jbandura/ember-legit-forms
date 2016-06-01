@@ -1,6 +1,7 @@
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import { fillInTextareaIntegration as fillInTextarea } from '../../helpers/ember-legit-forms';
 
 const { run } = Ember;
 
@@ -8,7 +9,9 @@ moduleForComponent('lf-textarea', 'Integration | Component | lf-textarea', {
   integration: true
 });
 
-function setupTextarea(context, isValid = true) {
+function setupTextarea(context, isValid = true, updateHandler = null) {
+  const onUpdate = updateHandler || function () {};
+  context.set('onUpdate', onUpdate);
   context.set('validateAction', () => { return { isValid };});
   context.set(
     'description',
@@ -24,6 +27,7 @@ function setupTextarea(context, isValid = true) {
     property=description
     name="value"
     validate=(action validateAction)
+    on-update=(action onUpdate)
   }}`);
 }
 
@@ -100,4 +104,13 @@ test('it resets and hides validation state when property set to null', function(
       'it has no validation state when property set to null'
     );
   });
+});
+
+test('it calls the onupdate handler', function(assert) {
+  assert.expect(1);
+  setupTextarea(this, true, (val) => {
+    assert.equal(val, 'Lorem ipsum');
+  });
+
+  fillInTextarea(this, '.form-group', 'Lorem ipsum');
 });

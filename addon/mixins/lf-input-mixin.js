@@ -116,7 +116,8 @@ export default Mixin.create({
     this.validateField(null);
     this.setProperties({
       '_edited': false,
-      'errorMessages': []
+      'errorMessages': [],
+      validationStateVisible: false
     });
   },
 

@@ -1,0 +1,32 @@
+<div class="container">
+  {{#lf-form rules=rules as |v formValid|}}
+    {{lf-input
+      label="Name"
+      property=model.name
+      name="name"
+      validate=v
+      class="js-name"
+      on-update=(action (mut model.name))
+    }}
+    {{lf-select
+      property=model.group
+      name="group"
+      label="Group"
+      content=groups
+      validate=v
+      class="js-group"
+      on-update=(action (mut model.group))
+    }}
+    {{lf-textarea
+      property=model.description
+      name="description"
+      validate=v
+      label="Description"
+      class="js-description"
+      on-update=(action (mut model.description))
+    }}
+
+    <button class="js-submit btn btn-primary" disabled={{not formValid}}>Submit</button>
+  {{/lf-form}}
+  <button class="js-clear btn btn-default" {{action "clear"}}>Clear</button>
+</div>

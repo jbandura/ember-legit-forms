@@ -8,8 +8,8 @@ export default Component.extend(LFInputMixin, {
   layout,
   content: null, //passed in
   prompt: '-- select --', //passed in
-  valuePath: null,
-  labelPath: null,
+  valuePath: 'value',
+  labelPath: 'label',
 
   propertyDidChange: observer('property', function() {
     if(isNone(this.get('property'))) {
