@@ -9,6 +9,10 @@ export function fillInSelectAcceptance(selector, value) {
   fillInBlurAcceptance(selector, value, 'select');
 }
 
+export function fillInTextareaAcceptance(selector, value) {
+  fillInBlurAcceptance(selector, value, 'textarea');
+}
+
 export function fillInBlurIntegration(context, selector, value, inputType = 'input') {
   const $input = context.$(`${selector} ${inputType}`);
   $input.val(value)

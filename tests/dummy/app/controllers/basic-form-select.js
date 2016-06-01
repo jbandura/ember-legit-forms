@@ -15,5 +15,14 @@ export default Controller.extend({
     sharedValidations: {
       required: ['group', 'name', 'description']
     }
+  },
+  actions: {
+    clear() {
+      this.set('model', {
+        name: null,
+        group: null,
+        description: null
+      });
+    }
   }
 });
