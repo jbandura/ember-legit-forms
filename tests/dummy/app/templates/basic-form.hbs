@@ -1,5 +1,8 @@
 <div class="container">
-  {{#lf-form rules=rules as |validateFunction formValid|}}
+  {{#if formSubmitted}}
+    <div class="js-form-submitted-alert alert alert-info">Form submitted!</div>
+  {{/if}}
+  {{#lf-form rules=rules onSubmit=(action "submit") as |validateFunction formValid|}}
     {{lf-input
       label="Name"
       property=model.name

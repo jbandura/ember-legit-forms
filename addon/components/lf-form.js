@@ -11,6 +11,7 @@ const {
 
 export default Component.extend({
   layout,
+  tagName: 'form',
   formValidator: null,
   rules: null, //passed in
   data: null, //passed in
@@ -34,6 +35,13 @@ export default Component.extend({
   dataChanged: observer('data', function() {
     this.get('formValidator').set('data', this.get('data'));
   }),
+
+  submit(e) {
+    e.preventDefault();
+    if (this.get('onSubmit')) {
+      this.get('onSubmit')(this.get('formValid'));
+    }
+  },
 
   actions: {
     validateChange(name, value) {
