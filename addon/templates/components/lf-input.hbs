@@ -7,7 +7,9 @@
 }}
   {{#if hasBlock}}
     <div class="input-group">
-      {{yield}}
+      {{#if (eq addonPlacement 'before')}}
+        {{yield}}
+      {{/if}}
       {{one-way-input
         value=property
         update=(action "valueChanged")
@@ -17,6 +19,9 @@
         readonly=readonly
         class="form-control"
       }}
+      {{#if (eq addonPlacement 'after')}}
+        {{yield}}
+      {{/if}}
     </div>
   {{else}}
       {{one-way-input
