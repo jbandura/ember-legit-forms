@@ -44,6 +44,35 @@ test(
   }
 );
 
+test('it has proper `for` attribute set on label', function(assert) {
+  setupSelect(this);
+
+  assert.equal(this.$('.control-label').attr('for'), this.$('select.form-control').attr('id'),
+    'it has proper `for` attribute set');
+});
+
+test('it passes custom `id` to inner select and label', function(assert) {
+  setupSelect(this);
+
+  this.render(hbs`{{lf-select
+    inputId="uniqueId"
+    label="Select"
+    property=value
+    content=options
+    name="value"
+    valuePath="id"
+    labelPath="name"
+    validate=(action validateAction)
+    on-update=(action onUpdate)
+  }}`);
+
+  assert.equal(this.$('.control-label').attr('for'), 'uniqueId',
+    'it has proper id set in label\'s `for` attribute');
+
+  assert.equal(this.$('select.form-control').attr('id'), 'uniqueId',
+    'it has proper id set on select');
+});
+
 test('it has no validation state when rendered', function(assert) {
   setupSelect(this);
 
