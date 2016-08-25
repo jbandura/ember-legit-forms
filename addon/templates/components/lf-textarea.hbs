@@ -1,11 +1,13 @@
 {{#lf-input-wrapper
   errorMessages=errorMessages
   label=label
+  labelFor=id
   labelComponent=labelComponent
   errorMessagesComponent=errorMessagesComponent
   showErrorMessages=showErrorMessages
 }}
   {{one-way-textarea
+    id=id
     value=property
     class="form-control"
     update=(action "valueChanged")
