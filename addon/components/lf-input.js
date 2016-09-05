@@ -12,6 +12,7 @@ const {
 export default Component.extend(LFInputMixin, {
   layout,
   placeholder: null, //passed in
+  addonPlacement: 'before',
   propChanged: observer('property', function() {
     if (isNone(this.get('property'))) {
       this.clearValidations();
