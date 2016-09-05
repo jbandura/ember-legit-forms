@@ -3,18 +3,7 @@
     <div class="js-form-submitted-alert alert alert-info">Form submitted!</div>
   {{/if}}
   {{#lf-form rules=rules onSubmit=(action "submit") as |validateFunction formValid|}}
-    {{#lf-input
-      label="Name"
-      property=model.name
-      name="name"
-      validate=validateFunction
-      class="js-name"
-      on-update=(action (mut model.name))
-      addonPlacement='after'
-    }}
-      <span class="input-group-addon" id="basic-addon1">@</span>
-    {{/lf-input}}
-    {{#lf-input
+    {{lf-input
       label="Name"
       property=model.name
       name="name"
@@ -22,8 +11,14 @@
       class="js-name"
       on-update=(action (mut model.name))
     }}
-      <span class="input-group-addon" id="basic-addon1">-</span>
-    {{/lf-input}}
+    {{lf-input
+      label="Email"
+      property=model.name
+      name="email"
+      validate=validateFunction
+      class="js-email"
+      on-update=(action (mut model.name))
+    }}
     {{lf-input
       label="Your interests"
       property=model.interests
