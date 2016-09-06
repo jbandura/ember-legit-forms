@@ -41,6 +41,32 @@ test(
   }
 );
 
+test('it has proper `for` attribute set on label', function(assert) {
+  setupTextarea(this);
+
+  assert.equal(this.$('.control-label').attr('for'), this.$('.form-control').attr('id'),
+    'it has proper `for` attribute set');
+});
+
+test('it passes custom `id` to inner textarea and label', function(assert) {
+  setupTextarea(this);
+
+  this.render(hbs`{{lf-textarea
+    inputId="uniqueId"
+    label="Description"
+    property=description
+    name="value"
+    validate=(action validateAction)
+    on-update=(action onUpdate)
+  }}`);
+
+  assert.equal(this.$('.control-label').attr('for'), 'uniqueId',
+    'it has proper id set in label\'s `for` attribute');
+
+  assert.equal(this.$('.form-control').attr('id'), 'uniqueId',
+    'it has proper id set on textarea');
+});
+
 test('it has no validation state when rendered', function(assert) {
   setupTextarea(this);
 

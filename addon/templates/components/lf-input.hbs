@@ -1,6 +1,7 @@
 {{#lf-input-wrapper
   errorMessages=errorMessages
   label=label
+  labelFor=id
   labelComponent=labelComponent
   errorMessagesComponent=errorMessagesComponent
   showErrorMessages=validationStateVisible
@@ -11,6 +12,7 @@
         {{yield}}
       {{/if}}
       {{one-way-input
+        id=id
         value=property
         update=(action "valueChanged")
         placeholder=placeholder
@@ -25,6 +27,7 @@
     </div>
   {{else}}
       {{one-way-input
+        id=id
         value=property
         update=(action "valueChanged")
         placeholder=placeholder
