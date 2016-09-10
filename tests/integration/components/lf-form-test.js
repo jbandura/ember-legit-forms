@@ -70,3 +70,28 @@ test('it displays errors on submit when preventSubmit=true', function(assert){
   assert.ok(this.$('.js-textarea').hasClass('has-error'), 'it should display error on submit');
   assert.ok(this.$('.js-select').hasClass('has-error'), 'it should display error on submit');
 });
+
+test('it allows to submit form when it\'s valid and preventSubmit=true', function(assert){
+  assert.expect(1);
+
+  this.set('rules', {
+    input: 'required',
+  });
+
+  this.set('onSubmit', () => {
+    assert.ok(true, 'action is called on submit');
+  });
+
+  this.render(hbs`
+  {{#lf-form rules=rules onSubmit=(action onSubmit) preventSubmit=true as |v|}}
+    {{lf-input
+      class='js-input'
+      name='input'
+      validate=v
+    }}
+    <button class="js-submit">Submit</button>
+  {{/lf-form}}`);
+
+  this.$('.js-input input').val('example value').trigger('change');
+  this.$('.js-submit').trigger('click');
+});

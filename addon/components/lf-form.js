@@ -43,7 +43,7 @@ export default Component.extend({
   submit(e) {
     e.preventDefault();
 
-    if (this.get('preventSubmit')) {
+    if (this.get('preventSubmit') && !this.get('formValid')) {
       this.get('eventDispatcher').trigger('lf-forceValidate');
     } else if (this.get('onSubmit')) {
       this.get('onSubmit')(this.get('formValid'));
