@@ -1,14 +1,18 @@
 {{#lf-input-wrapper
   errorMessages=errorMessages
   label=label
+  labelFor=id
   labelComponent=labelComponent
   errorMessagesComponent=errorMessagesComponent
   showErrorMessages=validationStateVisible
 }}
   {{#if hasBlock}}
     <div class="input-group">
-      {{yield}}
+      {{#if (eq addonPlacement 'before')}}
+        {{yield}}
+      {{/if}}
       {{one-way-input
+        id=id
         value=property
         update=(action "valueChanged")
         placeholder=placeholder
@@ -17,9 +21,13 @@
         readonly=readonly
         class="form-control"
       }}
+      {{#if (eq addonPlacement 'after')}}
+        {{yield}}
+      {{/if}}
     </div>
   {{else}}
       {{one-way-input
+        id=id
         value=property
         update=(action "valueChanged")
         placeholder=placeholder

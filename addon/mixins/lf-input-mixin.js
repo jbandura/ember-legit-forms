@@ -10,6 +10,10 @@ export default Mixin.create({
   name: null, //passed in
   property: null, //passed in
 
+  id: computed('inputId', function() {
+    return this.get('inputId') || `ember${Ember.uuid()}`;
+  }),
+
   /**
    * This property determines whether errors should be displayed
    *

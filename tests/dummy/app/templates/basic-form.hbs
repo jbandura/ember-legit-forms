@@ -12,12 +12,12 @@
       on-update=(action (mut model.name))
     }}
     {{lf-input
-      label="E-mail"
-      property=model.email
+      label="Email"
+      property=model.name
       name="email"
-      class="js-email"
       validate=validateFunction
-      on-update=(action (mut model.email))
+      class="js-email"
+      on-update=(action (mut model.name))
     }}
     {{lf-input
       label="Your interests"

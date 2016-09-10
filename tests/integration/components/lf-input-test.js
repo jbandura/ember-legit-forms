@@ -20,11 +20,37 @@ function setupInput(context, isValid = true, updateAction = null) {
   }}`);
 }
 
-test('it renders the input with all markup',function(assert) {
+test('it renders the input with all markup', function(assert) {
   setupInput(this);
 
   assert.equal(this.$('.control-label').text().trim(), 'Name', 'it has proper label');
   assert.equal(this.$('.form-group').length, 1, 'it has a form-group div');
+});
+
+test('it has proper `for` attribute set on label', function(assert) {
+  setupInput(this);
+
+  assert.equal(this.$('.control-label').attr('for'), this.$('.form-control').attr('id'),
+    'it has proper `for` attribute set');
+});
+
+test('it passes custom `id` to inner input and label', function(assert) {
+  setupInput(this);
+
+  this.render(hbs`{{lf-input
+    inputId="uniqueId"
+    label="Name"
+    property=name
+    name="name"
+    validate=(action validateAction)
+    on-update=(action onUpdate)
+  }}`);
+
+  assert.equal(this.$('.control-label').attr('for'), 'uniqueId',
+    'it has proper id set in label\'s `for` attribute');
+
+  assert.equal(this.$('.form-control').attr('id'), 'uniqueId',
+    'it has proper id set on input');
 });
 
 test('it has no validation state when rendered', function(assert) {
@@ -54,6 +80,7 @@ test('it shows success validation state', function(assert) {
 
 test('it resets validation state when property set to null', function(assert) {
   setupInput(this);
+
   this.set('name', null);
   let $form = this.$('.form-group');
 
