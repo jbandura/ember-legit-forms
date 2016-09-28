@@ -1,8 +1,10 @@
 import Ember from 'ember';
 
-const { Mixin, computed, run } = Ember;
+const { Mixin, computed, run, inject: { service } } = Ember;
 
 export default Mixin.create({
+  eventDispatcher: service('lf-event-dispatcher'),
+
   classNames: ['form-group'],
   classNameBindings: ['validationState'],
   name: null, //passed in
@@ -63,9 +65,12 @@ export default Mixin.create({
 
   focusOut() {
     this._super(...arguments);
-    this.set('_edited', true);
-    this.validateField(this.get('property'));
-    this.showValidationState();
+    this.executeValidate();
+  },
+
+  init() {
+    this._super(...arguments);
+    this.get('eventDispatcher').on('lf-forceValidate', this, this.onForceValidate);
   },
 
   /**
@@ -81,6 +86,17 @@ export default Mixin.create({
 
       this.attrs.validate(this.get('name'), this.get('property'));
     });
+  },
+
+  willDestroyElement() {
+    this._super(...arguments);
+    this.get('eventDispatcher').off('lf-forceValidate', this, this.onForceValidate);
+  },
+
+  executeValidate() {
+    this.set('_edited', true);
+    this.validateField(this.get('property'));
+    this.showValidationState();
   },
 
   /**
@@ -134,5 +150,12 @@ export default Mixin.create({
 
   hideValidationState() {
     this.set('validationStateVisible', false);
-  }
+  },
+
+  /**
+   * 'lf-forceValidate' Event handler
+   */
+  onForceValidate() {
+    this.executeValidate();
+  },
 });

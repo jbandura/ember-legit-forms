@@ -6,15 +6,19 @@ import getOwner from 'ember-getowner-polyfill';
 const {
   Component,
   computed,
-  observer
+  observer,
+  inject: { service },
 } = Ember;
 
 export default Component.extend({
+  eventDispatcher: service('lf-event-dispatcher'),
+
   layout,
   tagName: 'form',
   formValidator: null,
   rules: null, //passed in
   data: null, //passed in
+  preventSubmit: null, //passed in
   formValid: computed('formValidator.isFormValid', function() {
     if (this.get('formValidator')) {
       return this.get('formValidator.isFormValid');
@@ -38,7 +42,10 @@ export default Component.extend({
 
   submit(e) {
     e.preventDefault();
-    if (this.get('onSubmit')) {
+
+    if (this.get('preventSubmit') && !this.get('formValid')) {
+      this.get('eventDispatcher').trigger('lf-forceValidate');
+    } else if (this.get('onSubmit')) {
       this.get('onSubmit')(this.get('formValid'));
     }
   },
