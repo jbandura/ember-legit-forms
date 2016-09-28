@@ -1,5 +1,13 @@
 # Master
+# 1.1.3
+- [FEATURE] added option `preventSubmit` that makes sure the form will be not submitted when it's not valid. Instead it will display all errors.
 
+# 1.1.2
+- [BUGFIX] make the icon placement on the left by default (solves bug where it not specifying the placement would leave the field looking weird)
+
+# 1.1.1
+
+# 1.1.0
 - [FEATURE] add fillIn helpers for acceptance and integration tests
 - [FEATURE] add onSubmit handler to lf-form component + change tagName to form
 - [INTERNAL] improve test coverage by adding acceptance tests
