@@ -2,6 +2,7 @@
 # 1.1.4
 - [FIX] make sure not to use `this.attrs` as this can lead to buggy behaviour
   (thanks @bardzusny)
+  
 # 1.1.3
 - [FEATURE] added option `preventSubmit` that makes sure the form will be not submitted when it's not valid. Instead it will display all errors.
 
