@@ -80,11 +80,11 @@ export default Mixin.create({
   didInsertElement() {
     this._super(...arguments);
     run.schedule("afterRender", () => {
-      if (!this.attrs.validate) {
+      if (!this.get('validate')) {
         return this.set('valid', true);
       }
 
-      this.attrs.validate(this.get('name'), this.get('property'));
+      this.get('validate')(this.get('name'), this.get('property'));
     });
   },
 
@@ -102,14 +102,14 @@ export default Mixin.create({
   /**
    * Convenience function for validating fields. It always marks fields as valid
    * when no rules are found or no validation function is passed. Otherwise it runs
-   * the function passed in attrs.validate and sets valid and errorMessages appropriately.
+   * the function passed in as "validate" attribute and sets valid and errorMessages appropriately.
    *
    * @param {String} value
    */
   validateField(value) {
     // no validations - field always valid
-    if (!this.attrs.validate) { return this.set('valid', true); }
-    let { isValid, messages, noRules } = this.attrs.validate(this.get('name'), value);
+    if (!this.get('validate')) { return this.set('valid', true); }
+    let { isValid, messages, noRules } = this.get('validate')(this.get('name'), value);
     if (noRules) { return this.set('valid', true); }
 
     this.setProperties({
@@ -124,8 +124,8 @@ export default Mixin.create({
    * @param {String} value
    */
   callUpdateHook(value) {
-    if (this.attrs['on-update']) {
-      this.attrs['on-update'](value);
+    if (this.get('on-update')) {
+      this.get('on-update')(value);
     }
   },
 
