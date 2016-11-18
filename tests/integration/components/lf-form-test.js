@@ -28,7 +28,7 @@ test('it displays errors on submit when preventSubmit=true', function(assert){
 
   this.set('rules', {
     input: 'required',
-    textarea: 'required',
+    textarea: 'requiredUnlessData(field)',
     select: 'required',
   });
 
