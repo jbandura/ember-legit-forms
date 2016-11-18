@@ -1,8 +1,8 @@
-import validator from 'ember-legit-forms/validators/notIn-validator';
+import validator from 'ember-legit-forms/validators/not-in-validator';
 import { module, test } from 'qunit';
 import argumentsObj from '../../helpers/arguments-obj';
 
-module('Unit | Validators | notIn');
+module('Unit | Validators | not in');
 
 let subject = validator.create();
 
