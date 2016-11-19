@@ -1,8 +1,8 @@
-import validator from 'ember-legit-forms/validators/requiredUnlessData-validator';
+import validator from 'ember-legit-forms/validators/required-unless-data-validator';
 import validatorObject from 'ember-legit-forms/utils/validator-object';
 import { module, test } from 'qunit';
 
-module('Unit | Validators | requiredUnlessData');
+module('Unit | Validators | required unless data');
 
 let subject = validator.create();
 
