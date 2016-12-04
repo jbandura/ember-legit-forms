@@ -8,6 +8,7 @@ const {
   computed,
   observer,
   inject: { service },
+  run,
 } = Ember;
 
 export default Component.extend({
@@ -38,8 +39,8 @@ export default Component.extend({
     });
   }),
 
-  dataChanged: observer('data', function() {
-    this.get('formValidator').set('data', this.get('data'));
+  rulesChanged: observer('rules', function() {
+    run.next(() => this.get('eventDispatcher').trigger('lf-forceValidate'));
   }),
 
   submit(e) {
