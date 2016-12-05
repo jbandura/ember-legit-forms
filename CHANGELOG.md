@@ -7,7 +7,7 @@
   (thanks @bardzusny)
   
 # 1.1.3
-- [FEATURE] added option `preventSubmit` that makes sure the form will be not submitted when it's not valid. Instead it will display all errors.
+- [FEATURE] added option `preventSubmit` that makes sure the form will be not submitted when it's not valid. Instead it will display all errors. Thanks @snik!
 
 # 1.1.2
 - [BUGFIX] make the icon placement on the left by default (solves bug where it not specifying the placement would leave the field looking weird)
