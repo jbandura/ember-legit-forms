@@ -27,10 +27,6 @@ export default Component.extend({
     return false;
   }),
 
-  init() {
-    this._super(...arguments);
-  },
-
   formValidator: computed('rules', 'data', function() {
     return formValidator.create({
       container: getOwner(this),
