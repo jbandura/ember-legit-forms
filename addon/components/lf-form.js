@@ -1,12 +1,12 @@
 import Ember from 'ember';
 import layout from '../templates/components/lf-form';
 import formValidator from '../utils/form-validator';
-import getOwner from 'ember-getowner-polyfill';
 
 const {
   Component,
   computed,
   observer,
+  getOwner,
   inject: { service },
 } = Ember;
 
