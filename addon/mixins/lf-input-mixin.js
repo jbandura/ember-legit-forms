@@ -93,10 +93,12 @@ export default Mixin.create({
     this.get('eventDispatcher').off('lf-forceValidate', this, this.onForceValidate);
   },
 
-  executeValidate() {
+  executeValidate(showValidationState = true) {
     this.set('_edited', true);
     this.validateField(this.get('property'));
-    this.showValidationState();
+    if (showValidationState) {
+      this.showValidationState();
+    }
   },
 
   /**
@@ -155,7 +157,7 @@ export default Mixin.create({
   /**
    * 'lf-forceValidate' Event handler
    */
-  onForceValidate() {
-    this.executeValidate();
+  onForceValidate(showValidationState) {
+    this.executeValidate(showValidationState);
   },
 });
