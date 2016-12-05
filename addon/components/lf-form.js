@@ -40,7 +40,7 @@ export default Component.extend({
   }),
 
   rulesChanged: observer('rules', function() {
-    run.next(() => this.get('eventDispatcher').trigger('lf-forceValidate'));
+    run.next(() => this.get('eventDispatcher').trigger('lf-forceValidate', false));
   }),
 
   submit(e) {
