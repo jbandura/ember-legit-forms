@@ -1,5 +1,6 @@
 import hbs from 'htmlbars-inline-precompile';
 import { moduleForComponent, test } from 'ember-qunit';
+import wait from 'ember-test-helpers/wait';
 
 moduleForComponent('lf-form', 'Integration | Component | lf-form', {
   integration: true
@@ -69,6 +70,41 @@ test('it displays errors on submit when preventSubmit=true', function(assert){
   assert.ok(this.$('.js-input').hasClass('has-error'), 'it should display error on submit');
   assert.ok(this.$('.js-textarea').hasClass('has-error'), 'it should display error on submit');
   assert.ok(this.$('.js-select').hasClass('has-error'), 'it should display error on submit');
+});
+
+test('it changes validation state of already edited field when new rules are set', function(assert){
+  assert.expect(4);
+
+  this.set('rules', {});
+
+  this.render(hbs`
+  {{#lf-form rules=rules as |v|}}
+    {{lf-input
+      class='js-input-1'
+      name='input1'
+      validate=v
+    }}
+    {{lf-input
+      class='js-input-2'
+      name='input2'
+      validate=v
+    }}
+  {{/lf-form}}`);
+
+  this.$('.js-input-1 input').val('123').change().blur();
+
+  assert.ok(this.$('.js-input-1').hasClass('has-success'), 'it should add success class to modified input');
+  assert.notOk(this.$('.js-input-2').hasClass('has-success'), 'it should not add success class to unmodified input');
+
+  this.set('rules', {
+    input1: 'required',
+    input2: 'required',
+  });
+
+  return wait().then(() => {
+    assert.ok(this.$('.js-input-1').hasClass('has-error'), 'it should add error class to modified input');
+    assert.notOk(this.$('.js-input-2').hasClass('has-error'), 'it should not add error class to unmodified input');
+  });
 });
 
 test('it allows to submit form when it\'s valid and preventSubmit=true', function(assert){
