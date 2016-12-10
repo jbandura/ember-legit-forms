@@ -8,6 +8,7 @@ const {
   observer,
   getOwner,
   inject: { service },
+  run,
 } = Ember;
 
 export default Component.extend({
@@ -15,7 +16,6 @@ export default Component.extend({
 
   layout,
   tagName: 'form',
-  formValidator: null,
   rules: null, //passed in
   data: null, //passed in
   preventSubmit: null, //passed in
@@ -27,17 +27,16 @@ export default Component.extend({
     return false;
   }),
 
-  init() {
-    this._super(...arguments);
-    this.set('formValidator', formValidator.create({
+  formValidator: computed('rules', 'data', function() {
+    return formValidator.create({
       container: getOwner(this),
       rules: this.get('rules'),
       data: this.get('data')
-    }));
-  },
+    });
+  }),
 
-  dataChanged: observer('data', function() {
-    this.get('formValidator').set('data', this.get('data'));
+  rulesChanged: observer('rules', function() {
+    run.next(() => this.get('eventDispatcher').trigger('lf-forceValidate', false));
   }),
 
   submit(e) {
