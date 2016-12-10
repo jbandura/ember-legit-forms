@@ -1,6 +1,7 @@
 # Master
 
 - [INTERNAL] remove ember-get-owner-polyfill, thanks @maxwerr!
+- [FEATURE] you can now change rules object and it will trigger revalidation (same applies to `data` object) - thanks @bardzusny
 
 # 1.1.4
 - [FIX] make sure not to use `this.attrs` as this can lead to buggy behaviour
