@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { Mixin, computed, run, inject: { service } } = Ember;
+const { Mixin, computed, run, inject: { service }, isArray } = Ember;
 
 export default Mixin.create({
   eventDispatcher: service('lf-event-dispatcher'),
@@ -50,6 +50,8 @@ export default Mixin.create({
    */
   _edited: false,
 
+  validationErrorMessages: null,
+
   /**
    * This property is used to compute which class should the wrapping form-group element use.
    * Standard bootstrap classes are used: has-success or has-error
@@ -57,10 +59,20 @@ export default Mixin.create({
    * @param validationState
    * @type {String}
    */
-  validationState: computed('valid', 'validationStateVisible', function() {
+  validationState: computed('valid', 'validationStateVisible', 'errors', function() {
+    if (this.get('errors')) {
+      return 'has-error';
+    }
     if (!this.get('validationStateVisible')) { return ''; }
     if (!this.get('valid')) { return 'has-error'; }
     return 'has-success';
+  }),
+
+  errorMessages: computed('errors', 'validationErrorMessages', function() {
+    const externalErrors = this.get('errors');
+    if (externalErrors) return isArray(externalErrors) ? externalErrors : [externalErrors];
+
+    return this.get('validationErrorMessages');
   }),
 
   focusOut() {
@@ -114,7 +126,7 @@ export default Mixin.create({
 
     this.setProperties({
       'valid': isValid,
-      'errorMessages': messages
+      'validationErrorMessages': messages
     });
   },
 
@@ -136,7 +148,7 @@ export default Mixin.create({
     this.validateField(null);
     this.setProperties({
       '_edited': false,
-      'errorMessages': [],
+      'validationErrorMessages': [],
       validationStateVisible: false
     });
   },

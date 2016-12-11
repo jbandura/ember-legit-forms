@@ -8,13 +8,18 @@ moduleForComponent('lf-input', 'Integration | Component | lf-input', {
 
 function setupInput(context, isValid = true, updateAction = null) {
   const onUpdate = updateAction || function() {};
-  context.set('onUpdate', onUpdate);
-  context.set('validateAction', function() { return { isValid }; });
-  context.set('name', 'Test');
+  context.setProperties({
+    onUpdate,
+    backendErrors: { phone: null },
+    name: 'Test',
+    validateAction() { return { isValid }; },
+  });
+
   context.render(hbs`{{lf-input
     label="Name"
     property=name
     name="name"
+    errors=backendErrors.phone
     validate=(action validateAction)
     on-update=(action onUpdate)
   }}`);
@@ -117,4 +122,16 @@ test('it triggers the on-update action', function(assert){
   });
 
   fillInBlur(this, '.form-group', 'value');
+});
+
+test('it allows passing in backend errors', function(assert) {
+  setupInput(this);
+  let $form = this.$('.form-group');
+  fillInBlur(this, '.form-group', 'value');
+  this.set('backendErrors', { phone: ["can't be blank"] });
+  assert.equal(
+    $form.attr('class'),
+    'ember-view form-group has-error',
+    'it should set show an error'
+  );
 });
