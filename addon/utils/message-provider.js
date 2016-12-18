@@ -14,6 +14,7 @@ export default Ember.Object.extend({
     'tooLong': 'too long',
     'tooShort': 'too short',
     'mustBeNumeric': 'must be a number',
+    'mustHaveFeverDecimals': 'must have less than {{allowedDecimals}} numbers after decimal point',
     'mustMatchRegex': 'must have a proper format',
     'mustBeValidURL': 'must be a valid URL',
     "required": "can't be blank",
