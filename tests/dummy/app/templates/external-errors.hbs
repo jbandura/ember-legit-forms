@@ -1,0 +1,35 @@
+<div class="container">
+  {{#lf-form rules=rules as |v isValid|}}
+    {{lf-input
+      label="Name"
+      name="name"
+      validate=v
+      errors=externalErrors.name
+      translateExternalError=(action "translate")
+      class="js-input"
+    }}
+    {{lf-textarea
+      label="Additional Notes"
+      name="notes"
+      errors=externalErrors.notes
+      translateExternalError=(action "translate")
+      class="js-textarea"
+      validate=v
+    }}
+    {{lf-select
+      property=model.group
+      name="group"
+      label="Group"
+      content=groups
+      validate=v
+      class="js-group"
+      errors=externalErrors.group
+      translateExternalError=(action "translate")
+      on-update=(action (mut model.group))
+    }}
+    <p>
+      <button class="btn btn-primary" disabled={{not isValid}}>Submit</button>
+      <button class="btn btn-default js-populate" {{action "populateExternalErrors"}}>Populate external errors</button>
+    </p>
+  {{/lf-form}}
+</div>

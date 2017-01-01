@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import messageProvider from '../utils/message-provider';
 
 const { Mixin, computed, run, inject: { service }, isArray } = Ember;
 
@@ -9,6 +10,7 @@ export default Mixin.create({
   classNameBindings: ['validationState'],
   name: null, //passed in
   property: null, //passed in
+  messageProvider: messageProvider.create(),
 
   id: computed('inputId', function() {
     return this.get('inputId') || `ember${Ember.uuid()}`;
@@ -70,7 +72,10 @@ export default Mixin.create({
 
   errorMessages: computed('errors', 'validationErrorMessages', function() {
     const externalErrors = this.get('errors');
-    if (externalErrors) return isArray(externalErrors) ? externalErrors : [externalErrors];
+    if (externalErrors) {
+      const errors = isArray(externalErrors) ? externalErrors : [externalErrors];
+      return this._translateExternalErrors(errors);
+    }
 
     return this.get('validationErrorMessages');
   }),
@@ -119,6 +124,7 @@ export default Mixin.create({
    * @param {String} value
    */
   validateField(value) {
+    this.set('errors', null);
     // no validations - field always valid
     if (!this.get('validate')) { return this.set('valid', true); }
     let { isValid, messages, noRules } = this.get('validate')(this.get('name'), value);
@@ -170,4 +176,12 @@ export default Mixin.create({
   onForceValidate() {
     this.executeValidate();
   },
+
+  _translateExternalErrors(errors) {
+    return errors.map((err) => {
+      const translateAction = this.get('translateExternalError');
+      if (translateAction) { return translateAction(err); }
+      return this.get('messageProvider').getMessage(err);
+    });
+  }
 });
