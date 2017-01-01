@@ -6,6 +6,7 @@ const { Component, observer, isNone } = Ember;
 
 export default Component.extend(LFInputMixin, {
   layout,
+  _inputName: 'lf-select',
   content: null, //passed in
   prompt: '-- select --', //passed in
   valuePath: 'value',

@@ -31,6 +31,14 @@ function setupTextarea(context, isValid = true, updateHandler = null) {
   }}`);
 }
 
+test("it shows an error if input created without a name attribute", function(assert) {
+  assert.expect(1);
+
+  assert.throws(() => {
+    this.render(hbs `{{lf-textarea label="Foo field"}}`);
+  }, /requires name attribute/);
+});
+
 test(
   'it renders the textarea with all markup and proper option selected',
   function(assert) {
