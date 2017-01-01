@@ -25,6 +25,14 @@ function setupInput(context, isValid = true, updateAction = null) {
   }}`);
 }
 
+test("it shows an error if input created without a name attribute", function(assert) {
+  assert.expect(1);
+
+  assert.throws(() => {
+    this.render(hbs `{{lf-input label="Foo field" type="text"}}`);
+  }, /requires name attribute/);
+});
+
 test('it renders the input with all markup', function(assert) {
   setupInput(this);
 
