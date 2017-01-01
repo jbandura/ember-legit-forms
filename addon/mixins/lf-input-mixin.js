@@ -1,6 +1,7 @@
 import Ember from 'ember';
+import messageProvider from '../utils/message-provider';
 
-const { Mixin, computed, run, inject: { service } } = Ember;
+const { Mixin, computed, run, inject: { service }, isArray } = Ember;
 
 export default Mixin.create({
   eventDispatcher: service('lf-event-dispatcher'),
@@ -9,6 +10,7 @@ export default Mixin.create({
   classNameBindings: ['validationState'],
   name: null, //passed in
   property: null, //passed in
+  messageProvider: messageProvider.create(),
 
   id: computed('inputId', function() {
     return this.get('inputId') || `ember${Ember.uuid()}`;
@@ -50,6 +52,8 @@ export default Mixin.create({
    */
   _edited: false,
 
+  validationErrorMessages: null,
+
   /**
    * This property is used to compute which class should the wrapping form-group element use.
    * Standard bootstrap classes are used: has-success or has-error
@@ -57,10 +61,23 @@ export default Mixin.create({
    * @param validationState
    * @type {String}
    */
-  validationState: computed('valid', 'validationStateVisible', function() {
+  validationState: computed('valid', 'validationStateVisible', 'errors', function() {
+    if (this.get('errors')) {
+      return 'has-error';
+    }
     if (!this.get('validationStateVisible')) { return ''; }
     if (!this.get('valid')) { return 'has-error'; }
     return 'has-success';
+  }),
+
+  errorMessages: computed('errors', 'validationErrorMessages', function() {
+    const externalErrors = this.get('errors');
+    if (externalErrors) {
+      const errors = isArray(externalErrors) ? externalErrors : [externalErrors];
+      return this._translateExternalErrors(errors);
+    }
+
+    return this.get('validationErrorMessages');
   }),
 
   focusOut() {
@@ -109,6 +126,7 @@ export default Mixin.create({
    * @param {String} value
    */
   validateField(value) {
+    this.set('errors', null);
     // no validations - field always valid
     if (!this.get('validate')) { return this.set('valid', true); }
     let { isValid, messages, noRules } = this.get('validate')(this.get('name'), value);
@@ -116,7 +134,7 @@ export default Mixin.create({
 
     this.setProperties({
       'valid': isValid,
-      'errorMessages': messages
+      'validationErrorMessages': messages
     });
   },
 
@@ -138,7 +156,7 @@ export default Mixin.create({
     this.validateField(null);
     this.setProperties({
       '_edited': false,
-      'errorMessages': [],
+      'validationErrorMessages': [],
       validationStateVisible: false
     });
   },
@@ -160,4 +178,12 @@ export default Mixin.create({
   onForceValidate(showValidationState) {
     this.executeValidate(showValidationState);
   },
+
+  _translateExternalErrors(errors) {
+    return errors.map((err) => {
+      const translateAction = this.get('translateExternalError');
+      if (translateAction) { return translateAction(err); }
+      return this.get('messageProvider').getMessage(err);
+    });
+  }
 });

@@ -8,6 +8,7 @@ const Router = Ember.Router.extend({
 Router.map(function() {
   this.route('basic-form');
   this.route('basic-form-select');
+  this.route('external-errors');
 });
 
 export default Router;
