@@ -1,8 +1,10 @@
 # Master
 
-- [INTERNAL] remove ember-get-owner-polyfill, thanks @maxwerr!
+- [BREAKING CHANGE] remove ember-get-owner-polyfill, thanks @maxwerr!
+- [BREAKING CHANGE] remove 'ember-get-helper', thanks @bardzusny
 - [FEATURE] you can now change rules object and it will trigger revalidation (same applies to `data` object) - thanks @bardzusny
 - [FEATURE] add `decimal` validator - thanks @bardzusny
+- [FEATURE] you can now show external errors
 
 # 1.1.4
 - [FIX] make sure not to use `this.attrs` as this can lead to buggy behaviour
