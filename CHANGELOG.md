@@ -1,5 +1,6 @@
 # Master
 - [INTERNAL] Update ember-cli-release and ember-one-way-controls to remove deprecations, thanks @maxwerr
+- [BUGFIX] upgrade email validator, thanks @bardzusny!
 # 2.0.0
 
 - [BREAKING CHANGE] remove ember-get-owner-polyfill, thanks @maxwerr!
