@@ -20,6 +20,8 @@ export default Component.extend(LFInputMixin, {
     }
   }),
 
+  inputComponent: 'one-way-input',
+
   focusOut() {
     this.set('_edited', true);
     let value = isNone(this.get('_value')) ? this.get('property') : this.get('_value');

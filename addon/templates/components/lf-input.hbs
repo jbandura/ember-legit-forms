@@ -11,7 +11,7 @@
       {{#if (eq addonPlacement 'before')}}
         {{yield}}
       {{/if}}
-      {{one-way-input
+      {{component inputComponent
         id=id
         value=property
         update=(action "valueChanged")
@@ -26,7 +26,7 @@
       {{/if}}
     </div>
   {{else}}
-      {{one-way-input
+      {{component inputComponent
         id=id
         value=property
         update=(action "valueChanged")
