@@ -45,6 +45,21 @@ test('it has proper `for` attribute set on label', function(assert) {
     'it has proper `for` attribute set');
 });
 
+test('it uses custom input component', function(assert) {
+  setupInput(this);
+
+  this.render(hbs`{{lf-input
+    label="Name"
+    property=name
+    name="name"
+    validate=(action validateAction)
+    on-update=(action onUpdate)
+    inputComponent='custom-input-component'
+  }}`);
+
+  assert.ok(this.$('.custom-input-component').length, 'it uses custom input component');
+});
+
 test('it passes custom `id` to inner input and label', function(assert) {
   setupInput(this);
 
