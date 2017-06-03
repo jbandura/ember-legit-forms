@@ -18,7 +18,7 @@ function setupInput(context, isValid = true, updateAction = null) {
   context.render(hbs`{{lf-input
     label="Name"
     property=name
-    name="name"
+    name=name
     errors=backendErrors.phone
     validate=(action validateAction)
     on-update=(action onUpdate)
@@ -26,9 +26,7 @@ function setupInput(context, isValid = true, updateAction = null) {
 }
 
 test("it shows an error if input created without a name attribute", function(assert) {
-  assert.expect(1);
-
-  assert.throws(() => {
+  assert.expectAssertion(() => {
     this.render(hbs `{{lf-input label="Foo field" type="text"}}`);
   }, /requires name attribute/);
 });
@@ -70,7 +68,7 @@ test('it has no validation state when rendered', function(assert) {
   setupInput(this);
 
   let $form = this.$('.form-group');
-  assert.equal($form.attr('class'), 'ember-view form-group', 'it has no validation state when rendered');
+  assert.equal($form.attr('class'), 'form-group ember-view', 'it has no validation state when rendered');
 });
 
 test('it shows error validation state', function(assert) {
@@ -79,7 +77,7 @@ test('it shows error validation state', function(assert) {
   let $form = this.$('.form-group');
 
   fillInBlur(this, '.form-group', null);
-  assert.equal($form.attr('class'), 'ember-view form-group has-error');
+  assert.equal($form.attr('class'), 'form-group has-error ember-view');
 });
 
 test('it shows success validation state', function(assert) {
@@ -88,7 +86,7 @@ test('it shows success validation state', function(assert) {
   let $form = this.$('.form-group');
 
   fillInBlur(this, '.form-group', 'asd');
-  assert.equal($form.attr('class'), 'ember-view form-group has-success');
+  assert.equal($form.attr('class'), 'form-group has-success ember-view');
 });
 
 test('it resets validation state when property set to null', function(assert) {
@@ -97,7 +95,7 @@ test('it resets validation state when property set to null', function(assert) {
   this.set('name', null);
   let $form = this.$('.form-group');
 
-  assert.equal($form.attr('class'), 'ember-view form-group');
+  assert.equal($form.attr('class'), 'form-group ember-view');
 });
 
 test('it validates only after first focusOut', function(assert) {
@@ -110,7 +108,7 @@ test('it validates only after first focusOut', function(assert) {
 
   assert.equal(
     $form.attr('class'),
-   'ember-view form-group',
+   'form-group ember-view',
    'it shouldn\'t validate without focusOut'
  );
 
@@ -118,7 +116,7 @@ test('it validates only after first focusOut', function(assert) {
 
   assert.equal(
     $form.attr('class'),
-   'ember-view form-group has-success',
+   'form-group has-success ember-view',
    'it should validate after focusOut'
  );
 });
@@ -139,7 +137,7 @@ test('it allows passing in backend errors', function(assert) {
   this.set('backendErrors', { phone: ["can't be blank"] });
   assert.equal(
     $form.attr('class'),
-    'ember-view form-group has-error',
+    'form-group has-error ember-view',
     'it should set show an error'
   );
 });

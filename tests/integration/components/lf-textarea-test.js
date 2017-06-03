@@ -34,7 +34,7 @@ function setupTextarea(context, isValid = true, updateHandler = null) {
 test("it shows an error if input created without a name attribute", function(assert) {
   assert.expect(1);
 
-  assert.throws(() => {
+  assert.expectAssertion(() => {
     this.render(hbs `{{lf-textarea label="Foo field"}}`);
   }, /requires name attribute/);
 });
@@ -79,7 +79,7 @@ test('it has no validation state when rendered', function(assert) {
   setupTextarea(this);
 
   let $form = this.$('.form-group');
-  assert.equal($form.attr('class'), 'ember-view form-group', 'it has no validation state when rendered');
+  assert.equal($form.attr('class'), 'form-group ember-view', 'it has no validation state when rendered');
 });
 
 test('it shows error validation state', function(assert) {
@@ -87,7 +87,7 @@ test('it shows error validation state', function(assert) {
 
   let $form = this.$('.form-group');
   $form.trigger('blur').trigger('focusout');
-  assert.equal($form.attr('class'), 'ember-view form-group has-error');
+  assert.equal($form.attr('class'), 'form-group has-error ember-view');
 });
 
 test('it shows success validation state', function(assert) {
@@ -95,7 +95,7 @@ test('it shows success validation state', function(assert) {
 
   let $form = this.$('.form-group');
   this.$('.form-control').val('asd').trigger('focusout');
-  assert.equal($form.attr('class'), 'ember-view form-group has-success');
+  assert.equal($form.attr('class'), 'form-group has-success ember-view');
 });
 
 // TODO: bring back this test
@@ -134,7 +134,7 @@ test('it resets and hides validation state when property set to null', function(
     this.set('description', null);
     assert.equal(
       $form.attr('class'),
-      'ember-view form-group',
+      'form-group ember-view',
       'it has no validation state when property set to null'
     );
   });

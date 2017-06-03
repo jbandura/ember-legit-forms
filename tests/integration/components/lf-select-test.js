@@ -32,7 +32,7 @@ function setupSelect(context, isValid = true, updateAction = null) {
 test("it shows an error if input created without a name attribute", function(assert) {
   assert.expect(1);
 
-  assert.throws(() => {
+  assert.expectAssertion(() => {
     this.render(hbs `{{lf-select label="Foo field" type="text"}}`);
   }, /requires name attribute/);
 });
@@ -85,7 +85,7 @@ test('it has no validation state when rendered', function(assert) {
   setupSelect(this);
 
   let $form = this.$('.form-group');
-  assert.equal($form.attr('class'), 'ember-view form-group', 'it has no validation state when rendered');
+  assert.equal($form.attr('class'), 'form-group ember-view', 'it has no validation state when rendered');
 });
 
 test('it shows error validation state', function(assert) {
@@ -93,7 +93,7 @@ test('it shows error validation state', function(assert) {
 
   let $form = this.$('.form-group');
   $form.trigger('blur').trigger('focusout');
-  assert.equal($form.attr('class'), 'ember-view form-group has-error');
+  assert.equal($form.attr('class'), 'form-group has-error ember-view');
   this.set('validateAction', function() { return {isValid: true}; });
 });
 
@@ -102,7 +102,7 @@ test('it shows success validation state', function(assert) {
 
   let $form = this.$('.form-group');
   fillInSelectIntegration(this, '.form-group', 'asd', 'select');
-  assert.equal($form.attr('class'), 'ember-view form-group has-success');
+  assert.equal($form.attr('class'), 'form-group has-success ember-view');
 });
 
 test('it shows validation state only after focusOut', function(assert) {
@@ -112,9 +112,9 @@ test('it shows validation state only after focusOut', function(assert) {
   const $select = this.$('.form-control');
   $select.val('val2');
 
-  assert.equal($form.attr('class'), 'ember-view form-group');
+  assert.equal($form.attr('class'), 'form-group ember-view');
   $select.trigger('blur');
-  assert.equal($form.attr('class'), 'ember-view form-group has-success');
+  assert.equal($form.attr('class'), 'form-group has-success ember-view');
 });
 
 test('it observes the property changes', function(assert) {
@@ -140,7 +140,7 @@ test('it resets and hides validation state when property set to null', function(
   this.set('value', null);
   assert.equal(
     $form.attr('class'),
-    'ember-view form-group',
+    'form-group ember-view',
     'it has no validation state when property set to null'
   );
 
