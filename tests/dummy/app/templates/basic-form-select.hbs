@@ -6,6 +6,7 @@
       name="name"
       validate=v
       class="js-name"
+      inputClass="fooClass"
       on-update=(action (mut model.name))
     }}
     {{lf-select
@@ -15,6 +16,7 @@
       content=groups
       validate=v
       class="js-group"
+      inputClass="fooClass"
       on-update=(action (mut model.group))
     }}
     {{lf-textarea
@@ -23,6 +25,7 @@
       validate=v
       label="Description"
       class="js-description"
+      inputClass="fooClass"
       on-update=(action (mut model.description))
     }}
 

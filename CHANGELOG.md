@@ -1,6 +1,8 @@
 # Master
 - [INTERNAL] Update to ember 2.11
 - [FEATURE] Add ability to create custom inputs, thanks @bardzusny!
+- [FEATURE] Make it possible to add classes directly to the input component
+  (#40)
 
 # 2.0.1
 
