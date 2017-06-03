@@ -1,5 +1,6 @@
 # Master
 - [INTERNAL] Update to ember 2.11
+- [FEATURE] Add ability to create custom inputs, thanks @bardzusny!
 
 # 2.0.1
 
