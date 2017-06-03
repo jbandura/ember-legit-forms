@@ -18,7 +18,7 @@ function setupInput(context, isValid = true, updateAction = null) {
   context.render(hbs`{{lf-input
     label="Name"
     property=name
-    name="name"
+    name=name
     errors=backendErrors.phone
     validate=(action validateAction)
     on-update=(action onUpdate)
@@ -26,9 +26,7 @@ function setupInput(context, isValid = true, updateAction = null) {
 }
 
 test("it shows an error if input created without a name attribute", function(assert) {
-  assert.expect(1);
-
-  assert.throws(() => {
+  assert.expectAssertion(() => {
     this.render(hbs `{{lf-input label="Foo field" type="text"}}`);
   }, /requires name attribute/);
 });

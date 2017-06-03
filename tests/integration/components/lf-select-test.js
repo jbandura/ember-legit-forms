@@ -32,7 +32,7 @@ function setupSelect(context, isValid = true, updateAction = null) {
 test("it shows an error if input created without a name attribute", function(assert) {
   assert.expect(1);
 
-  assert.throws(() => {
+  assert.expectAssertion(() => {
     this.render(hbs `{{lf-select label="Foo field" type="text"}}`);
   }, /requires name attribute/);
 });

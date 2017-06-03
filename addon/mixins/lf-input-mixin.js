@@ -88,10 +88,13 @@ export default Mixin.create({
   init() {
     this._super(...arguments);
     this.get('eventDispatcher').on('lf-forceValidate', this, this.onForceValidate);
-    assert(
-      `{{${this.get('_inputName')}}} requires name attribute in order to link this input to validation rules`,
-      this.get('name')
-    );
+    Ember.run.scheduleOnce('afterRender', () => {
+      console.log('being run');
+      assert(
+        `{{${this.get('_inputName')}}} requires name attribute in order to link this input to validation rules`,
+        this.get('name') !== null
+      );
+    })
   },
 
   /**
