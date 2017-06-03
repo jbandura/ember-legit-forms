@@ -1,4 +1,8 @@
 # Master
+- [INTERNAL] Update to ember 2.11
+
+# 2.0.1
+
 - [INTERNAL] Update ember-cli-release and ember-one-way-controls to remove deprecations, thanks @maxwerr
 - [BUGFIX] upgrade email validator, thanks @bardzusny!
 # 2.0.0
@@ -13,7 +17,7 @@
 # 1.1.4
 - [FIX] make sure not to use `this.attrs` as this can lead to buggy behaviour
   (thanks @bardzusny)
-  
+
 # 1.1.3
 - [FEATURE] added option `preventSubmit` that makes sure the form will be not submitted when it's not valid. Instead it will display all errors. Thanks @snik!
 
