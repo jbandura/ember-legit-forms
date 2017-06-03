@@ -7,7 +7,7 @@
   showErrorMessages=showErrorMessages
 }}
   <select class="form-control" id={{id}} onchange={{action "optionSelected" value="target.value"}}>
-    <option value="">{{prompt}}</option>
+    <option value="" selected={{eq property null}}>{{prompt}}</option>
     {{#each content as |item|}}
       <option value={{get item valuePath}} selected={{eq property (get item valuePath)}}>{{get item labelPath}}</option>
     {{/each}}
