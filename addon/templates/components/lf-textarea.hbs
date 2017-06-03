@@ -9,7 +9,7 @@
   {{one-way-textarea
     id=id
     value=property
-    class="form-control"
+    class=(concat "form-control" inputClass)
     update=(action "valueChanged")
     rows=rows
     placeholder=placeholder

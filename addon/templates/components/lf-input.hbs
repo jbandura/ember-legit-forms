@@ -19,7 +19,7 @@
         type=type
         disabled=disabled
         readonly=readonly
-        class="form-control"
+        class=(concat "form-control " inputClass)
       }}
       {{#if (eq addonPlacement 'after')}}
         {{yield}}
@@ -34,7 +34,7 @@
         type=type
         disabled=disabled
         readonly=readonly
-        class="form-control"
+        class=(concat "form-control " inputClass)
       }}
   {{/if}}
 {{/lf-input-wrapper}}

@@ -13,6 +13,7 @@ export default Component.extend(LFInputMixin, {
   layout,
   _inputName: 'lf-input',
   placeholder: null, //passed in
+  inputClass: null,
   addonPlacement: 'before',
   propChanged: observer('property', function() {
     if (isNone(this.get('property'))) {
