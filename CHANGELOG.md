@@ -5,6 +5,8 @@
   (#40)
 - [FEATURE] Pass in all supported attributes for `lf-select`, `lf-input` and
   `lf-textarea` (#38)
+- [FEATURE] When i18n installed but the validation translation not defined use
+  the default one (#37)
 
 # 2.0.1
 
