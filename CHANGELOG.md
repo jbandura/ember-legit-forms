@@ -3,6 +3,8 @@
 - [FEATURE] Add ability to create custom inputs, thanks @bardzusny!
 - [FEATURE] Make it possible to add classes directly to the input component
   (#40)
+- [FEATURE] When i18n installed but the validation translation not defined use
+  the default one (#38)
 
 # 2.0.1
 
