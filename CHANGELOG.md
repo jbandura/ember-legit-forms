@@ -3,6 +3,8 @@
 - [FEATURE] Add ability to create custom inputs, thanks @bardzusny!
 - [FEATURE] Make it possible to add classes directly to the input component
   (#40)
+- [FEATURE] Pass in all supported attributes for `lf-select`, `lf-input` and
+  `lf-textarea` (#38)
 
 # 2.0.1
 
