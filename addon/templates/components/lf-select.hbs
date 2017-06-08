@@ -9,6 +9,10 @@
   <select
     class="form-control {{inputClass}}"
     id={{id}}
+    autofocus={{autofocus}}
+    disabled={{disabled}}
+    multiple={{multiple}}
+    size={{size}}
     onchange={{action "optionSelected" value="target.value"}}
   >
     <option value="" selected={{eq property null}}>{{prompt}}</option>
