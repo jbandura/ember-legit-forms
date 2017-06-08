@@ -2,14 +2,14 @@ import messageProvider from 'ember-legit-forms/utils/message-provider';
 import { module, test } from 'qunit';
 import Ember from 'ember';
 
-module('Unit | Utility | form validator');
+module('Unit | Utility | message provider');
 
-let subject = messageProvider.create({
-  defaultMessages: {
-    'testKey': 'test message',
-    'testKeyWithReplacements': 'test message {{replacement1}} and {{replacement2}}'
-  }
-});
+const defaultMessages = {
+  testKey: 'test message',
+  testKeyWithReplacements: 'test message {{replacement1}} and {{replacement2}}'
+};
+
+let subject = messageProvider.create({ defaultMessages });
 
 test('it gets validation message', function(assert) {
   assert.equal(subject.getMessage('testKey'), 'test message');
@@ -47,4 +47,18 @@ test('it can interpolate messages with and w/o replacements', function(assert) {
   });
 
   assert.equal(message, 'test message foo and bar');
+});
+
+test('when i18n installed but key not defined it uses default translation', function(assert) {
+  subject.set('container', {
+    lookup() {
+      return {
+        t(key) {
+          return `Missing translation: [${key}]`;
+        }
+      };
+    }
+  });
+  const message = subject._fetchMessage('testKey', {});
+  assert.equal(message, defaultMessages.testKey)
 });
