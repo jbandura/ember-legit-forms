@@ -1,13 +1,15 @@
 # Master
-- [INTERNAL] Update to ember 2.11
-- [FEATURE] Add ability to create custom inputs, thanks @bardzusny!
-- [FEATURE] Make it possible to add classes directly to the input component
-  (#40)
 - [FEATURE] Pass in all supported attributes for `lf-select`, `lf-input` and
   `lf-textarea` (#38)
 - [FEATURE] When i18n installed but the validation translation not defined use
   the default one (#37)
 
+# 2.1.0
+- [INTERNAL] Update to ember 2.11
+- [FEATURE] Add ability to create custom inputs, thanks @bardzusny!
+- [FEATURE] Make it possible to add classes directly to the input component
+  (#40)
+  
 # 2.0.1
 
 - [INTERNAL] Update ember-cli-release and ember-one-way-controls to remove deprecations, thanks @maxwerr
