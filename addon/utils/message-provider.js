@@ -47,19 +47,21 @@ export default Ember.Object.extend({
   /**
    * This is a convenience function that fetches the message based on a key.
    *
-   * It checks ember-i18n first and if it doesn't exist it returns a deafult message.
+   * It checks ember-i18n first and if it doesn't exist it returns a default message.
+   * If ember-i18n is installed but does not define the key, it'll use the default one.
    * @param {string} msg: a key
    * @param {Object} replacements: replacements for interpolation
    * @returns {string}
    * @private
    */
-  _fetchMessage(msg, replacements) {
+  _fetchMessage(msg, replacements = {}) {
     if(Ember.i18n) {
       return Ember.i18n.t(`validation.${msg}`, replacements);
     }
     let i18nService = this.get('container') ? this.get('container').lookup('service:i18n') : null;
     if (i18nService) {
-      return i18nService.t(`validation.${msg}`, replacements);
+      const translatedMessage = i18nService.t(`validation.${msg}`, replacements);
+      if (!/Missing translation/.test(translatedMessage)) return translatedMessage;
     }
     return this._interpolateMessage(msg, replacements);
   },
