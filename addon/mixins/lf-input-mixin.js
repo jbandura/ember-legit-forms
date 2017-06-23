@@ -10,6 +10,8 @@ export default Mixin.create({
   classNameBindings: ['validationState'],
   name: null, //passed in
   property: null, //passed in
+  errorClass: 'has-error',
+  successClass: 'has-success',
   messageProvider: messageProvider.create(),
 
   id: computed('inputId', function() {
@@ -63,11 +65,11 @@ export default Mixin.create({
    */
   validationState: computed('valid', 'validationStateVisible', 'errors', function() {
     if (this.get('errors')) {
-      return 'has-error';
+      return this.get('errorClass');
     }
     if (!this.get('validationStateVisible')) { return ''; }
-    if (!this.get('valid')) { return 'has-error'; }
-    return 'has-success';
+    if (!this.get('valid')) { return this.get('errorClass'); }
+    return this.get('successClass');
   }),
 
   errorMessages: computed('errors', 'validationErrorMessages', function() {
