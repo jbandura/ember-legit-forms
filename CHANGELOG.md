@@ -3,6 +3,7 @@
   `lf-textarea` (#38)
 - [FEATURE] When i18n installed but the validation translation not defined use
   the default one (#37)
+- [FEATURE] Add ability to provide custom error and success classes for validation, thanks @kcin1018!
 
 # 2.1.0
 - [INTERNAL] Update to ember 2.11
