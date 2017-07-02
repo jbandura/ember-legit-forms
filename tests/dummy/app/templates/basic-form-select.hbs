@@ -9,6 +9,14 @@
       inputClass="fooClass"
       on-update=(action (mut model.name))
     }}
+    {{lf-input
+      label="Second Name"
+      property=model.name
+      name="secondName"
+      validate=v
+      class="js-second-name"
+      on-update=(action (mut model.secondName))
+    }}
     {{lf-select
       property=model.group
       name="group"
@@ -18,6 +26,23 @@
       class="js-group"
       inputClass="fooClass"
       on-update=(action (mut model.group))
+    }}
+    {{lf-select
+      property=model.group
+      name="subgroup"
+      label="Subgroup"
+      content=groups
+      validate=v
+      class="js-sub-group"
+      on-update=(action (mut model.subGroup))
+    }}
+    {{lf-textarea
+      property=model.bio
+      name="bio"
+      validate=v
+      label="Bio"
+      class="js-bio"
+      on-update=(action (mut model.bio))
     }}
     {{lf-textarea
       property=model.description
