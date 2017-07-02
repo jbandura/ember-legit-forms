@@ -67,3 +67,13 @@ test('when models set to null it resets the validation state', function(assert){
     assert.notOk(find('.js-description').hasClass('has-success'));
   });
 });
+
+test('adding inputClass overwrites form-control', function(assert) {
+  assert.ok(find('.js-second-name input').hasClass('form-control'));
+  assert.ok(find('.js-sub-group select').hasClass('form-control'));
+  assert.ok(find('.js-bio textarea').hasClass('form-control'));
+
+  assert.notOk(find('.js-name input').hasClass('form-control'));
+  assert.notOk(find('.js-group select').hasClass('form-control'));
+  assert.notOk(find('.js-description textarea').hasClass('form-control'));
+});

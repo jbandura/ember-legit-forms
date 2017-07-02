@@ -6,7 +6,7 @@ import {
   fillInTextareaAcceptance as fillInTextarea,
 } from '../helpers/ember-legit-forms';
 
-moduleForAcceptance('Acceptance | inputs, selects and textareas', {
+moduleForAcceptance('Acceptance | inputs, selects', {
   beforeEach() { visit('/basic-form-select-custom-validation-classes'); }
 });
 
