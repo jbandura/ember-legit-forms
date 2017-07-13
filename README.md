@@ -8,6 +8,13 @@
 
 Component for creating modern forms along with validations. Read [documentation here](http://jbandura.github.io/ember-legit-forms-docs).
 
+## Contributors
+This plugin wouldn't be where it is today without the help of awesome contributors:
+- @bardzusny
+- @snik
+- @maxwerr
+- @kcin1018
+
 ## Credits
 This addon uses following great addons:
 
