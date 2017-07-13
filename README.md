@@ -10,10 +10,10 @@ Component for creating modern forms along with validations. Read [documentation 
 
 ## Contributors
 This plugin wouldn't be where it is today without the help of awesome contributors:
-- @bardzusny
-- @snik
-- @maxwerr
-- @kcin1018
+- [Adrian Zalewski](https://github.com/bardzusny)
+- [Michał Sajnóg](https://github.com/michalsnik)
+- [@maxwerr](https://github.com/maxwerr)
+- [Nick Felicelli](https://github.com/kcin1018)
 
 ## Credits
 This addon uses following great addons:
