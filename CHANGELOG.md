@@ -1,4 +1,6 @@
 # Master
+- [BUGFIX] Update lodash to newest version to fix conflicts with mirage
+
 
 # 2.1.1
 - [FEATURE] Pass in all supported attributes for `lf-select`, `lf-input` and
