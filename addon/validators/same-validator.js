@@ -6,9 +6,9 @@ export default Ember.Object.extend({
   validate(value, validator) {
     if (isBlank(value)) { return; }
 
-    let [fieldName] = validator.get('arguments');
+    let [fieldName] = Ember.get(validator, 'arguments');
 
-    if(value !== validator.get(`field:${fieldName}`)) {
+    if(value !== Ember.get(validator, `field:${fieldName}`)) {
       return {
         message: 'mustBeSame',
         replacements: { fieldName }

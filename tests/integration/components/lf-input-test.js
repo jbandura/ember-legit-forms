@@ -1,6 +1,9 @@
 import hbs from 'htmlbars-inline-precompile';
 import { moduleForComponent, test } from 'ember-qunit';
 import { fillInBlurIntegration as fillInBlur } from '../../helpers/ember-legit-forms';
+import Ember from 'ember';
+
+const { setProperties } = Ember;
 
 moduleForComponent('lf-input', 'Integration | Component | lf-input', {
   integration: true
@@ -8,7 +11,7 @@ moduleForComponent('lf-input', 'Integration | Component | lf-input', {
 
 function setupInput(context, isValid = true, updateAction = null) {
   const onUpdate = updateAction || function() {};
-  context.setProperties({
+  setProperties(context, {
     onUpdate,
     backendErrors: { phone: null },
     name: 'Test',

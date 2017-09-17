@@ -12,5 +12,9 @@ module.exports = {
     browser: true
   },
   rules: {
+    'ember/no-observers': 1,
+    'ember/closure-actions': 1,
+    'ember/alias-model-in-controller': 1,
+    'ember/named-functions-in-promises': 1,
   }
 };

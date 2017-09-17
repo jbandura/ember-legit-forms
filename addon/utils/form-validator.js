@@ -28,10 +28,10 @@ export default Ember.Object.extend({
    */
   rules: computed({
     get() {
-      return this.get('_rules');
+      return Ember.get(this, '_rules');
     },
     set(key, value) {
-      return this.get('parserService').parseShared(value);
+      return Ember.get(this, 'parserService').parseShared(value);
     }
   }),
 
@@ -63,12 +63,12 @@ export default Ember.Object.extend({
    * @type Array
    */
   fields: computed('rules', function() {
-    if (!this.get('rules')) {
+    if (!Ember.get(this, 'rules')) {
       warn('[Ember Legit Forms] No rules hash provided. All fields will be valid no matter the input.');
       return [];
     }
 
-    let rules = this.get('rules');
+    let rules = Ember.get(this, 'rules');
     let resultObj = Ember.A();
 
     Object.keys(rules).forEach((key) => {
@@ -91,10 +91,10 @@ export default Ember.Object.extend({
    * @type boolean
    */
   isFormValid: computed('fields.@each.valid', function() {
-    let fields = this.get('fields');
+    let fields = Ember.get(this, 'fields');
 
     return fields.reduce((acc, field) => {
-       let fieldValue = field.get('valid');
+       let fieldValue = Ember.get(field, 'valid');
        return acc && Boolean(fieldValue);
     }, true);
   }),
@@ -107,15 +107,15 @@ export default Ember.Object.extend({
    * @returns {Object}
    */
   getValidateFunction(fieldName, value) {
-    if (!this.get('rules') || !this.get('rules')[fieldName]) {
-      return this.get('alwaysValid');
+    if (!Ember.get(this, 'rules') || !Ember.get(this, 'rules')[fieldName]) {
+      return Ember.get(this, 'alwaysValid');
     }
 
-    const rule = this.get('rules')[fieldName];
-    let validations = this.get('parserService').parseRule(rule);
+    const rule = Ember.get(this, 'rules')[fieldName];
+    let validations = Ember.get(this, 'parserService').parseRule(rule);
     let fieldValidation = this._verifyValidity(value, validations, fieldName);
-    let field = this.get('fields').findBy('name', fieldName);
-    field.setProperties({
+    let field = Ember.get(this, 'fields').findBy('name', fieldName);
+    Ember.setProperties(field, {
       valid: fieldValidation.isValid,
       value: value
     });
@@ -133,27 +133,27 @@ export default Ember.Object.extend({
    */
   _verifyValidity(value, validations) {
     let messages = [];
-    this.get('messageProvider').set('container', this.get('container'));
+    Ember.set(Ember.get(this, 'messageProvider'), 'container', Ember.get(this, 'container'));
     let validity = validations.map((validation) => {
       // detect whether we have a custom validator
       // if not then we have to look it up
       let validator = (validation.isFunction) ?
         validation :
-        this.get('lookupService').lookupValidator(
-          this.get('container'), validation.name
+        Ember.get(this, 'lookupService').lookupValidator(
+          Ember.get(this, 'container'), validation.name
         )
       ;
       let msg = validator.validate(
         value,
         validatorObject.create({
           arguments: validation.arguments,
-          fields: this.get('fields'),
-          data: this.get('data')
+          fields: Ember.get(this, 'fields'),
+          data: Ember.get(this, 'data')
         })
       );
       if (msg) {
         messages.push(
-          validation.customMessage || this.get('messageProvider').getMessage(msg)
+          validation.customMessage || Ember.get(this, 'messageProvider').getMessage(msg)
         );
       }
       return isNone(msg);

@@ -3,7 +3,7 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import { fillInTextareaIntegration as fillInTextarea } from '../../helpers/ember-legit-forms';
 
-const { run, $ } = Ember;
+const { run, $, set } = Ember;
 
 moduleForComponent('lf-textarea', 'Integration | Component | lf-textarea', {
   integration: true
@@ -11,9 +11,9 @@ moduleForComponent('lf-textarea', 'Integration | Component | lf-textarea', {
 
 function setupTextarea(context, isValid = true, updateHandler = null) {
   const onUpdate = updateHandler || function () {};
-  context.set('onUpdate', onUpdate);
-  context.set('validateAction', () => { return { isValid };});
-  context.set(
+  set(context, 'onUpdate', onUpdate);
+  set(context, 'validateAction', () => { return { isValid };});
+  set(context,
     'description',
     `
       Lorem ipsum dolor sit amet, consectetur adipisicing elit.

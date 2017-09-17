@@ -11,7 +11,7 @@ moduleForComponent('lf-select', 'Integration | Component | lf-select', {
 
 function setupSelect(context, isValid = true, updateAction = null) {
   const onUpdate = updateAction || function() {};
-  context.setProperties({
+  Ember.setProperties(context, {
     onUpdate,
     value: 'val1',
     options: [

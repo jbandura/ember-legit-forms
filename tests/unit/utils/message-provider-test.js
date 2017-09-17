@@ -27,7 +27,7 @@ test('it checks first i18n before getting local keys (globals)', function(assert
 
 test('it checks first i18n before getting local keys (globals)', function(assert) {
   Ember.i18n = null;
-  subject.set('container', {
+  Ember.set(subject, 'container', {
     lookup() {
       return {
         t() {
@@ -50,7 +50,7 @@ test('it can interpolate messages with and w/o replacements', function(assert) {
 });
 
 test('when i18n installed but key not defined it uses default translation', function(assert) {
-  subject.set('container', {
+  Ember.set(subject, 'container', {
     lookup() {
       return {
         t(key) {

@@ -2,7 +2,7 @@ import Ember from 'ember';
 import layout from '../templates/components/lf-select';
 import LFInputMixin from '../mixins/lf-input-mixin';
 
-const { Component, observer, isNone } = Ember;
+const { get, Component, observer, isNone } = Ember;
 
 export default Component.extend(LFInputMixin, {
   layout,
@@ -12,8 +12,9 @@ export default Component.extend(LFInputMixin, {
   valuePath: 'value',
   labelPath: 'label',
 
+  //eslint-disable-next-line ember/no-observers
   propertyDidChange: observer('property', function() {
-    if(isNone(this.get('property'))) {
+    if(isNone(get(this, 'property'))) {
       // we have to reset fields
       this.clearValidations();
       this.hideValidationState();

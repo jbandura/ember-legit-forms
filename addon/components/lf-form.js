@@ -3,6 +3,7 @@ import layout from '../templates/components/lf-form';
 import formValidator from '../utils/form-validator';
 
 const {
+  get,
   Component,
   computed,
   observer,
@@ -20,8 +21,8 @@ export default Component.extend({
   data: null, //passed in
   preventSubmit: null, //passed in
   formValid: computed('formValidator.isFormValid', function() {
-    if (this.get('formValidator')) {
-      return this.get('formValidator.isFormValid');
+    if (get(this, 'formValidator')) {
+      return get(this, 'formValidator.isFormValid');
     }
 
     return false;
@@ -30,30 +31,32 @@ export default Component.extend({
   formValidator: computed('rules', 'data', function() {
     return formValidator.create({
       container: getOwner(this),
-      rules: this.get('rules'),
-      data: this.get('data')
+      rules: get(this, 'rules'),
+      data: get(this, 'data')
     });
   }),
 
+  //eslint-disable-next-line ember/no-observers
   rulesChanged: observer('rules', function() {
-    run.next(() => this.get('eventDispatcher').trigger('lf-forceValidate', false));
+    run.next(() => get(this, 'eventDispatcher').trigger('lf-forceValidate', false));
   }),
+
+  actions: {
+    validateChange(name, value) {
+      let validityData = get(this, 'formValidator').getValidateFunction(name, value);
+      //eslint-disable-next-line  ember/closure-actions
+      this.sendAction('validityChanged', get(this, 'formValid'));
+      return validityData;
+    }
+  },
 
   submit(e) {
     e.preventDefault();
 
-    if (this.get('preventSubmit') && !this.get('formValid')) {
-      this.get('eventDispatcher').trigger('lf-forceValidate');
-    } else if (this.get('onSubmit')) {
-      this.get('onSubmit')(this.get('formValid'));
+    if (get(this, 'preventSubmit') && !get(this, 'formValid')) {
+      get(this, 'eventDispatcher').trigger('lf-forceValidate');
+    } else if (get(this, 'onSubmit')) {
+      get(this, 'onSubmit')(get(this, 'formValid'));
     }
   },
-
-  actions: {
-    validateChange(name, value) {
-      let validityData = this.get('formValidator').getValidateFunction(name, value);
-      this.sendAction('validityChanged', this.get('formValid'));
-      return validityData;
-    }
-  }
 });
