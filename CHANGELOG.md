@@ -1,4 +1,8 @@
 # Master
+- [INTERNAL] upgrade to ember 2.15 & ember-cli 2.15
+
+# 2.1.3
+# 2.1.2
 - [BUGFIX] Update lodash to newest version to fix conflicts with mirage
 
 
