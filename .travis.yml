@@ -1,37 +1,36 @@
 ---
 language: node_js
 node_js:
-  - "4"
+  - "7"
 
 dist: trusty
-sudo: required
+sudo: false
 
 addons:
-  apt:
-    sources:
-      - google-chrome
-    packages:
-      - google-chrome-stable
+  chrome: stable
 
 cache:
-  directories:
-    - $HOME/.npm
-    - $HOME/.cache
+  yarn: true
 
 env:
-  - EMBER_TRY_SCENARIO=default
+  - EMBER_TRY_SCENARIO=ember-lts-2.12
+  - EMBER_TRY_SCENARIO=ember-lts-2.8
+  - EMBER_TRY_SCENARIO=ember-release
+  - EMBER_TRY_SCENARIO=ember-beta
+  - EMBER_TRY_SCENARIO=ember-canary
+  - EMBER_TRY_SCENARIO=ember-default
 
 matrix:
   fast_finish: true
+  allow_failures:
+    - env: EMBER_TRY_SCENARIO=ember-canary
 
 before_install:
   - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 0.23.4
   - export PATH=$HOME/.yarn/bin:$PATH
-  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"
 
 install:
   - yarn install --no-lockfile
-  - yarn bower install --no-lockfile
 
 before_script:
   - "export DISPLAY=:99.0"
@@ -39,4 +38,6 @@ before_script:
   - sleep 3 # give xvfb some time to star
 
 script:
-  - node_modules/.bin/ember try $EMBER_TRY_SCENARIO test --skip-cleanup
+  # Usually, it's ok to finish the test scenario without reverting
+  #  to the addon's original dependency state, skipping "cleanup".
+  - ember try $EMBER_TRY_SCENARIO test --skip-cleanup

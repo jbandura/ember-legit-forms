@@ -3,7 +3,7 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import { fillInTextareaIntegration as fillInTextarea } from '../../helpers/ember-legit-forms';
 
-const { run } = Ember;
+const { run, $ } = Ember;
 
 moduleForComponent('lf-textarea', 'Integration | Component | lf-textarea', {
   integration: true
