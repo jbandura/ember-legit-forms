@@ -16,5 +16,6 @@ module.exports = {
     'ember/closure-actions': 1,
     'ember/alias-model-in-controller': 1,
     'ember/named-functions-in-promises': 1,
+    'ember/no-jquery': 2,
   }
 };
