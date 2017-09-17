@@ -45,6 +45,8 @@
     "ember-resolver": "^4.0.0",
     "ember-source": "~2.15.0",
     "ember-try": "^0.1.2",
+    "eslint": "^4.7.0",
+    "eslint-plugin-ember": "^4.5.0",
     "loader.js": "^4.2.3"
   },
   "keywords": [
