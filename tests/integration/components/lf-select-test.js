@@ -1,6 +1,9 @@
 import hbs from 'htmlbars-inline-precompile';
 import { moduleForComponent, test } from 'ember-qunit';
 import { fillInSelectIntegration } from '../../helpers/ember-legit-forms';
+import Ember from 'ember';
+
+const { $ } = Ember;
 
 moduleForComponent('lf-select', 'Integration | Component | lf-select', {
   integration: true

@@ -91,7 +91,6 @@ export default Mixin.create({
     this._super(...arguments);
     this.get('eventDispatcher').on('lf-forceValidate', this, this.onForceValidate);
     Ember.run.scheduleOnce('afterRender', () => {
-      console.log('being run');
       assert(
         `{{${this.get('_inputName')}}} requires name attribute in order to link this input to validation rules`,
         this.get('name') !== null
