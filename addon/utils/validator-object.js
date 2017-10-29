@@ -13,16 +13,16 @@ export default Ember.Object.extend({
    */
   unknownProperty(name) {
     if (/field:{1}\w+/.test(name)) {
-      let field = this.get('fields').findBy('name', name.replace('field:', ''));
+      let field = Ember.get(this, 'fields').findBy('name', name.replace('field:', ''));
       if (!field) { return null; }
 
-      return field.get('value');
+      return Ember.get(field, 'value');
     }
 
     if (/data:{1}\w+/.test(name)) {
       let dataName = name.replace('data:', '');
 
-      return this.get(`data.${dataName}`);
+      return Ember.get(this, `data.${dataName}`);
     }
   }
 });

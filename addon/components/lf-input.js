@@ -3,6 +3,8 @@ import layout from '../templates/components/lf-input';
 import LFInputMixin from '../mixins/lf-input-mixin';
 
 const {
+  get,
+  set,
   Component,
   isNone,
   observer,
@@ -15,31 +17,33 @@ export default Component.extend(LFInputMixin, {
   placeholder: null, //passed in
   inputClass: null,
   addonPlacement: 'before',
+  inputComponent: 'one-way-input',
+
+  //eslint-disable-next-line ember/no-observers
   propChanged: observer('property', function() {
-    if (isNone(this.get('property'))) {
+    if (isNone(get(this, 'property'))) {
       this.clearValidations();
     }
   }),
 
-  inputComponent: 'one-way-input',
-
-  focusOut() {
-    this.set('_edited', true);
-    let value = isNone(this.get('_value')) ? this.get('property') : this.get('_value');
-    this.validateField(value);
-    this.showValidationState();
-  },
-
   actions: {
     valueChanged(value) {
       once(() => {
-        this.set('_value', value);
+        set(this, '_value', value);
         this.callUpdateHook(value);
         this.validateField(value);
-        if (this.get('_edited')) {
+        if (get(this, '_edited')) {
           this.showValidationState();
         }
       });
     }
-  }
+  },
+
+  focusOut() {
+    set(this, '_edited', true);
+    let value = isNone(get(this, '_value')) ? get(this, 'property') : get(this, '_value');
+    this.validateField(value);
+    this.showValidationState();
+  },
+
 });

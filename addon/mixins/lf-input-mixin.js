@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import messageProvider from '../utils/message-provider';
 
-const { Mixin, computed, run, inject: { service }, isArray, assert } = Ember;
+const { get, set, setProperties, Mixin, computed, run, inject: { service }, isArray, assert } = Ember;
 
 export default Mixin.create({
   eventDispatcher: service('lf-event-dispatcher'),
@@ -15,7 +15,7 @@ export default Mixin.create({
   messageProvider: messageProvider.create(),
 
   id: computed('inputId', function() {
-    return this.get('inputId') || `ember${Ember.uuid()}`;
+    return get(this, 'inputId') || `ember${Ember.uuid()}`;
   }),
 
   /**
@@ -64,22 +64,22 @@ export default Mixin.create({
    * @type {String}
    */
   validationState: computed('valid', 'validationStateVisible', 'errors', function() {
-    if (this.get('errors')) {
-      return this.get('errorClass');
+    if (get(this, 'errors')) {
+      return get(this, 'errorClass');
     }
-    if (!this.get('validationStateVisible')) { return ''; }
-    if (!this.get('valid')) { return this.get('errorClass'); }
-    return this.get('successClass');
+    if (!get(this, 'validationStateVisible')) { return ''; }
+    if (!get(this, 'valid')) { return get(this, 'errorClass'); }
+    return get(this, 'successClass');
   }),
 
   errorMessages: computed('errors', 'validationErrorMessages', function() {
-    const externalErrors = this.get('errors');
+    const externalErrors = get(this, 'errors');
     if (externalErrors) {
       const errors = isArray(externalErrors) ? externalErrors : [externalErrors];
       return this._translateExternalErrors(errors);
     }
 
-    return this.get('validationErrorMessages');
+    return get(this, 'validationErrorMessages');
   }),
 
   focusOut() {
@@ -89,11 +89,11 @@ export default Mixin.create({
 
   init() {
     this._super(...arguments);
-    this.get('eventDispatcher').on('lf-forceValidate', this, this.onForceValidate);
+    get(this, 'eventDispatcher').on('lf-forceValidate', this, this.onForceValidate);
     Ember.run.scheduleOnce('afterRender', () => {
       assert(
-        `{{${this.get('_inputName')}}} requires name attribute in order to link this input to validation rules`,
-        this.get('name') !== null
+        `{{${get(this, '_inputName')}}} requires name attribute in order to link this input to validation rules`,
+        get(this, 'name') !== null
       );
     })
   },
@@ -105,22 +105,22 @@ export default Mixin.create({
   didInsertElement() {
     this._super(...arguments);
     run.schedule("afterRender", () => {
-      if (!this.get('validate')) {
-        return this.set('valid', true);
+      if (!get(this, 'validate')) {
+        return set(this, 'valid', true);
       }
 
-      this.get('validate')(this.get('name'), this.get('property'));
+      get(this, 'validate')(get(this, 'name'), get(this, 'property'));
     });
   },
 
   willDestroyElement() {
     this._super(...arguments);
-    this.get('eventDispatcher').off('lf-forceValidate', this, this.onForceValidate);
+    get(this, 'eventDispatcher').off('lf-forceValidate', this, this.onForceValidate);
   },
 
   executeValidate(showValidationState = true) {
-    this.set('_edited', true);
-    this.validateField(this.get('property'));
+    set(this, '_edited', true);
+    this.validateField(get(this, 'property'));
     if (showValidationState) {
       this.showValidationState();
     }
@@ -134,13 +134,13 @@ export default Mixin.create({
    * @param {String} value
    */
   validateField(value) {
-    this.set('errors', null);
+    set(this, 'errors', null);
     // no validations - field always valid
-    if (!this.get('validate')) { return this.set('valid', true); }
-    let { isValid, messages, noRules } = this.get('validate')(this.get('name'), value);
-    if (noRules) { return this.set('valid', true); }
+    if (!get(this, 'validate')) { return set(this, 'valid', true); }
+    let { isValid, messages, noRules } = get(this, 'validate')(get(this, 'name'), value);
+    if (noRules) { return set(this, 'valid', true); }
 
-    this.setProperties({
+    setProperties(this, {
       'valid': isValid,
       'validationErrorMessages': messages
     });
@@ -152,8 +152,8 @@ export default Mixin.create({
    * @param {String} value
    */
   callUpdateHook(value) {
-    if (this.get('on-update')) {
-      this.get('on-update')(value);
+    if (get(this, 'on-update')) {
+      get(this, 'on-update')(value);
     }
   },
 
@@ -162,7 +162,7 @@ export default Mixin.create({
    */
   clearValidations() {
     this.validateField(null);
-    this.setProperties({
+    setProperties(this, {
       '_edited': false,
       'validationErrorMessages': [],
       validationStateVisible: false
@@ -173,11 +173,11 @@ export default Mixin.create({
    * Setter for validationStateVisible
    */
   showValidationState() {
-    this.set('validationStateVisible', true);
+    set(this, 'validationStateVisible', true);
   },
 
   hideValidationState() {
-    this.set('validationStateVisible', false);
+    set(this, 'validationStateVisible', false);
   },
 
   /**
@@ -189,9 +189,9 @@ export default Mixin.create({
 
   _translateExternalErrors(errors) {
     return errors.map((err) => {
-      const translateAction = this.get('translateExternalError');
+      const translateAction = get(this, 'translateExternalError');
       if (translateAction) { return translateAction(err); }
-      return this.get('messageProvider').getMessage(err);
+      return get(this, 'messageProvider').getMessage(err);
     });
   }
 });

@@ -2,14 +2,18 @@ import hbs from 'htmlbars-inline-precompile';
 import { moduleForComponent, test } from 'ember-qunit';
 import { fillInBlurIntegration as fillInBlur } from '../../../helpers/ember-legit-forms';
 import sinon from 'sinon';
+import Ember from 'ember';
+
+const { setProperties } = Ember;
 
 moduleForComponent('lf-form', 'Integration | Component | lf-form external errors', {
   integration: true
 });
 
+
 test('external errors are shown', function(assert) {
   const msg = 'foo message';
-  this.setProperties({
+  setProperties(this, {
     rules: { name: 'required' },
     externalErrors: {},
     messageProvider: {
@@ -43,7 +47,7 @@ test('errors are translated when action provided', function(assert) {
   const actionSpy = sinon.spy(() => {
     return 'foo message 2';
   });
-  this.setProperties({
+  setProperties(this, {
     rules: { name: 'required' },
     externalErrors: {},
     translateExternalError: actionSpy,
@@ -73,7 +77,7 @@ test('it calls the action on every error', function(assert) {
   const actionSpy = sinon.spy(() => {
     return 'foo message 2';
   });
-  this.setProperties({
+  setProperties(this, {
     rules: { name: 'required' },
     externalErrors: { name: ['mustBeAlpha', "can't be blank"] },
     translateExternalError: actionSpy,
@@ -99,7 +103,7 @@ test('it calls the action on every error', function(assert) {
 });
 
 test('external errros get cleared after input', function(assert) {
-  this.setProperties({
+  setProperties(this, {
     rules: { name: 'required' },
     externalErrors: { name: ['mustBeAlpha', "can't be blank"] },
   });

@@ -35,12 +35,12 @@ test('it creates fields from rules', function(assert) {
     }
   });
 
-  assert.deepEqual(subject.get('fields')[0].getProperties('name', 'valid'), {
+  assert.deepEqual(Ember.getProperties(Ember.get(subject, 'fields')[0], 'name', 'valid'), {
     name: 'password',
     valid: null
   });
 
-  assert.deepEqual(subject.get('fields')[1].getProperties('name', 'valid'), {
+  assert.deepEqual(Ember.getProperties(Ember.get(subject, 'fields')[1], 'name', 'valid'), {
     name: 'name',
     valid: null
   });
@@ -77,7 +77,7 @@ test('it sets correctly fields when all fields correct', function(assert) {
 
   subject.getValidateFunction('password');
 
-  assert.deepEqual(subject.get('fields')[0].getProperties('name', 'valid'), {
+  assert.deepEqual(Ember.getProperties(Ember.get(subject, 'fields')[0], 'name', 'valid'), {
     name: 'password',
     valid: true
   }, 'should return fields');
@@ -95,7 +95,7 @@ test('it marks wrong fields', function(assert) {
   });
 
   subject.getValidateFunction('phone');
-  assert.deepEqual(subject.get('fields')[0].getProperties('name', 'valid'), {
+  assert.deepEqual(Ember.getProperties(Ember.get(subject, 'fields')[0], 'name', 'valid'), {
     name: "phone",
     valid: false
   });
@@ -114,17 +114,17 @@ test('it correctly recalculates fields', function(assert) {
   });
 
   subject.getValidateFunction('phone');
-  assert.deepEqual(subject.get('fields')[0].getProperties('name', 'valid'), {
+  assert.deepEqual(Ember.getProperties(Ember.get(subject, 'fields')[0], 'name', 'valid'), {
     name: "phone",
     valid: false
   }, 'it sets validity correctly when not valid');
 
-  subject.set('lookupService', generateLookupStub({ numeric: null }));
+  Ember.set(subject, 'lookupService', generateLookupStub({ numeric: null }));
 
   subject.getValidateFunction('phone');
 
 
-  assert.deepEqual(subject.get('fields')[0].getProperties('name', 'valid'), {
+  assert.deepEqual(Ember.getProperties(Ember.get(subject, 'fields')[0], 'name', 'valid'), {
     "name": "phone",
     "valid": true
   }, 'it sets validity correctly when valid');
@@ -146,9 +146,9 @@ test('it sets and recalculates isFormValid property correctly', function(assert)
   subject.getValidateFunction('phone');
   subject.getValidateFunction('password');
 
-  assert.ok(subject.get('isFormValid'));
+  assert.ok(Ember.get(subject, 'isFormValid'));
 
-  subject.set('lookupService', generateLookupStub({
+  Ember.set(subject, 'lookupService', generateLookupStub({
     numeric: null,
     required: 'error'
   }));
@@ -157,5 +157,5 @@ test('it sets and recalculates isFormValid property correctly', function(assert)
   subject.getValidateFunction('phone');
   subject.getValidateFunction('password');
 
-  assert.equal(subject.get('isFormValid'), false);
+  assert.equal(Ember.get(subject, 'isFormValid'), false);
 });

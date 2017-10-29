@@ -3,13 +3,13 @@ import Ember from 'ember';
 const { Controller } = Ember;
 
 export default Controller.extend({
-  formSubmitted: false,
   model: {
     email: 'asd@home.co',
     name: null,
     interests: null,
     number: null
   },
+  formSubmitted: false,
 
   rules: {
     sharedValidations: {

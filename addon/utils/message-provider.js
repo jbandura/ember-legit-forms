@@ -58,7 +58,7 @@ export default Ember.Object.extend({
     if(Ember.i18n) {
       return Ember.i18n.t(`validation.${msg}`, replacements);
     }
-    let i18nService = this.get('container') ? this.get('container').lookup('service:i18n') : null;
+    let i18nService = Ember.get(this, 'container') ? Ember.get(this, 'container').lookup('service:i18n') : null;
     if (i18nService) {
       const translatedMessage = i18nService.t(`validation.${msg}`, replacements);
       if (!/Missing translation/.test(translatedMessage)) return translatedMessage;
@@ -74,7 +74,7 @@ export default Ember.Object.extend({
    * @private
    */
   _interpolateMessage(msg, replacements) {
-    let message = this.get(`defaultMessages.${msg}`);
+    let message = Ember.get(this, `defaultMessages.${msg}`);
     if (!message) {
       return msg;
     }

@@ -3,10 +3,10 @@ import Ember from 'ember';
 const { Controller } = Ember;
 
 export default Controller.extend({
-  externalErrors: {},
   model: {
     group: null
   },
+  externalErrors: {},
   groups: [
     { label: 'Group 1', value: 1 }
   ],
