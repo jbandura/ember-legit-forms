@@ -2,11 +2,15 @@ import validationLookup from '../utils/validation-lookup';
 import validationParser from '../utils/validations-parser';
 import messageProvider from '../utils/message-provider';
 import validatorObject from '../utils/validator-object';
+import LFValidationStrategy from './strategies/lf-validation';
+import ChangesetStrategy from './strategies/changeset';
 import Ember from 'ember';
 
 const {
   computed,
   warn,
+  get,
+  set,
   isNone
 } = Ember;
 
@@ -28,10 +32,10 @@ export default Ember.Object.extend({
    */
   rules: computed({
     get() {
-      return Ember.get(this, '_rules');
+      return get(this, '_rules');
     },
     set(key, value) {
-      return Ember.get(this, 'parserService').parseShared(value);
+      return get(this, 'parserService').parseShared(value);
     }
   }),
 
@@ -62,24 +66,8 @@ export default Ember.Object.extend({
    * @property fields
    * @type Array
    */
-  fields: computed('rules', function() {
-    if (!Ember.get(this, 'rules')) {
-      warn('[Ember Legit Forms] No rules hash provided. All fields will be valid no matter the input.');
-      return [];
-    }
-
-    let rules = Ember.get(this, 'rules');
-    let resultObj = Ember.A();
-
-    Object.keys(rules).forEach((key) => {
-      resultObj.pushObject(Ember.Object.create({
-        name: key,
-        valid: null,
-        value: null
-      }));
-    });
-
-    return resultObj;
+  fields: computed('rules', 'changeset', function() {
+    return get(this, 'strategy').getFields();
   }),
 
   /**
@@ -91,13 +79,24 @@ export default Ember.Object.extend({
    * @type boolean
    */
   isFormValid: computed('fields.@each.valid', function() {
-    let fields = Ember.get(this, 'fields');
+    let fields = get(this, 'fields');
 
     return fields.reduce((acc, field) => {
-       let fieldValue = Ember.get(field, 'valid');
+       let fieldValue = get(field, 'valid');
        return acc && Boolean(fieldValue);
     }, true);
   }),
+
+  init() {
+    this._super(...arguments);
+    if(get(this, 'rules')) {
+      set(this, 'strategy', new LFValidationStrategy(get(this, 'rules')));
+    } else if(get(this, 'changeset')) {
+      set(this, 'strategy', new ChangesetStrategy(get(this, 'changeset')));
+    } else {
+      warn('[Ember Legit Forms] No rules hash provided. All fields will be valid no matter the input.');
+    }
+  },
 
   /**
    * Calculates whether field is valid and returns error messages in case it is not.
@@ -107,14 +106,14 @@ export default Ember.Object.extend({
    * @returns {Object}
    */
   getValidateFunction(fieldName, value) {
-    if (!Ember.get(this, 'rules') || !Ember.get(this, 'rules')[fieldName]) {
-      return Ember.get(this, 'alwaysValid');
+    if (!get(this, 'rules') || !get(this, 'rules')[fieldName]) {
+      return get(this, 'alwaysValid');
     }
 
-    const rule = Ember.get(this, 'rules')[fieldName];
-    let validations = Ember.get(this, 'parserService').parseRule(rule);
+    const rule = get(this, 'rules')[fieldName];
+    let validations = get(this, 'parserService').parseRule(rule);
     let fieldValidation = this._verifyValidity(value, validations, fieldName);
-    let field = Ember.get(this, 'fields').findBy('name', fieldName);
+    let field = get(this, 'fields').findBy('name', fieldName);
     Ember.setProperties(field, {
       valid: fieldValidation.isValid,
       value: value
@@ -133,27 +132,27 @@ export default Ember.Object.extend({
    */
   _verifyValidity(value, validations) {
     let messages = [];
-    Ember.set(Ember.get(this, 'messageProvider'), 'container', Ember.get(this, 'container'));
+    Ember.set(get(this, 'messageProvider'), 'container', get(this, 'container'));
     let validity = validations.map((validation) => {
       // detect whether we have a custom validator
       // if not then we have to look it up
       let validator = (validation.isFunction) ?
         validation :
-        Ember.get(this, 'lookupService').lookupValidator(
-          Ember.get(this, 'container'), validation.name
+        get(this, 'lookupService').lookupValidator(
+          get(this, 'container'), validation.name
         )
       ;
       let msg = validator.validate(
         value,
         validatorObject.create({
           arguments: validation.arguments,
-          fields: Ember.get(this, 'fields'),
-          data: Ember.get(this, 'data')
+          fields: get(this, 'fields'),
+          data: get(this, 'data')
         })
       );
       if (msg) {
         messages.push(
-          validation.customMessage || Ember.get(this, 'messageProvider').getMessage(msg)
+          validation.customMessage || get(this, 'messageProvider').getMessage(msg)
         );
       }
       return isNone(msg);

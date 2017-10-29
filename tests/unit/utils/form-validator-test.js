@@ -159,3 +159,25 @@ test('it sets and recalculates isFormValid property correctly', function(assert)
 
   assert.equal(Ember.get(subject, 'isFormValid'), false);
 });
+
+test('it creates fields basing on changeset', function(assert) {
+  const changeset = Ember.Object.create({
+    _content: {
+      firstName: "asd",
+      lastName: "",
+    }
+  });
+  let subject = FormValidator.create({ changeset });
+
+  assert.deepEqual(Ember.getProperties(Ember.get(subject, 'fields')[0], 'name', 'valid', 'value'), {
+    name: 'firstName',
+    valid: null,
+    value: "asd",
+  }, 'it creates firstName field an preserves value');
+
+  assert.deepEqual(Ember.getProperties(Ember.get(subject, 'fields')[1], 'name', 'valid', 'value'), {
+    name: 'lastName',
+    valid: null,
+    value: "",
+  }, 'it creates lastName field and preserves value');
+})
