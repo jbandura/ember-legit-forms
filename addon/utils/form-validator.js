@@ -109,8 +109,8 @@ export default Ember.Object.extend({
    * @param {String} value: value of the field that need to be validated
    * @returns {Object}
    */
-  getValidateFunction(fieldName, value) {
-    return get(this, 'strategy').getValidateFunction(get(this, 'fields'), fieldName, value, get(this, 'alwaysValid'));
+  validate(fieldName, value) {
+    return get(this, 'strategy').validate(get(this, 'fields'), fieldName, value, get(this, 'alwaysValid'));
   },
 
   _strategyObjectFactory(type, rules) {

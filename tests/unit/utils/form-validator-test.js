@@ -57,7 +57,7 @@ test('it gets correct validation when all fields correct', function(assert) {
     }
   });
 
-  let validation = subject.getValidateFunction('password');
+  let validation = subject.validate('password');
   assert.deepEqual(validation, {
     messages: [],
     isValid: true
@@ -75,7 +75,7 @@ test('it sets correctly fields when all fields correct', function(assert) {
     }
   });
 
-  subject.getValidateFunction('password');
+  subject.validate('password');
 
   assert.deepEqual(Ember.getProperties(Ember.get(subject, 'fields')[0], 'name', 'valid'), {
     name: 'password',
@@ -94,7 +94,7 @@ test('it marks wrong fields', function(assert) {
     }
   });
 
-  subject.getValidateFunction('phone');
+  subject.validate('phone');
   assert.deepEqual(Ember.getProperties(Ember.get(subject, 'fields')[0], 'name', 'valid'), {
     name: "phone",
     valid: false
@@ -113,7 +113,7 @@ test('it correctly recalculates fields', function(assert) {
     }
   });
 
-  subject.getValidateFunction('phone', '1234');
+  subject.validate('phone', '1234');
   assert.deepEqual(Ember.getProperties(Ember.get(subject, 'fields')[0], 'name', 'valid'), {
     name: "phone",
     valid: false
@@ -121,7 +121,7 @@ test('it correctly recalculates fields', function(assert) {
 
   Ember.set(subject, 'strategy.lookupService', generateLookupStub({ numeric: null }));
 
-  subject.getValidateFunction('phone', '1234');
+  subject.validate('phone', '1234');
 
 
   assert.deepEqual(Ember.getProperties(Ember.get(subject, 'fields')[0], 'name', 'valid'), {
@@ -143,8 +143,8 @@ test('it sets and recalculates isFormValid property correctly', function(assert)
     }
   });
 
-  subject.getValidateFunction('phone');
-  subject.getValidateFunction('password');
+  subject.validate('phone');
+  subject.validate('password');
 
   assert.ok(Ember.get(subject, 'isFormValid'));
 
@@ -154,8 +154,8 @@ test('it sets and recalculates isFormValid property correctly', function(assert)
   }));
 
 
-  subject.getValidateFunction('phone');
-  subject.getValidateFunction('password');
+  subject.validate('phone');
+  subject.validate('password');
 
   assert.equal(Ember.get(subject, 'isFormValid'), false);
 });

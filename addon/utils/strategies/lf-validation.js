@@ -23,7 +23,7 @@ export default class {
     }));
   }
 
-  getValidateFunction(fields, fieldName, value, alwaysValid) {
+  validate(fields, fieldName, value, alwaysValid) {
     if (!this.rules || !this.rules[fieldName]) return alwaysValid;
 
     const rule = this.rules[fieldName];

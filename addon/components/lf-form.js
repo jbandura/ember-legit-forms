@@ -43,7 +43,7 @@ export default Component.extend({
 
   actions: {
     validateChange(name, value) {
-      let validityData = get(this, 'formValidator').getValidateFunction(name, value);
+      let validityData = get(this, 'formValidator').validate(name, value);
       //eslint-disable-next-line  ember/closure-actions
       this.sendAction('validityChanged', get(this, 'formValid'));
       return validityData;
