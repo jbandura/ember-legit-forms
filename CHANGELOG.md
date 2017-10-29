@@ -1,6 +1,6 @@
 # Master
-- [INTERNAL] upgrade to ember 2.15 & ember-cli 2.15
-- [INTERNAL] start using eslint-plugin-ember
+- [INTERNAL] upgrade to ember 2.15 & ember-cli 2.15 (#57)
+- [INTERNAL] start using eslint-plugin-ember (#60)
 
 # 2.1.3
 # 2.1.2
