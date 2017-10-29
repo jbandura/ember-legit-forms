@@ -113,15 +113,15 @@ test('it correctly recalculates fields', function(assert) {
     }
   });
 
-  subject.getValidateFunction('phone');
+  subject.getValidateFunction('phone', '1234');
   assert.deepEqual(Ember.getProperties(Ember.get(subject, 'fields')[0], 'name', 'valid'), {
     name: "phone",
     valid: false
   }, 'it sets validity correctly when not valid');
 
-  Ember.set(subject, 'lookupService', generateLookupStub({ numeric: null }));
+  Ember.set(subject, 'strategy.lookupService', generateLookupStub({ numeric: null }));
 
-  subject.getValidateFunction('phone');
+  subject.getValidateFunction('phone', '1234');
 
 
   assert.deepEqual(Ember.getProperties(Ember.get(subject, 'fields')[0], 'name', 'valid'), {
@@ -148,7 +148,7 @@ test('it sets and recalculates isFormValid property correctly', function(assert)
 
   assert.ok(Ember.get(subject, 'isFormValid'));
 
-  Ember.set(subject, 'lookupService', generateLookupStub({
+  Ember.set(subject, 'strategy.lookupService', generateLookupStub({
     numeric: null,
     required: 'error'
   }));

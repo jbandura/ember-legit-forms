@@ -1,7 +1,6 @@
 import validationLookup from '../utils/validation-lookup';
 import validationParser from '../utils/validations-parser';
 import messageProvider from '../utils/message-provider';
-import validatorObject from '../utils/validator-object';
 import LFValidationStrategy from './strategies/lf-validation';
 import ChangesetStrategy from './strategies/changeset';
 import Ember from 'ember';
@@ -11,7 +10,8 @@ const {
   warn,
   get,
   set,
-  isNone
+  getProperties,
+  String: { w },
 } = Ember;
 
 export default Ember.Object.extend({
@@ -89,13 +89,17 @@ export default Ember.Object.extend({
 
   init() {
     this._super(...arguments);
-    if(get(this, 'rules')) {
-      set(this, 'strategy', new LFValidationStrategy(get(this, 'rules')));
-    } else if(get(this, 'changeset')) {
-      set(this, 'strategy', new ChangesetStrategy(get(this, 'changeset')));
-    } else {
-      warn('[Ember Legit Forms] No rules hash provided. All fields will be valid no matter the input.');
+    const { rules, changeset } = getProperties(this, w('rules changeset'));
+
+    if(!rules && !changeset) {
+      return warn('[Ember Legit Forms] No rules hash provided. All fields will be valid no matter the input.');
     }
+
+    let strategyObj;
+    if(rules) strategyObj = this._strategyObjectFactory('lfValidation', rules);
+    if(changeset) strategyObj = this._strategyObjectFactory('changeset', changeset);
+
+    set(this, 'strategy', strategyObj);
   },
 
   /**
@@ -106,61 +110,16 @@ export default Ember.Object.extend({
    * @returns {Object}
    */
   getValidateFunction(fieldName, value) {
-    if (!get(this, 'rules') || !get(this, 'rules')[fieldName]) {
-      return get(this, 'alwaysValid');
-    }
-
-    const rule = get(this, 'rules')[fieldName];
-    let validations = get(this, 'parserService').parseRule(rule);
-    let fieldValidation = this._verifyValidity(value, validations, fieldName);
-    let field = get(this, 'fields').findBy('name', fieldName);
-    Ember.setProperties(field, {
-      valid: fieldValidation.isValid,
-      value: value
-    });
-
-    return fieldValidation;
+    return get(this, 'strategy').getValidateFunction(get(this, 'fields'), fieldName, value, get(this, 'alwaysValid'));
   },
 
-  /**
-   * This function does the heavy lifting of calculating whether field is valid
-   *
-   * @param {String} value
-   * @param {Object[]} validations
-   * @returns {Object} a message and valid state
-   * @private
-   */
-  _verifyValidity(value, validations) {
-    let messages = [];
-    Ember.set(get(this, 'messageProvider'), 'container', get(this, 'container'));
-    let validity = validations.map((validation) => {
-      // detect whether we have a custom validator
-      // if not then we have to look it up
-      let validator = (validation.isFunction) ?
-        validation :
-        get(this, 'lookupService').lookupValidator(
-          get(this, 'container'), validation.name
-        )
-      ;
-      let msg = validator.validate(
-        value,
-        validatorObject.create({
-          arguments: validation.arguments,
-          fields: get(this, 'fields'),
-          data: get(this, 'data')
-        })
-      );
-      if (msg) {
-        messages.push(
-          validation.customMessage || get(this, 'messageProvider').getMessage(msg)
-        );
-      }
-      return isNone(msg);
-    });
-    let isValid = validity.reduce((acc, value) => {
-      return acc && value;
-    }, true);
-
-    return { messages, isValid };
+  _strategyObjectFactory(type, rules) {
+    const strategyObj = { lfValidation: LFValidationStrategy, changeset: ChangesetStrategy }[type];
+    const {
+      parserService, messageProvider, lookupService, container, data
+    } = getProperties(this, w('parserService messageProvider lookupService container data'));
+    return new strategyObj(
+      rules, parserService, messageProvider, lookupService, container, data
+    );
   },
 });
