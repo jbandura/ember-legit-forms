@@ -18,6 +18,7 @@ export default Component.extend({
   layout,
   tagName: 'form',
   rules: null, //passed in
+  changeset: null, //passed in
   data: null, //passed in
   preventSubmit: null, //passed in
   formValid: computed('formValidator.isFormValid', function() {
@@ -28,10 +29,11 @@ export default Component.extend({
     return false;
   }),
 
-  formValidator: computed('rules', 'data', function() {
+  formValidator: computed('rules', 'changeset', 'data', function() {
     return formValidator.create({
       container: getOwner(this),
       rules: get(this, 'rules'),
+      changeset: get(this, 'changeset'),
       data: get(this, 'data')
     });
   }),

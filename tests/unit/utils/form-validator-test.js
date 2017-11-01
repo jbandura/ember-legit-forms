@@ -180,4 +180,86 @@ test('it creates fields basing on changeset', function(assert) {
     valid: null,
     value: "",
   }, 'it creates lastName field and preserves value');
-})
+});
+
+test('[changeset] it marks fields as valid when no errors present', function(assert) {
+  const changeset = Ember.Object.create({
+    _content: {
+      lastName: "Foo",
+    },
+    error: {
+      lastName: { validation: [], },
+    }
+  });
+  let subject = FormValidator.create({ changeset });
+
+  let validation = subject.validate('lastName', 'Foo');
+  assert.deepEqual(validation, {
+    isValid: true,
+    messages: [],
+  }, 'it creates firstName field an preserves value');
+});
+
+test('[changeset] it correctly recalculates fields', function(assert) {
+  const changeset = Ember.Object.create({
+    _content: {
+      phone: "",
+    },
+    error: {
+      phone: { validation: ['must be numeric'], },
+    }
+  });
+  let subject = FormValidator.create({ changeset });
+
+  subject.validate('phone', '1234');
+  assert.deepEqual(Ember.getProperties(Ember.get(subject, 'fields')[0], 'name', 'valid'), {
+    name: "phone",
+    valid: false
+  }, 'it sets validity correctly when not valid');
+
+  Ember.set(subject, 'changeset', Ember.Object.create({
+    _content: {
+      phone: '1234',
+    },
+  }));
+
+  subject.validate('phone', '1234');
+
+
+  assert.deepEqual(Ember.getProperties(Ember.get(subject, 'fields')[0], 'name', 'valid'), {
+    "name": "phone",
+    "valid": true
+  }, 'it sets validity correctly when valid');
+});
+
+test('[changeset] it sets and recalculates isFormValid property correctly', function(assert) {
+  const changeset = Ember.Object.create({
+    _content: {
+      phone: "",
+      password: "",
+    },
+  });
+  let subject = FormValidator.create({ changeset });
+
+  subject.validate('phone');
+  subject.validate('password');
+
+  assert.ok(Ember.get(subject, 'isFormValid'));
+
+  Ember.set(subject, 'changeset', {
+    _content: {
+      phone: "",
+      password: "",
+    },
+    error: {
+      phone: { validation: ['cant be blank'] },
+      password: { validation: ['cant be blank'] },
+    }
+  });
+
+
+  subject.validate('phone');
+  subject.validate('password');
+
+  assert.equal(Ember.get(subject, 'isFormValid'), false);
+});

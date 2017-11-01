@@ -67,6 +67,7 @@ export default Ember.Object.extend({
    * @type Array
    */
   fields: computed('rules', 'changeset', function() {
+    set(this, 'strategy.changeset', get(this, 'changeset'));
     return get(this, 'strategy').getFields();
   }),
 
