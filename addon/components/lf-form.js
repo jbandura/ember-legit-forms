@@ -18,6 +18,7 @@ export default Component.extend({
   layout,
   tagName: 'form',
   rules: null, //passed in
+  changeset: null, //passed in
   data: null, //passed in
   preventSubmit: null, //passed in
   formValid: computed('formValidator.isFormValid', function() {
@@ -28,10 +29,11 @@ export default Component.extend({
     return false;
   }),
 
-  formValidator: computed('rules', 'data', function() {
+  formValidator: computed('rules', 'changeset', 'data', function() {
     return formValidator.create({
       container: getOwner(this),
       rules: get(this, 'rules'),
+      changeset: get(this, 'changeset'),
       data: get(this, 'data')
     });
   }),
@@ -41,9 +43,14 @@ export default Component.extend({
     run.next(() => get(this, 'eventDispatcher').trigger('lf-forceValidate', false));
   }),
 
+  //eslint-disable-next-line ember/no-observers
+  errorsChanged: observer('changeset.errors', function() {
+    run.next(() => get(this, 'eventDispatcher').trigger('lf-forceValidate', false));
+  }),
+
   actions: {
     validateChange(name, value) {
-      let validityData = get(this, 'formValidator').getValidateFunction(name, value);
+      let validityData = get(this, 'formValidator').validate(name, value);
       //eslint-disable-next-line  ember/closure-actions
       this.sendAction('validityChanged', get(this, 'formValid'));
       return validityData;
