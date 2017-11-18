@@ -15,7 +15,7 @@
     size={{size}}
     onchange={{action "optionSelected" value="target.value"}}
   >
-    <option value="" selected={{eq property null}}>{{prompt}}</option>
+    <option value="" selected={{eq property null}} disabled>{{prompt}}</option>
     {{#each content as |item|}}
       <option value={{get item valuePath}} selected={{eq property (get item valuePath)}}>{{get item labelPath}}</option>
     {{/each}}
