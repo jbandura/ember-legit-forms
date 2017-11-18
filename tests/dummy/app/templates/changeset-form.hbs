@@ -1,0 +1,25 @@
+{{#lf-form
+  changeset=changeset
+  as |v isValid|
+}}
+  {{lf-input
+    name="firstName"
+    label="First Name"
+    class="js-first-name"
+    on-update=(action (mut changeset.firstName))
+    validate=v
+  }}
+
+  {{lf-input
+    name="lastName"
+    label="Last Name"
+    class="js-last-name"
+    on-update=(action (mut changeset.lastName))
+    validate=v
+  }}
+  <button disabled={{not isValid}}>Submit</button>
+{{/lf-form}}
+
+<button class="js-populate-errors" {{action "populateErrors"}}>
+  Add errors
+</button>

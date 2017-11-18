@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import { isArray } from 'lodash/lang';
 
 const { get, getWithDefault, isEmpty, setProperties } = Ember;
 
@@ -18,6 +19,8 @@ export default class {
   }
 
   validate(fields, fieldName, value) {
+    // Needed to generate empty error array, so that observer for force validate works correctly
+    get(this.changeset, 'errors');
     const validationErrors = getWithDefault(this.changeset, `error.${fieldName}.validation`, []);
     const field = fields.findBy('name', fieldName);
     const isValid = isEmpty(validationErrors);
@@ -27,7 +30,7 @@ export default class {
     });
     return {
       isValid,
-      messages: validationErrors,
+      messages: isArray(validationErrors) ? validationErrors : [validationErrors],
     };
   }
 }

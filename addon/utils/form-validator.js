@@ -35,7 +35,7 @@ export default Ember.Object.extend({
       return get(this, '_rules');
     },
     set(key, value) {
-      return get(this, 'parserService').parseShared(value);
+      if(value) return get(this, 'parserService').parseShared(value);
     }
   }),
 
@@ -94,6 +94,10 @@ export default Ember.Object.extend({
 
     if(!rules && !changeset) {
       return warn('[Ember Legit Forms] No rules hash provided. All fields will be valid no matter the input.');
+    }
+
+    if(rules && changeset) {
+      return warn('[Ember Legit Forms] Passing in both rules and changeset is not supported.')
     }
 
     let strategyObj;

@@ -43,6 +43,11 @@ export default Component.extend({
     run.next(() => get(this, 'eventDispatcher').trigger('lf-forceValidate', false));
   }),
 
+  //eslint-disable-next-line ember/no-observers
+  errorsChanged: observer('changeset.errors', function() {
+    run.next(() => get(this, 'eventDispatcher').trigger('lf-forceValidate', false));
+  }),
+
   actions: {
     validateChange(name, value) {
       let validityData = get(this, 'formValidator').validate(name, value);
