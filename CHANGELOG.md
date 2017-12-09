@@ -1,4 +1,7 @@
 # Master
+- [FEATURE] add disabled property to `lf-select` prompt (#68)
+- [FEATURE] add tabindex property to `lf-textarea` and `lf-select` (#67)
+- [FEATURE] add support for ember-changeset (#64)
 - [INTERNAL] upgrade to ember 2.15 & ember-cli 2.15 (#57)
 - [INTERNAL] start using eslint-plugin-ember (#60)
 
