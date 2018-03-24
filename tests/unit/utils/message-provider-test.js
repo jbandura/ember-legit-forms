@@ -1,3 +1,4 @@
+import { set } from '@ember/object';
 import messageProvider from 'ember-legit-forms/utils/message-provider';
 import { module, test } from 'qunit';
 import Ember from 'ember';
@@ -27,7 +28,7 @@ test('it checks first i18n before getting local keys (globals)', function(assert
 
 test('it checks first i18n before getting local keys (globals)', function(assert) {
   Ember.i18n = null;
-  Ember.set(subject, 'container', {
+  set(subject, 'container', {
     lookup() {
       return {
         t() {
@@ -50,7 +51,7 @@ test('it can interpolate messages with and w/o replacements', function(assert) {
 });
 
 test('when i18n installed but key not defined it uses default translation', function(assert) {
-  Ember.set(subject, 'container', {
+  set(subject, 'container', {
     lookup() {
       return {
         t(key) {

@@ -1,15 +1,9 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { isNone } from '@ember/utils';
+import { observer, set, get } from '@ember/object';
+import { once } from '@ember/runloop';
 import layout from '../templates/components/lf-input';
 import LFInputMixin from '../mixins/lf-input-mixin';
-
-const {
-  get,
-  set,
-  Component,
-  isNone,
-  observer,
-  run: { once },
-} = Ember;
 
 export default Component.extend(LFInputMixin, {
   layout,

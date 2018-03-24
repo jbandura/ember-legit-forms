@@ -1,8 +1,8 @@
-import Ember from 'ember';
+import EmberObject, { get } from '@ember/object';
 
-export default Ember.Object.extend({
+export default EmberObject.extend({
   validate(value, validator) {
-    const allowedDecimals = validator && Ember.get(validator, 'arguments')[0];
+    const allowedDecimals = validator && get(validator, 'arguments')[0];
     const decimals = String(value).split('.')[1];
 
     if (isNaN(value)) {

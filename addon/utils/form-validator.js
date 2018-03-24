@@ -1,20 +1,18 @@
+import { warn } from '@ember/debug';
+import EmberObject, {
+  getProperties,
+  set,
+  get,
+  computed
+} from '@ember/object';
+import { w } from '@ember/string';
 import validationLookup from '../utils/validation-lookup';
 import validationParser from '../utils/validations-parser';
 import messageProvider from '../utils/message-provider';
 import LFValidationStrategy from './strategies/lf-validation';
 import ChangesetStrategy from './strategies/changeset';
-import Ember from 'ember';
 
-const {
-  computed,
-  warn,
-  get,
-  set,
-  getProperties,
-  String: { w },
-} = Ember;
-
-export default Ember.Object.extend({
+export default EmberObject.extend({
   lookupService: validationLookup.create(),
   parserService: validationParser.create(),
   messageProvider: messageProvider.create(),

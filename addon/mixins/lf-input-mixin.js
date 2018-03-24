@@ -1,7 +1,11 @@
+import Mixin from '@ember/object/mixin';
+import { computed, setProperties, set, get } from '@ember/object';
+import { run, scheduleOnce } from '@ember/runloop';
+import { inject as service } from '@ember/service';
+import { isArray } from '@ember/array';
+import { assert } from '@ember/debug';
 import Ember from 'ember';
 import messageProvider from '../utils/message-provider';
-
-const { get, set, setProperties, Mixin, computed, run, inject: { service }, isArray, assert } = Ember;
 
 export default Mixin.create({
   eventDispatcher: service('lf-event-dispatcher'),
@@ -90,7 +94,7 @@ export default Mixin.create({
   init() {
     this._super(...arguments);
     get(this, 'eventDispatcher').on('lf-forceValidate', this, this.onForceValidate);
-    Ember.run.scheduleOnce('afterRender', () => {
+    scheduleOnce('afterRender', () => {
       assert(
         `{{${get(this, '_inputName')}}} requires name attribute in order to link this input to validation rules`,
         get(this, 'name') !== null

@@ -1,8 +1,7 @@
-import Ember from 'ember';
+import EmberObject from '@ember/object';
+import { isBlank } from '@ember/utils';
 
-const { isBlank } = Ember;
-
-export default Ember.Object.extend({
+export default EmberObject.extend({
   validate(value) {
     let valid = /^[a-z0-9]+$/i.test(value) || isBlank(value);
     if (!valid) {

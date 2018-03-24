@@ -1,11 +1,15 @@
+import EmberObject, {
+  getProperties,
+  get,
+  set
+} from '@ember/object';
 import FormValidator from 'ember-legit-forms/utils/form-validator';
 import { module, test } from 'qunit';
-import Ember from 'ember';
 
 module('Unit | Utility | form validator');
 
 function generateLookupStub(returnValues) {
-  return Ember.Object.create({
+  return EmberObject.create({
     lookupValidator(_, name) {
       return {
         validate() {
@@ -17,7 +21,7 @@ function generateLookupStub(returnValues) {
 }
 
 function generateParserStub() {
-  return Ember.Object.create({
+  return EmberObject.create({
     parseRule(ruleName) {
       return [{
         name: ruleName
@@ -35,12 +39,12 @@ test('it creates fields from rules', function(assert) {
     }
   });
 
-  assert.deepEqual(Ember.getProperties(Ember.get(subject, 'fields')[0], 'name', 'valid'), {
+  assert.deepEqual(getProperties(get(subject, 'fields')[0], 'name', 'valid'), {
     name: 'password',
     valid: null
   });
 
-  assert.deepEqual(Ember.getProperties(Ember.get(subject, 'fields')[1], 'name', 'valid'), {
+  assert.deepEqual(getProperties(get(subject, 'fields')[1], 'name', 'valid'), {
     name: 'name',
     valid: null
   });
@@ -77,7 +81,7 @@ test('it sets correctly fields when all fields correct', function(assert) {
 
   subject.validate('password');
 
-  assert.deepEqual(Ember.getProperties(Ember.get(subject, 'fields')[0], 'name', 'valid'), {
+  assert.deepEqual(getProperties(get(subject, 'fields')[0], 'name', 'valid'), {
     name: 'password',
     valid: true
   }, 'should return fields');
@@ -95,7 +99,7 @@ test('it marks wrong fields', function(assert) {
   });
 
   subject.validate('phone');
-  assert.deepEqual(Ember.getProperties(Ember.get(subject, 'fields')[0], 'name', 'valid'), {
+  assert.deepEqual(getProperties(get(subject, 'fields')[0], 'name', 'valid'), {
     name: "phone",
     valid: false
   });
@@ -114,17 +118,17 @@ test('it correctly recalculates fields', function(assert) {
   });
 
   subject.validate('phone', '1234');
-  assert.deepEqual(Ember.getProperties(Ember.get(subject, 'fields')[0], 'name', 'valid'), {
+  assert.deepEqual(getProperties(get(subject, 'fields')[0], 'name', 'valid'), {
     name: "phone",
     valid: false
   }, 'it sets validity correctly when not valid');
 
-  Ember.set(subject, 'strategy.lookupService', generateLookupStub({ numeric: null }));
+  set(subject, 'strategy.lookupService', generateLookupStub({ numeric: null }));
 
   subject.validate('phone', '1234');
 
 
-  assert.deepEqual(Ember.getProperties(Ember.get(subject, 'fields')[0], 'name', 'valid'), {
+  assert.deepEqual(getProperties(get(subject, 'fields')[0], 'name', 'valid'), {
     "name": "phone",
     "valid": true
   }, 'it sets validity correctly when valid');
@@ -146,9 +150,9 @@ test('it sets and recalculates isFormValid property correctly', function(assert)
   subject.validate('phone');
   subject.validate('password');
 
-  assert.ok(Ember.get(subject, 'isFormValid'));
+  assert.ok(get(subject, 'isFormValid'));
 
-  Ember.set(subject, 'strategy.lookupService', generateLookupStub({
+  set(subject, 'strategy.lookupService', generateLookupStub({
     numeric: null,
     required: 'error'
   }));
@@ -157,11 +161,11 @@ test('it sets and recalculates isFormValid property correctly', function(assert)
   subject.validate('phone');
   subject.validate('password');
 
-  assert.equal(Ember.get(subject, 'isFormValid'), false);
+  assert.equal(get(subject, 'isFormValid'), false);
 });
 
 test('it creates fields basing on changeset', function(assert) {
-  const changeset = Ember.Object.create({
+  const changeset = EmberObject.create({
     _content: {
       firstName: "asd",
       lastName: "",
@@ -169,13 +173,13 @@ test('it creates fields basing on changeset', function(assert) {
   });
   let subject = FormValidator.create({ changeset });
 
-  assert.deepEqual(Ember.getProperties(Ember.get(subject, 'fields')[0], 'name', 'valid', 'value'), {
+  assert.deepEqual(getProperties(get(subject, 'fields')[0], 'name', 'valid', 'value'), {
     name: 'firstName',
     valid: null,
     value: "asd",
   }, 'it creates firstName field an preserves value');
 
-  assert.deepEqual(Ember.getProperties(Ember.get(subject, 'fields')[1], 'name', 'valid', 'value'), {
+  assert.deepEqual(getProperties(get(subject, 'fields')[1], 'name', 'valid', 'value'), {
     name: 'lastName',
     valid: null,
     value: "",
@@ -183,7 +187,7 @@ test('it creates fields basing on changeset', function(assert) {
 });
 
 test('[changeset] it marks fields as valid when no errors present', function(assert) {
-  const changeset = Ember.Object.create({
+  const changeset = EmberObject.create({
     _content: {
       lastName: "Foo",
     },
@@ -201,7 +205,7 @@ test('[changeset] it marks fields as valid when no errors present', function(ass
 });
 
 test('[changeset] it correctly recalculates fields', function(assert) {
-  const changeset = Ember.Object.create({
+  const changeset = EmberObject.create({
     _content: {
       phone: "",
     },
@@ -212,12 +216,12 @@ test('[changeset] it correctly recalculates fields', function(assert) {
   let subject = FormValidator.create({ changeset });
 
   subject.validate('phone', '1234');
-  assert.deepEqual(Ember.getProperties(Ember.get(subject, 'fields')[0], 'name', 'valid'), {
+  assert.deepEqual(getProperties(get(subject, 'fields')[0], 'name', 'valid'), {
     name: "phone",
     valid: false
   }, 'it sets validity correctly when not valid');
 
-  Ember.set(subject, 'changeset', Ember.Object.create({
+  set(subject, 'changeset', EmberObject.create({
     _content: {
       phone: '1234',
     },
@@ -226,14 +230,14 @@ test('[changeset] it correctly recalculates fields', function(assert) {
   subject.validate('phone', '1234');
 
 
-  assert.deepEqual(Ember.getProperties(Ember.get(subject, 'fields')[0], 'name', 'valid'), {
+  assert.deepEqual(getProperties(get(subject, 'fields')[0], 'name', 'valid'), {
     "name": "phone",
     "valid": true
   }, 'it sets validity correctly when valid');
 });
 
 test('[changeset] it sets and recalculates isFormValid property correctly', function(assert) {
-  const changeset = Ember.Object.create({
+  const changeset = EmberObject.create({
     _content: {
       phone: "",
       password: "",
@@ -244,9 +248,9 @@ test('[changeset] it sets and recalculates isFormValid property correctly', func
   subject.validate('phone');
   subject.validate('password');
 
-  assert.ok(Ember.get(subject, 'isFormValid'));
+  assert.ok(get(subject, 'isFormValid'));
 
-  Ember.set(subject, 'changeset', {
+  set(subject, 'changeset', {
     _content: {
       phone: "",
       password: "",
@@ -261,5 +265,5 @@ test('[changeset] it sets and recalculates isFormValid property correctly', func
   subject.validate('phone');
   subject.validate('password');
 
-  assert.equal(Ember.get(subject, 'isFormValid'), false);
+  assert.equal(get(subject, 'isFormValid'), false);
 });

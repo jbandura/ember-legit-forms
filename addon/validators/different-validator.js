@@ -1,14 +1,13 @@
-import Ember from 'ember';
+import EmberObject, { get } from '@ember/object';
+import { isBlank } from '@ember/utils';
 
-const { isBlank } = Ember;
-
-export default Ember.Object.extend({
+export default EmberObject.extend({
   validate(value, validator) {
     if (isBlank(value)) { return; }
 
-    let [fieldName] = Ember.get(validator, 'arguments');
+    let [fieldName] = get(validator, 'arguments');
 
-    if(value === Ember.get(validator, `field:${fieldName}`)) {
+    if(value === get(validator, `field:${fieldName}`)) {
       return {
         message: 'mustBeDifferent',
         replacements: { fieldName }

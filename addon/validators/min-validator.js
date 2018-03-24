@@ -1,12 +1,11 @@
-import Ember from 'ember';
+import EmberObject, { get } from '@ember/object';
+import { isBlank } from '@ember/utils';
 
-const { isBlank } = Ember;
-
-export default Ember.Object.extend({
+export default EmberObject.extend({
   validate(value, validator) {
     if (isBlank(value)) { return; }
 
-    let length = parseInt(Ember.get(validator, 'arguments')[0]);
+    let length = parseInt(get(validator, 'arguments')[0]);
     if (!value || value.length < length) {
       return {
         message: 'tooShort',

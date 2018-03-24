@@ -1,6 +1,6 @@
-import Ember from 'ember';
+import EmberObject, { get } from '@ember/object';
 
-export default Ember.Object.extend({
+export default EmberObject.extend({
   /**
    * Cached validators
    * @param validatorsCache
@@ -15,14 +15,14 @@ export default Ember.Object.extend({
    */
   lookupValidator(owner, validator) {
 
-    if(Ember.get(this, `validatorsCache.${validator}`)) {
-      return Ember.get(this, `validatorsCache.${validator}`);
+    if(get(this, `validatorsCache.${validator}`)) {
+      return get(this, `validatorsCache.${validator}`);
     }
 
     let localValidator = owner.lookup(`validator:${validator}-validator`);
 
     if(localValidator) {
-      Ember.get(this, 'validatorsCache')[validator] = localValidator;
+      get(this, 'validatorsCache')[validator] = localValidator;
       return localValidator;
     }
 
@@ -30,7 +30,7 @@ export default Ember.Object.extend({
 
     let addonValidator = owner.lookup(`ember-legit-forms@validator:${validator}-validator`);
 
-    Ember.get(this, 'validatorsCache')[validator] = addonValidator;
+    get(this, 'validatorsCache')[validator] = addonValidator;
     return addonValidator;
   }
 });

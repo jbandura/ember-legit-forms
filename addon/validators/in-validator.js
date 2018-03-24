@@ -1,11 +1,11 @@
-import Ember from 'ember';
+import { A } from '@ember/array';
+import EmberObject, { get } from '@ember/object';
+import { isBlank } from '@ember/utils';
 
-const { isBlank } = Ember;
-
-export default Ember.Object.extend({
+export default EmberObject.extend({
   validate(value, validator) {
     if (isBlank(value)) { return; }
-    let array = Ember.A(Ember.get(validator, 'arguments'));
+    let array = A(get(validator, 'arguments'));
 
     if (!array.contains(value)) {
       return 'mustBeInArray';

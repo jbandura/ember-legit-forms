@@ -1,11 +1,10 @@
-import Ember from 'ember';
+import EmberObject, { get } from '@ember/object';
+import { isBlank } from '@ember/utils';
 
-const { isBlank } = Ember;
-
-export default Ember.Object.extend({
+export default EmberObject.extend({
   validate(value, validator) {
     if (isBlank(value)) { return; }
-    let size = parseInt(Ember.get(validator, 'arguments')[0]);
+    let size = parseInt(get(validator, 'arguments')[0]);
     if (value.length !== size) {
       return {
         message: 'mustBeOfSize',

@@ -1,6 +1,6 @@
-import Ember from 'ember';
+import EmberObject, { get } from '@ember/object';
 
-export default Ember.Object.extend({
+export default EmberObject.extend({
   arguments: null,
   fields: null,
   data: null,
@@ -13,16 +13,16 @@ export default Ember.Object.extend({
    */
   unknownProperty(name) {
     if (/field:{1}\w+/.test(name)) {
-      let field = Ember.get(this, 'fields').findBy('name', name.replace('field:', ''));
+      let field = get(this, 'fields').findBy('name', name.replace('field:', ''));
       if (!field) { return null; }
 
-      return Ember.get(field, 'value');
+      return get(field, 'value');
     }
 
     if (/data:{1}\w+/.test(name)) {
       let dataName = name.replace('data:', '');
 
-      return Ember.get(this, `data.${dataName}`);
+      return get(this, `data.${dataName}`);
     }
   }
 });

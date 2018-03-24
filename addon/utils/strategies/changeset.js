@@ -1,7 +1,11 @@
-import Ember from 'ember';
+import { A } from '@ember/array';
+import { isEmpty } from '@ember/utils';
+import EmberObject, {
+  setProperties,
+  getWithDefault,
+  get
+} from '@ember/object';
 import { isArray } from 'lodash/lang';
-
-const { get, getWithDefault, isEmpty, setProperties } = Ember;
 
 export default class {
   constructor(changeset) {
@@ -9,8 +13,8 @@ export default class {
   }
 
   getFields() {
-    return Ember.A(Object.keys(get(this.changeset, '_content')).map((name) => {
-      return Ember.Object.create({
+    return A(Object.keys(get(this.changeset, '_content')).map((name) => {
+      return EmberObject.create({
         name,
         valid: null,
         value: get(this.changeset, `_content.${name}`),

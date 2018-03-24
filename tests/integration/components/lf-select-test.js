@@ -1,9 +1,8 @@
+import { setProperties } from '@ember/object';
+import $ from 'jquery';
 import hbs from 'htmlbars-inline-precompile';
 import { moduleForComponent, test } from 'ember-qunit';
 import { fillInSelectIntegration } from '../../helpers/ember-legit-forms';
-import Ember from 'ember';
-
-const { $ } = Ember;
 
 moduleForComponent('lf-select', 'Integration | Component | lf-select', {
   integration: true
@@ -11,7 +10,7 @@ moduleForComponent('lf-select', 'Integration | Component | lf-select', {
 
 function setupSelect(context, isValid = true, updateAction = null) {
   const onUpdate = updateAction || function() {};
-  Ember.setProperties(context, {
+  setProperties(context, {
     onUpdate,
     value: 'val1',
     options: [

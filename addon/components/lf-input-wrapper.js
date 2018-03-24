@@ -1,7 +1,6 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { computed } from '@ember/object';
 import layout from '../templates/components/lf-input-wrapper';
-
-const { Component, computed } = Ember;
 
 /**
  * Kudos to Miguel Camba

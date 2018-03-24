@@ -1,10 +1,10 @@
+import { setProperties } from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
 import { moduleForComponent, test } from 'ember-qunit';
-import { fillInBlurIntegration as fillInBlur } from '../../../helpers/ember-legit-forms';
+import {
+  fillInBlurIntegration as fillInBlur
+} from '../../../helpers/ember-legit-forms';
 import sinon from 'sinon';
-import Ember from 'ember';
-
-const { setProperties } = Ember;
 
 moduleForComponent('lf-form', 'Integration | Component | lf-form external errors', {
   integration: true
