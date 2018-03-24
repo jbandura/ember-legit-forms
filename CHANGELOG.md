@@ -1,3 +1,6 @@
+# Master
+- [INTERNAL] Start using new module imports [#62]
+
 # 2.2.1
 - [BUGFIX] Fix issue with ember-legit-forms not working on ember 3.0 #72
 
