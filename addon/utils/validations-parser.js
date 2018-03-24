@@ -1,7 +1,7 @@
-import Ember from 'ember';
+import EmberObject from '@ember/object';
 import _ from 'lodash';
 
-export default Ember.Object.extend({
+export default EmberObject.extend({
   /**
    * Parses rule returning a validator POJO
    *

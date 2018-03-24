@@ -1,8 +1,9 @@
-import Ember from 'ember';
+import { A } from '@ember/array';
+import EmberObject from '@ember/object';
 
-export default Ember.Object.extend({
+export default EmberObject.extend({
   validate(value) {
-    if (!Ember.A([1, '1', true, 'on']).contains(value)) {
+    if (!A([1, '1', true, 'on']).contains(value)) {
       return 'mustBeAccepted';
     }
   }

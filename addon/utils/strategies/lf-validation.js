@@ -1,7 +1,7 @@
-import Ember from 'ember';
+import { A } from '@ember/array';
+import EmberObject, { set, setProperties } from '@ember/object';
+import { isNone } from '@ember/utils';
 import validatorObject from '../../utils/validator-object';
-
-const { setProperties, set, isNone } = Ember;
 
 export default class {
   constructor(rules, parserService, messageProvider, lookupService, container, data) {
@@ -16,8 +16,8 @@ export default class {
   getFields() {
     if (!this.rules) return [];
 
-    return Ember.A(Object.keys(this.rules).map(name => {
-      return Ember.Object.create({
+    return A(Object.keys(this.rules).map(name => {
+      return EmberObject.create({
         name, valid: null, value: null
       });
     }));

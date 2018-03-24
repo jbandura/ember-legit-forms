@@ -1,6 +1,7 @@
+import EmberObject, { get } from '@ember/object';
 import Ember from 'ember';
 
-export default Ember.Object.extend({
+export default EmberObject.extend({
   container: null,
   /**
    * A dictionary of default messages - can be overriden by i18n
@@ -58,7 +59,7 @@ export default Ember.Object.extend({
     if(Ember.i18n) {
       return Ember.i18n.t(`validation.${msg}`, replacements);
     }
-    let i18nService = Ember.get(this, 'container') ? Ember.get(this, 'container').lookup('service:i18n') : null;
+    let i18nService = get(this, 'container') ? get(this, 'container').lookup('service:i18n') : null;
     if (i18nService) {
       const translatedMessage = i18nService.t(`validation.${msg}`, replacements);
       if (!/Missing translation/.test(translatedMessage)) return translatedMessage;
@@ -74,7 +75,7 @@ export default Ember.Object.extend({
    * @private
    */
   _interpolateMessage(msg, replacements) {
-    let message = Ember.get(this, `defaultMessages.${msg}`);
+    let message = get(this, `defaultMessages.${msg}`);
     if (!message) {
       return msg;
     }

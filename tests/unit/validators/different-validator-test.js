@@ -1,7 +1,8 @@
+import EmberObject from '@ember/object';
+import { A } from '@ember/array';
 import validator from 'ember-legit-forms/validators/different-validator';
 import validatorObject from 'ember-legit-forms/utils/validator-object';
 import { module, test } from 'qunit';
-import Ember from 'ember';
 
 module('Unit | Validators | different');
 
@@ -10,8 +11,8 @@ let subject = validator.create();
 function argumentsObj(fieldName, value) {
   return validatorObject.create({
     arguments: ['address'],
-    fields: Ember.A([
-      Ember.Object.create({ name: fieldName, value })
+    fields: A([
+      EmberObject.create({ name: fieldName, value })
     ])
   });
 }

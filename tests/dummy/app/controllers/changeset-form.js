@@ -1,12 +1,10 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
 import Changeset from 'ember-changeset';
 import {
   validatePresence,
   validateLength,
 } from 'ember-changeset-validations/validators';
 import lookupValidator from 'ember-changeset-validations';
-
-const { Controller } = Ember;
 
 export default Controller.extend({
   init() {

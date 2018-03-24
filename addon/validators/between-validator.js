@@ -1,13 +1,12 @@
-import Ember from 'ember';
+import EmberObject, { get } from '@ember/object';
+import { isBlank } from '@ember/utils';
 
-const { isBlank } = Ember;
-
-export default Ember.Object.extend({
+export default EmberObject.extend({
   validate(value, validator) {
     if (isBlank(value)) { return; }
 
-    let minLength = parseInt(Ember.get(validator, 'arguments')[0]);
-    let maxLength = parseInt(Ember.get(validator, 'arguments')[1]);
+    let minLength = parseInt(get(validator, 'arguments')[0]);
+    let maxLength = parseInt(get(validator, 'arguments')[1]);
     let isValid = value && value.length >= minLength && value.length <= maxLength;
     if (!isValid) {
       return {

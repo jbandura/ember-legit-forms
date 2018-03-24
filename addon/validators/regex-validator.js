@@ -1,11 +1,10 @@
-import Ember from 'ember';
+import EmberObject, { get } from '@ember/object';
+import { isBlank } from '@ember/utils';
 
-const { isBlank } = Ember;
-
-export default Ember.Object.extend({
+export default EmberObject.extend({
   validate(value, validator) {
     if (isBlank(value)) { return; }
-    let [regex] = Ember.get(validator, 'arguments');
+    let [regex] = get(validator, 'arguments');
     if(!regex.test(value)) {
       return 'mustMatchRegex';
     }

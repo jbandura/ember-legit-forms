@@ -1,6 +1,8 @@
 import { test } from 'qunit';
 import moduleForAcceptance from '../../tests/helpers/module-for-acceptance';
-import { fillInBlurAcceptance as fillInAndBlur } from '../helpers/ember-legit-forms';
+import {
+  fillInBlurAcceptance as fillInAndBlur
+} from '../helpers/ember-legit-forms';
 
 moduleForAcceptance('Acceptance | external errors', {
   beforeEach() { visit('/external-errors'); }

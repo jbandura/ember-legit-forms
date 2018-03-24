@@ -1,9 +1,11 @@
+import { run } from '@ember/runloop';
+import $ from 'jquery';
+import { set } from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
-import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
-import { fillInTextareaIntegration as fillInTextarea } from '../../helpers/ember-legit-forms';
-
-const { run, $, set } = Ember;
+import {
+  fillInTextareaIntegration as fillInTextarea
+} from '../../helpers/ember-legit-forms';
 
 moduleForComponent('lf-textarea', 'Integration | Component | lf-textarea', {
   integration: true

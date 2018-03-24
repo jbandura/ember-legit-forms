@@ -1,10 +1,9 @@
-import Ember from 'ember';
+import EmberObject, { get } from '@ember/object';
 import requiredValidator from 'ember-legit-forms/validators/required-validator';
 
 let required = requiredValidator.create();
-const { get } = Ember;
 
-export default Ember.Object.extend({
+export default EmberObject.extend({
   validate(value, validator) {
     let [dataName] = get(validator, 'arguments');
     let notValid = !get(validator, `data:${dataName}`) &&

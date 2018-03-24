@@ -1,7 +1,7 @@
-import Ember from 'ember';
+import EmberObject from '@ember/object';
 
 export default function(...args) {
-  return Ember.Object.create({
+  return EmberObject.create({
     arguments: args
   });
 }

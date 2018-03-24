@@ -1,16 +1,10 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { observer, computed, get } from '@ember/object';
+import { getOwner } from '@ember/application';
+import { inject as service } from '@ember/service';
+import { run } from '@ember/runloop';
 import layout from '../templates/components/lf-form';
 import formValidator from '../utils/form-validator';
-
-const {
-  get,
-  Component,
-  computed,
-  observer,
-  getOwner,
-  inject: { service },
-  run,
-} = Ember;
 
 export default Component.extend({
   eventDispatcher: service('lf-event-dispatcher'),
