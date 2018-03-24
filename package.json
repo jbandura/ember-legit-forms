@@ -1,6 +1,6 @@
 {
   "name": "ember-legit-forms",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Create flexible forms with ease",
   "directories": {
     "doc": "doc",
@@ -58,7 +58,7 @@
   ],
   "dependencies": {
     "bower": "^1.8.0",
-    "ember-cli-babel": "^6.3.0",
+    "ember-cli-babel": "^6.7.0",
     "ember-cli-htmlbars": "^1.0.1",
     "ember-lodash": "^4.7.13",
     "ember-one-way-controls": "2.0.0",

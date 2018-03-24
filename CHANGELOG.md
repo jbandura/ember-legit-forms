@@ -1,4 +1,7 @@
-# Master
+# 2.2.1
+- [BUGFIX] Fix issue with ember-legit-forms not working on ember 3.0 #72
+
+# 2.2.0
 - [FEATURE] add disabled property to `lf-select` prompt (#68)
 - [FEATURE] add tabindex property to `lf-textarea` and `lf-select` (#67)
 - [FEATURE] add support for ember-changeset (#64)
