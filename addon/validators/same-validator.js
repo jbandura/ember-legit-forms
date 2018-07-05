@@ -1,5 +1,4 @@
 import EmberObject, { get } from '@ember/object';
-import { isBlank } from '@ember/utils';
 
 export default EmberObject.extend({
   validate(value, validator) {
