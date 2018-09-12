@@ -58,7 +58,7 @@
   ],
   "dependencies": {
     "bower": "^1.8.0",
-    "ember-cli-babel": "^6.7.0",
+    "ember-cli-babel": "^7.1.0",
     "ember-cli-htmlbars": "^1.0.1",
     "ember-lodash": "^4.7.13",
     "ember-one-way-select": "4.0.0",
