@@ -28,10 +28,9 @@ test('it validates properly', function(assert) {
     subject.validate('foo', argumentsObj('address', 'asd')).message,
     'mustBeSame'
   );
-});
-
-test('it allows empty values for chaining', function(assert) {
-  assert.equal(subject.validate(''), undefined);
-
-  assert.equal(subject.validate(null), undefined);
+  
+  assert.equal(
+    subject.validate('foo', argumentsObj('address', '')).message,
+    'mustBeSame'
+  );
 });
