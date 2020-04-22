@@ -18,6 +18,6 @@ This plugin wouldn't be where it is today without the help of awesome contributo
 ## Credits
 This addon uses following great addons:
 
-- [ember-one-way-controls](https://github.com/dockyard/ember-one-way-controls)
+- [ember-one-way-select](https://github.com/DockYard/ember-one-way-select.git)
 - [ember-get-helper](https://github.com/jmurphyau/ember-get-helper)
 - [ember-truth-helpers](https://github.com/jmurphyau/ember-truth-helpers)
